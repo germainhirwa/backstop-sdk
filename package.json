@@ -1,0 +1,65 @@
+{
+  "name": "backstop-sdk",
+  "version": "0.1.0",
+  "description": "Check every AI-agent purchase against what the user asked for, before money moves. Signed records, drift detection, and a guarantee hook.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Germain Hirwa",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./eval": {
+      "types": "./dist/eval/index.d.ts",
+      "default": "./dist/eval/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp.d.ts",
+      "default": "./dist/mcp.js"
+    }
+  },
+  "bin": {
+    "backstop": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "DESIGN.md",
+    "LICENSE",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "demo": "tsx src/cli.ts demo",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "ai-agents",
+    "agentic-commerce",
+    "guardrails",
+    "checkout",
+    "intent",
+    "mcp"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/germainhirwa/backstop-sdk.git"
+  },
+  "homepage": "https://github.com/germainhirwa/backstop-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/germainhirwa/backstop-sdk/issues"
+  }
+}
