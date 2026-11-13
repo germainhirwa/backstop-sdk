@@ -221,7 +221,11 @@ def test_partial_match_asks_and_edits_need_the_user():
     i = b.intent(user="u", request="Buy the Nike Pegasus 41 in black, men's size 10, under $150.", time_zone=NY,
                  wants=retail.wants(product="Pegasus 41", variant={"size": "10", "color": "black"}, max_total=usd(150)))
     v = b.check(i, retail.cart(product="Nike Air Zoom Pegasus 41", merchant="Foot Locker", variant={"size": "Men's 10 (D - Medium)", "color": "Black/Medium Ash"}, quantity=1, total=usd(109.99)))
-    assert v.status == "ask" and b.commit(b.resolve(v, True), id="FL-1").status == "confirmed"
+    yes = b.resolve(v, True)
+    again = retail.cart(product="Nike Air Zoom Pegasus 41", merchant="Foot Locker", variant={"size": "Men's 10 (D - Medium)", "color": "Black/Medium Ash"}, quantity=1, total=usd(109.99))
+    assert yes.status == "pass" and b.check(i, again).status == "pass"
+    assert b.check(i, {**again, "amount": usd(119.99)}).status == "ask"
+    assert b.commit(yes, id="FL-1").status == "confirmed"
     i = b.intent(user="u", request="Buy the Nike Pegasus 41 in black, men's size 10, under $150.", time_zone=NY,
                  wants=retail.wants(product="Pegasus 41", variant={"size": "10", "color": "black"}, max_total=usd(150)))
     ref = "https://shop.example/p/1"

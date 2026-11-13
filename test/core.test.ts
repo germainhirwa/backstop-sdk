@@ -245,6 +245,9 @@ test("free text from a site: extra words ask the user, wrong words block", async
   assert.equal((await b.check(shoes, retail.cart({ ...base, product: "Pegasus 41", variant: { size: "10", color: "BLACK" } }))).status, "pass");
   const yes = await b.resolve(v, { approved: true });
   assert.equal(yes.status, "pass");
+  // The agent checks the same cart again later: the user's yes still stands, for that exact cart only.
+  assert.equal((await b.check(shoes, retail.cart(base))).status, "pass");
+  assert.equal((await b.check(shoes, retail.cart({ ...base, total: usd(119.99) }))).status, "ask");
   assert.equal((await b.commit(yes, { id: "FL-1" })).status, "confirmed");
 });
 
