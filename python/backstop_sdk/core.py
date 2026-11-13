@@ -245,8 +245,6 @@ class Backstop:
                 findings.append(f)
                 if not f.ok and f.strength == "prefer":
                     asks.append({"key": f.field, "question": f"{f.label}: this option has {f.actual}, and you asked for {f.expected}. Go ahead anyway?"})
-                if f.code == "partial_match":
-                    asks.append({"key": f.field, "question": f"{f.label}: this option is {f.actual}, and you asked for {f.expected}. Is that what you want?"})
                 if seen is None:
                     continue
                 first = seen.get(f.field)
@@ -255,12 +253,21 @@ class Backstop:
                     edited.append(Finding(field=f.field, label=f.label, strength="prefer", ok=False, code="cart_edited", expected=first, actual=f.actual,
                                           message=f"The agent first described this option's {low} as {first}, then changed it to {f.actual} after the check flagged it.",
                                           fix="Ask the user. Do not change how the cart describes the merchant's option."))
-                    asks.append({"key": f"edited:{f.field}", "question": f"Your agent first said this option's {low} is {first}, then changed it to {f.actual} after it was flagged. Go ahead only if the merchant's page shows {f.actual}. Is it right?"})
                 elif first is None and not f.ok and rule["test"]["op"] != "name":
                     seen[f.field] = f.actual
             findings.extend(edited)
             if seen is not None:
                 self._store.set(intent.id, state)
+            partial = [f for f in findings if f.code == "partial_match"]
+            if len(partial) == 1:
+                p = partial[0]
+                asks.append({"key": p.field, "question": f"{p.label}: this option is {p.actual}, and you asked for {p.expected}. Is that what you want?"})
+            if len(partial) > 1:
+                parts = "; ".join(f"{f.label.lower()} is {f.actual} (you asked for {f.expected})" for f in partial)
+                asks.append({"key": "words:" + ",".join(f.field for f in partial), "question": f"This option's wording differs from what you asked: {parts}. Is that what you want?"})
+            if edited:
+                what = "; ".join(f"{e.label.lower()} from {e.expected} to {e.actual}" for e in edited)
+                asks.append({"key": "edited:" + ",".join(e.field for e in edited), "question": f"After the check flagged this option, your agent changed how it described it: {what}. Go ahead only if the merchant's page shows the new {'values' if len(edited) > 1 else 'value'}. Is it right?"})
             if to_iso(now) > body["expiresAt"]:
                 asks.append({"key": "intent_expired", "question": f"You asked for this on {format_date(body['createdAt'][:10])}. Do you still want it?"})
             if self._policy.ask_on_warnings and not intent.acknowledged:

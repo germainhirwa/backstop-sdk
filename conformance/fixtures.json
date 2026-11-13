@@ -26560,20 +26560,12 @@
     "ref": "https://shop.example/p/fd2722"
    },
    "status": "ask",
-   "forAgent": "Backstop: do not pay yet. Ask the user: \"Product: this option is Nike Air Zoom Pegasus 41, and you asked for Pegasus 41. Is that what you want? Size: this option is Men's 10 (D - Medium), and you asked for 10. Is that what you want? Color: this option is Black/Medium Ash/Pure Platinum, and you asked for black. Is that what you want?\"",
-   "question": "Product: this option is Nike Air Zoom Pegasus 41, and you asked for Pegasus 41. Is that what you want? Size: this option is Men's 10 (D - Medium), and you asked for 10. Is that what you want? Color: this option is Black/Medium Ash/Pure Platinum, and you asked for black. Is that what you want?",
+   "forAgent": "Backstop: do not pay yet. Ask the user: \"This option's wording differs from what you asked: product is Nike Air Zoom Pegasus 41 (you asked for Pegasus 41); size is Men's 10 (D - Medium) (you asked for 10); color is Black/Medium Ash/Pure Platinum (you asked for black). Is that what you want?\"",
+   "question": "This option's wording differs from what you asked: product is Nike Air Zoom Pegasus 41 (you asked for Pegasus 41); size is Men's 10 (D - Medium) (you asked for 10); color is Black/Medium Ash/Pure Platinum (you asked for black). Is that what you want?",
    "asks": [
     {
-     "key": "item.product",
-     "question": "Product: this option is Nike Air Zoom Pegasus 41, and you asked for Pegasus 41. Is that what you want?"
-    },
-    {
-     "key": "item.variant.size",
-     "question": "Size: this option is Men's 10 (D - Medium), and you asked for 10. Is that what you want?"
-    },
-    {
-     "key": "item.variant.color",
-     "question": "Color: this option is Black/Medium Ash/Pure Platinum, and you asked for black. Is that what you want?"
+     "key": "words:item.product,item.variant.size,item.variant.color",
+     "question": "This option's wording differs from what you asked: product is Nike Air Zoom Pegasus 41 (you asked for Pegasus 41); size is Men's 10 (D - Medium) (you asked for 10); color is Black/Medium Ash/Pure Platinum (you asked for black). Is that what you want?"
     }
    ],
    "findings": [
@@ -26729,12 +26721,12 @@
     "ref": "https://shop.example/p/fd2722-w"
    },
    "status": "ask",
-   "forAgent": "Backstop: do not pay yet. Ask the user: \"Your agent first said this option's color is White, then changed it to Black after it was flagged. Go ahead only if the merchant's page shows Black. Is it right?\"",
-   "question": "Your agent first said this option's color is White, then changed it to Black after it was flagged. Go ahead only if the merchant's page shows Black. Is it right?",
+   "forAgent": "Backstop: do not pay yet. Ask the user: \"After the check flagged this option, your agent changed how it described it: color from White to Black. Go ahead only if the merchant's page shows the new value. Is it right?\"",
+   "question": "After the check flagged this option, your agent changed how it described it: color from White to Black. Go ahead only if the merchant's page shows the new value. Is it right?",
    "asks": [
     {
      "key": "edited:item.variant.color",
-     "question": "Your agent first said this option's color is White, then changed it to Black after it was flagged. Go ahead only if the merchant's page shows Black. Is it right?"
+     "question": "After the check flagged this option, your agent changed how it described it: color from White to Black. Go ahead only if the merchant's page shows the new value. Is it right?"
     }
    ],
    "findings": [
@@ -26963,19 +26955,19 @@
      "question": "By \"next Friday\", do you mean Fri, Nov 20 or Fri, Nov 13?"
     }
    ],
-   "intentId": "int_124w5t00047224",
+   "intentId": "int_4f0k632651705d",
    "method": "chat",
    "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400."
   }
  },
  "chain": {
-  "publicKey": "-zUVOP-NLdXafro7yRU-05xoTc9LTzF5W2luRLCg1uw",
-  "keyId": "687aa1805bdf7219",
+  "publicKey": "AkUWwsip2neoKYcLuOS9hDJ0mqfC3lAByxAe9LoCVwc",
+  "keyId": "58d47f1151b8b06d",
   "chain": [
    {
     "v": 1,
     "type": "intent",
-    "id": "int_4b1h0i3j583z0x",
+    "id": "int_226f683f0q1111",
     "at": "2026-11-11T15:00:01.000Z",
     "prev": null,
     "body": {
@@ -27071,31 +27063,31 @@
      "user": "u_1",
      "warnings": []
     },
-    "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
-    "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
-    "keyId": "687aa1805bdf7219"
+    "hash": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
+    "sig": "YtPwxGyyaozxJpkn9W1S0Xzkwob2D1B7rwGbtq8NxylV7AkvdLuF9T8IBnCWr6sThUHGSO0GFtBqB74HZIp8BA",
+    "keyId": "58d47f1151b8b06d"
    },
    {
     "v": 1,
     "type": "ack",
-    "id": "ack_5d4o5858083u52",
+    "id": "ack_0c0j0p413a0w6a",
     "at": "2026-11-11T15:00:02.000Z",
-    "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+    "prev": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
     "body": {
-     "intentId": "int_4b1h0i3j583z0x",
+     "intentId": "int_226f683f0q1111",
      "method": "tapped confirm",
      "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
     },
-    "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
-    "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
-    "keyId": "687aa1805bdf7219"
+    "hash": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
+    "sig": "AA61gfCgdV64JwcNqoIFGGxMC5zPrqQ6O48s2FVSh3FByWme8qv_fMrCe_GS9aWPlkub60hGK0ne4EwKhqM2Bw",
+    "keyId": "58d47f1151b8b06d"
    },
    {
     "v": 1,
     "type": "verdict",
-    "id": "chk_6z3o3x4f3l0d2p",
+    "id": "chk_5g1m5c59351a34",
     "at": "2026-11-11T15:00:03.000Z",
-    "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+    "prev": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
     "body": {
      "cart": {
       "action": "flight.book",
@@ -27185,36 +27177,36 @@
       }
      ],
      "guarantee": null,
-     "intentId": "int_4b1h0i3j583z0x",
+     "intentId": "int_226f683f0q1111",
      "status": "ask",
      "waived": []
     },
-    "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
-    "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
-    "keyId": "687aa1805bdf7219"
+    "hash": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
+    "sig": "Avn7y6RObG41GQ3DQKHuyva72LfwilbtDNhU3GVIHFw758ut__MP24FQdrLyC9Irv_CtKXao7us4Upm7C7ywAw",
+    "keyId": "58d47f1151b8b06d"
    },
    {
     "v": 1,
     "type": "resolution",
-    "id": "res_0f1s4x0j160r0n",
+    "id": "res_3n356i1b15011c",
     "at": "2026-11-11T15:00:04.000Z",
-    "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+    "prev": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
     "body": {
      "approved": true,
      "by": "user",
      "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-     "verdictId": "chk_6z3o3x4f3l0d2p"
+     "verdictId": "chk_5g1m5c59351a34"
     },
-    "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
-    "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
-    "keyId": "687aa1805bdf7219"
+    "hash": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
+    "sig": "VLSpMb3wzgKraQcxL_gsTDaMViMUPUIq7QiJ98xjFf4ZOjLmCDVDbPZ9w-q2m60E9QL6NeITg529LIPitf1aBA",
+    "keyId": "58d47f1151b8b06d"
    },
    {
     "v": 1,
     "type": "verdict",
-    "id": "chk_5k0f6j28205807",
+    "id": "chk_0n1t0h5d6a1j3s",
     "at": "2026-11-11T15:00:05.000Z",
-    "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+    "prev": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
     "body": {
      "cart": {
       "action": "flight.book",
@@ -27316,22 +27308,22 @@
       "status": "sandbox",
       "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
      },
-     "intentId": "int_4b1h0i3j583z0x",
+     "intentId": "int_226f683f0q1111",
      "status": "pass",
      "waived": [
       "item.seat"
      ]
     },
-    "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
-    "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
-    "keyId": "687aa1805bdf7219"
+    "hash": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
+    "sig": "KtMx39JTszPFd1NI-9-vEH61e4k3zrVN3nGEajinIck_WJtTnqLXqWfxwfttMnowWVme_5po6hM5bj4OgE0lDg",
+    "keyId": "58d47f1151b8b06d"
    },
    {
     "v": 1,
     "type": "order",
-    "id": "ord_0x424b3d69273j",
+    "id": "ord_0o1j70072x6p6b",
     "at": "2026-11-11T15:00:06.000Z",
-    "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+    "prev": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
     "body": {
      "changed": [
       "amount"
@@ -27359,12 +27351,12 @@
      },
      "orderId": "DL-CONF-8841",
      "status": "confirmed",
-     "verdictId": "chk_5k0f6j28205807",
+     "verdictId": "chk_0n1t0h5d6a1j3s",
      "violations": []
     },
-    "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
-    "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
-    "keyId": "687aa1805bdf7219"
+    "hash": "c93641470f08113668bcbc6d9ecf184a4d7bf0b50b6000538050d5d6e6dc4dfe",
+    "sig": "6NeY7BIm9ATgJXwxX9zlSiFMnYvp6-E9bPWiqyEhuIeFMcp5zioL2i-b91is3yyyoirg-lNr0NAq-gVsy7LBBw",
+    "keyId": "58d47f1151b8b06d"
    }
   ],
   "types": [
@@ -27390,7 +27382,7 @@
    "ok": false,
    "signed": true,
    "problems": [
-    "int_4b1h0i3j583z0x: contents were changed after sealing"
+    "int_226f683f0q1111: contents were changed after sealing"
    ]
   }
  },
@@ -27401,7 +27393,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_4b1h0i3j583z0x",
+     "id": "int_226f683f0q1111",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -27497,31 +27489,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
-     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
-     "keyId": "687aa1805bdf7219"
+     "hash": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
+     "sig": "YtPwxGyyaozxJpkn9W1S0Xzkwob2D1B7rwGbtq8NxylV7AkvdLuF9T8IBnCWr6sThUHGSO0GFtBqB74HZIp8BA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5d4o5858083u52",
+     "id": "ack_0c0j0p413a0w6a",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "prev": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
      "body": {
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
-     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
+     "sig": "AA61gfCgdV64JwcNqoIFGGxMC5zPrqQ6O48s2FVSh3FByWme8qv_fMrCe_GS9aWPlkub60hGK0ne4EwKhqM2Bw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_6z3o3x4f3l0d2p",
+     "id": "chk_5g1m5c59351a34",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "prev": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -27611,36 +27603,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "ask",
       "waived": []
      },
-     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
-     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
+     "sig": "Avn7y6RObG41GQ3DQKHuyva72LfwilbtDNhU3GVIHFw758ut__MP24FQdrLyC9Irv_CtKXao7us4Upm7C7ywAw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_0f1s4x0j160r0n",
+     "id": "res_3n356i1b15011c",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "prev": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_6z3o3x4f3l0d2p"
+      "verdictId": "chk_5g1m5c59351a34"
      },
-     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
-     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
+     "sig": "VLSpMb3wzgKraQcxL_gsTDaMViMUPUIq7QiJ98xjFf4ZOjLmCDVDbPZ9w-q2m60E9QL6NeITg529LIPitf1aBA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5k0f6j28205807",
+     "id": "chk_0n1t0h5d6a1j3s",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "prev": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -27742,22 +27734,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
-     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
+     "sig": "KtMx39JTszPFd1NI-9-vEH61e4k3zrVN3nGEajinIck_WJtTnqLXqWfxwfttMnowWVme_5po6hM5bj4OgE0lDg",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_0x424b3d69273j",
+     "id": "ord_0o1j70072x6p6b",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "prev": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
      "body": {
       "changed": [
        "amount"
@@ -27785,12 +27777,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_5k0f6j28205807",
+      "verdictId": "chk_0n1t0h5d6a1j3s",
       "violations": []
      },
-     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
-     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "c93641470f08113668bcbc6d9ecf184a4d7bf0b50b6000538050d5d6e6dc4dfe",
+     "sig": "6NeY7BIm9ATgJXwxX9zlSiFMnYvp6-E9bPWiqyEhuIeFMcp5zioL2i-b91is3yyyoirg-lNr0NAq-gVsy7LBBw",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "changed_mind",
@@ -27813,7 +27805,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_4b1h0i3j583z0x",
+     "id": "int_226f683f0q1111",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -27909,31 +27901,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
-     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
-     "keyId": "687aa1805bdf7219"
+     "hash": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
+     "sig": "YtPwxGyyaozxJpkn9W1S0Xzkwob2D1B7rwGbtq8NxylV7AkvdLuF9T8IBnCWr6sThUHGSO0GFtBqB74HZIp8BA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5d4o5858083u52",
+     "id": "ack_0c0j0p413a0w6a",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "prev": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
      "body": {
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
-     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
+     "sig": "AA61gfCgdV64JwcNqoIFGGxMC5zPrqQ6O48s2FVSh3FByWme8qv_fMrCe_GS9aWPlkub60hGK0ne4EwKhqM2Bw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_6z3o3x4f3l0d2p",
+     "id": "chk_5g1m5c59351a34",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "prev": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28023,36 +28015,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "ask",
       "waived": []
      },
-     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
-     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
+     "sig": "Avn7y6RObG41GQ3DQKHuyva72LfwilbtDNhU3GVIHFw758ut__MP24FQdrLyC9Irv_CtKXao7us4Upm7C7ywAw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_0f1s4x0j160r0n",
+     "id": "res_3n356i1b15011c",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "prev": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_6z3o3x4f3l0d2p"
+      "verdictId": "chk_5g1m5c59351a34"
      },
-     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
-     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
+     "sig": "VLSpMb3wzgKraQcxL_gsTDaMViMUPUIq7QiJ98xjFf4ZOjLmCDVDbPZ9w-q2m60E9QL6NeITg529LIPitf1aBA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5k0f6j28205807",
+     "id": "chk_0n1t0h5d6a1j3s",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "prev": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28154,22 +28146,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
-     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
+     "sig": "KtMx39JTszPFd1NI-9-vEH61e4k3zrVN3nGEajinIck_WJtTnqLXqWfxwfttMnowWVme_5po6hM5bj4OgE0lDg",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_0x424b3d69273j",
+     "id": "ord_0o1j70072x6p6b",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "prev": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
      "body": {
       "changed": [
        "amount"
@@ -28197,12 +28189,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_5k0f6j28205807",
+      "verdictId": "chk_0n1t0h5d6a1j3s",
       "violations": []
      },
-     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
-     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "c93641470f08113668bcbc6d9ecf184a4d7bf0b50b6000538050d5d6e6dc4dfe",
+     "sig": "6NeY7BIm9ATgJXwxX9zlSiFMnYvp6-E9bPWiqyEhuIeFMcp5zioL2i-b91is3yyyoirg-lNr0NAq-gVsy7LBBw",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "merchant_fault",
@@ -28225,7 +28217,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_4b1h0i3j583z0x",
+     "id": "int_226f683f0q1111",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -28321,31 +28313,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
-     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
-     "keyId": "687aa1805bdf7219"
+     "hash": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
+     "sig": "YtPwxGyyaozxJpkn9W1S0Xzkwob2D1B7rwGbtq8NxylV7AkvdLuF9T8IBnCWr6sThUHGSO0GFtBqB74HZIp8BA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5d4o5858083u52",
+     "id": "ack_0c0j0p413a0w6a",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "prev": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
      "body": {
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
-     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
+     "sig": "AA61gfCgdV64JwcNqoIFGGxMC5zPrqQ6O48s2FVSh3FByWme8qv_fMrCe_GS9aWPlkub60hGK0ne4EwKhqM2Bw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_6z3o3x4f3l0d2p",
+     "id": "chk_5g1m5c59351a34",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "prev": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28435,36 +28427,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "ask",
       "waived": []
      },
-     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
-     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
+     "sig": "Avn7y6RObG41GQ3DQKHuyva72LfwilbtDNhU3GVIHFw758ut__MP24FQdrLyC9Irv_CtKXao7us4Upm7C7ywAw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_0f1s4x0j160r0n",
+     "id": "res_3n356i1b15011c",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "prev": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_6z3o3x4f3l0d2p"
+      "verdictId": "chk_5g1m5c59351a34"
      },
-     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
-     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
+     "sig": "VLSpMb3wzgKraQcxL_gsTDaMViMUPUIq7QiJ98xjFf4ZOjLmCDVDbPZ9w-q2m60E9QL6NeITg529LIPitf1aBA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5k0f6j28205807",
+     "id": "chk_0n1t0h5d6a1j3s",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "prev": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28566,22 +28558,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
-     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
+     "sig": "KtMx39JTszPFd1NI-9-vEH61e4k3zrVN3nGEajinIck_WJtTnqLXqWfxwfttMnowWVme_5po6hM5bj4OgE0lDg",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_0x424b3d69273j",
+     "id": "ord_0o1j70072x6p6b",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "prev": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
      "body": {
       "changed": [
        "amount"
@@ -28609,12 +28601,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_5k0f6j28205807",
+      "verdictId": "chk_0n1t0h5d6a1j3s",
       "violations": []
      },
-     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
-     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "c93641470f08113668bcbc6d9ecf184a4d7bf0b50b6000538050d5d6e6dc4dfe",
+     "sig": "6NeY7BIm9ATgJXwxX9zlSiFMnYvp6-E9bPWiqyEhuIeFMcp5zioL2i-b91is3yyyoirg-lNr0NAq-gVsy7LBBw",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "not_what_i_asked",
@@ -28637,7 +28629,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_4b1h0i3j583z0x",
+     "id": "int_226f683f0q1111",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -28733,31 +28725,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
-     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
-     "keyId": "687aa1805bdf7219"
+     "hash": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
+     "sig": "YtPwxGyyaozxJpkn9W1S0Xzkwob2D1B7rwGbtq8NxylV7AkvdLuF9T8IBnCWr6sThUHGSO0GFtBqB74HZIp8BA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5d4o5858083u52",
+     "id": "ack_0c0j0p413a0w6a",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "prev": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
      "body": {
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
-     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
+     "sig": "AA61gfCgdV64JwcNqoIFGGxMC5zPrqQ6O48s2FVSh3FByWme8qv_fMrCe_GS9aWPlkub60hGK0ne4EwKhqM2Bw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_6z3o3x4f3l0d2p",
+     "id": "chk_5g1m5c59351a34",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "prev": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28847,36 +28839,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "ask",
       "waived": []
      },
-     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
-     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
+     "sig": "Avn7y6RObG41GQ3DQKHuyva72LfwilbtDNhU3GVIHFw758ut__MP24FQdrLyC9Irv_CtKXao7us4Upm7C7ywAw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_0f1s4x0j160r0n",
+     "id": "res_3n356i1b15011c",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "prev": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_6z3o3x4f3l0d2p"
+      "verdictId": "chk_5g1m5c59351a34"
      },
-     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
-     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
+     "sig": "VLSpMb3wzgKraQcxL_gsTDaMViMUPUIq7QiJ98xjFf4ZOjLmCDVDbPZ9w-q2m60E9QL6NeITg529LIPitf1aBA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5k0f6j28205807",
+     "id": "chk_0n1t0h5d6a1j3s",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "prev": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28978,22 +28970,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
-     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
+     "sig": "KtMx39JTszPFd1NI-9-vEH61e4k3zrVN3nGEajinIck_WJtTnqLXqWfxwfttMnowWVme_5po6hM5bj4OgE0lDg",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_0x424b3d69273j",
+     "id": "ord_0o1j70072x6p6b",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "prev": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
      "body": {
       "changed": [
        "amount"
@@ -29021,12 +29013,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_5k0f6j28205807",
+      "verdictId": "chk_0n1t0h5d6a1j3s",
       "violations": []
      },
-     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
-     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "c93641470f08113668bcbc6d9ecf184a4d7bf0b50b6000538050d5d6e6dc4dfe",
+     "sig": "6NeY7BIm9ATgJXwxX9zlSiFMnYvp6-E9bPWiqyEhuIeFMcp5zioL2i-b91is3yyyoirg-lNr0NAq-gVsy7LBBw",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "not_what_i_asked",
@@ -29069,7 +29061,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_4w2m3v551d543d",
+     "id": "int_5w002x156x2d1o",
      "at": "2026-11-11T15:00:07.000Z",
      "prev": null,
      "body": {
@@ -29165,16 +29157,16 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "1dc6671b96b2af92059f80ecab6eb0ff03dc885d6aff59c216bd69338f3353d5",
-     "sig": "efqL8kCU6EG7AShzIBUrfAnb1csKRwunoLmmKF9eBvDvIwrkTVdAXNXrmz-FOu8tIxP5qAIRlviq38KfJU1XBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "35810fd75a754349c526652f1c0826b82b1987fd9342552f8f1d383f2e118ce7",
+     "sig": "sDC35_OreaJ_lllI3_urSkL5u_u7c2EgF4YilcpPiqq2USSEH9zrQ_A9Ef481RsFMq9QXt8gMSek1b_LwXEBCA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_6v0u6f4z261857",
+     "id": "chk_2y6q3c266q0357",
      "at": "2026-11-11T15:00:08.000Z",
-     "prev": "1dc6671b96b2af92059f80ecab6eb0ff03dc885d6aff59c216bd69338f3353d5",
+     "prev": "35810fd75a754349c526652f1c0826b82b1987fd9342552f8f1d383f2e118ce7",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -29264,20 +29256,20 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_4w2m3v551d543d",
+      "intentId": "int_5w002x156x2d1o",
       "status": "pass",
       "waived": []
      },
-     "hash": "23e8f7fffe617c5adae97bc2910a2944bcbe2296df483f255e58f4b8b97b46a3",
-     "sig": "zPiFupQeNXtRxVvSBtDpiFkBspXowgNdaNXBP1KnC2dJxXCSSsWtj-9HuvWbL54dcs6FDxQI8gBQ2QztzuNeCA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "de15501031f890588f507afac5851c9ab8ae2e6f963f54cf7053195362fb76cd",
+     "sig": "CcqzKwcPVELeLWC5GnEkJn32nFQRXvjglN1HDerUFvBhRSYmBksUYdukEKchV6iSs53P8J2wGIRKPeWGLuz1AA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_0z1p0j2k0o251u",
+     "id": "ord_3p0q634m1b5n6h",
      "at": "2026-11-11T15:00:09.000Z",
-     "prev": "23e8f7fffe617c5adae97bc2910a2944bcbe2296df483f255e58f4b8b97b46a3",
+     "prev": "de15501031f890588f507afac5851c9ab8ae2e6f963f54cf7053195362fb76cd",
      "body": {
       "changed": [
        "item.refundable"
@@ -29305,7 +29297,7 @@
       },
       "orderId": "DL-CONF-9",
       "status": "drift",
-      "verdictId": "chk_6v0u6f4z261857",
+      "verdictId": "chk_2y6q3c266q0357",
       "violations": [
        {
         "actual": "no",
@@ -29315,9 +29307,9 @@
        }
       ]
      },
-     "hash": "8ca2d7ba17b9f0f2cf041be4c84ffc2beb79aed6c4eed299f0da7ee230f74fe6",
-     "sig": "8u4FmXQmhVGgg1j-Oujx09qJUATDRHPipBWwEH-yIQzKhJCmK19f13bHfqgtvG3MwbW7XK44Ai8fbcJJjRSPDQ",
-     "keyId": "687aa1805bdf7219"
+     "hash": "ec9173325a67582e0e5c40764775008a9a5edf9061843e84236731a564b41326",
+     "sig": "fWG1L4Xpfu3iM-I_rHUxNWE4v-QXfWkhMUImGZqdKkSLLgf1fuFuevWUNPZF2P7BZFlKKIcdBtbdkoA3xrknBA",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "not_what_i_asked",
@@ -29352,7 +29344,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_2o626x6m4x2r0t",
+     "id": "int_4s0r3o50582l61",
      "at": "2026-11-11T15:00:10.000Z",
      "prev": null,
      "body": {
@@ -29448,16 +29440,16 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "3017956bb65c2c8a40c6dea6d0d1320a2e4088c2ec771018b7975c9d174e292a",
-     "sig": "FeisPqoOJQwcjbpboBo0FGDEfe9pAbAiARcor-Nn5z7lcCJIccNBnivgb9Us-61nNwKImYpVCyS89krrzr5MCg",
-     "keyId": "687aa1805bdf7219"
+     "hash": "d9e649c8d67e2071becb7fd48184785d32597cbafa9aa56622c079c70be01c26",
+     "sig": "-M02QGOn478yXSAuWsZHZUjBITaV-tSkNe-UoFzZKwspJBiy90skZE9R2cctKgXLRraKM_8a_FXoAIBDnPBTDA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5w1w0a5z180q38",
+     "id": "chk_0x192s38314a2z",
      "at": "2026-11-11T15:00:11.000Z",
-     "prev": "3017956bb65c2c8a40c6dea6d0d1320a2e4088c2ec771018b7975c9d174e292a",
+     "prev": "d9e649c8d67e2071becb7fd48184785d32597cbafa9aa56622c079c70be01c26",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -29547,13 +29539,13 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_2o626x6m4x2r0t",
+      "intentId": "int_4s0r3o50582l61",
       "status": "block",
       "waived": []
      },
-     "hash": "99d85b679b2eac2397c6afe2328d39e54d8ceef6c7478736bc65a5681e39fc14",
-     "sig": "VxdUZ6HBqDV5PVhwFg8mO7ohhabpeMEeAVtTS9Tfyu0DbNJSNVM1etzFs0xaBJ6o5LRvDU2JWx0L1SeJwrJFBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "fa189b947803b55d7f635789ff436e8ed35d0de9af1e6a94071c38763c4da32b",
+     "sig": "a_MpLqpnUGZov6BmLVxZb-MPy55t2sEG7kHWq-gCeLjJYR-_YGwFnmTc3HN-OM7JVtfyb85w0F_6Mdg6pg4cAA",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "not_what_i_asked",
@@ -29576,7 +29568,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_4b1h0i3j583z0x",
+     "id": "int_226f683f0q1111",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -29672,31 +29664,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
-     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
-     "keyId": "687aa1805bdf7219"
+     "hash": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
+     "sig": "YtPwxGyyaozxJpkn9W1S0Xzkwob2D1B7rwGbtq8NxylV7AkvdLuF9T8IBnCWr6sThUHGSO0GFtBqB74HZIp8BA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5d4o5858083u52",
+     "id": "ack_0c0j0p413a0w6a",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "prev": "589a7ac5e19a3ddd2bfe159a22ed8df8cb9373cc7dcecf105c6b84d36cb6495a",
      "body": {
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
-     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
+     "sig": "AA61gfCgdV64JwcNqoIFGGxMC5zPrqQ6O48s2FVSh3FByWme8qv_fMrCe_GS9aWPlkub60hGK0ne4EwKhqM2Bw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_6z3o3x4f3l0d2p",
+     "id": "chk_5g1m5c59351a34",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "prev": "9a30896df24e28dc4c00c2a01922c0c49694ce561c89307d91a6c9e9a1ed3c1b",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -29786,36 +29778,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "ask",
       "waived": []
      },
-     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
-     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
+     "sig": "Avn7y6RObG41GQ3DQKHuyva72LfwilbtDNhU3GVIHFw758ut__MP24FQdrLyC9Irv_CtKXao7us4Upm7C7ywAw",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_0f1s4x0j160r0n",
+     "id": "res_3n356i1b15011c",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "prev": "66a2a7c54895c67194b151a0911e5e9d1a1907f7b48c44a4ae31de07f23ff083",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_6z3o3x4f3l0d2p"
+      "verdictId": "chk_5g1m5c59351a34"
      },
-     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
-     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
-     "keyId": "687aa1805bdf7219"
+     "hash": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
+     "sig": "VLSpMb3wzgKraQcxL_gsTDaMViMUPUIq7QiJ98xjFf4ZOjLmCDVDbPZ9w-q2m60E9QL6NeITg529LIPitf1aBA",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5k0f6j28205807",
+     "id": "chk_0n1t0h5d6a1j3s",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "prev": "255628eb8df7467a870eeef5af1a0f3fca97dcdaa5b9780911bc29205291df48",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -29917,22 +29909,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_4b1h0i3j583z0x",
+      "intentId": "int_226f683f0q1111",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
-     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
+     "sig": "KtMx39JTszPFd1NI-9-vEH61e4k3zrVN3nGEajinIck_WJtTnqLXqWfxwfttMnowWVme_5po6hM5bj4OgE0lDg",
+     "keyId": "58d47f1151b8b06d"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_0x424b3d69273j",
+     "id": "ord_0o1j70072x6p6b",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "prev": "23e06524379d8ffaf2ad3b62abfa065bab653e228e110c95d40207e1726cb12a",
      "body": {
       "changed": [
        "amount"
@@ -29960,26 +29952,26 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_5k0f6j28205807",
+      "verdictId": "chk_0n1t0h5d6a1j3s",
       "violations": []
      },
-     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
-     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
-     "keyId": "687aa1805bdf7219"
+     "hash": "c93641470f08113668bcbc6d9ecf184a4d7bf0b50b6000538050d5d6e6dc4dfe",
+     "sig": "6NeY7BIm9ATgJXwxX9zlSiFMnYvp6-E9bPWiqyEhuIeFMcp5zioL2i-b91is3yyyoirg-lNr0NAq-gVsy7LBBw",
+     "keyId": "58d47f1151b8b06d"
     }
    ],
    "reason": "not_what_i_asked",
    "decision": {
     "status": "review",
     "basis": "record_invalid",
-    "explanation": "The record could not be verified: int_4b1h0i3j583z0x: contents were changed after sealing.",
+    "explanation": "The record could not be verified: int_226f683f0q1111: contents were changed after sealing.",
     "violations": [],
     "payableUpTo": null,
     "record": {
      "ok": false,
      "signed": true,
      "problems": [
-      "int_4b1h0i3j583z0x: contents were changed after sealing"
+      "int_226f683f0q1111: contents were changed after sealing"
      ]
     }
    }

@@ -238,7 +238,8 @@ test("free text from a site: extra words ask the user, wrong words block", async
   const v = await b.check(shoes, retail.cart(base));
   assert.equal(v.status, "ask");
   assert.deepEqual(v.findings.filter((f) => f.code === "partial_match").map((f) => f.field), ["item.product", "item.variant.size", "item.variant.color"]);
-  assert.match(v.question!, /Color: this option is Black\/Medium Ash\/Pure Platinum, and you asked for black\. Is that what you want\?/);
+  assert.equal(v.asks.length, 1);
+  assert.match(v.question!, /color is Black\/Medium Ash\/Pure Platinum \(you asked for black\)\. Is that what you want\?$/);
   const wrong = await b.check(shoes, retail.cart({ ...base, variant: { size: "10.5", color: "Black" } }));
   assert.deepEqual([wrong.status, wrong.reasons.map((r) => r.field)], ["block", ["item.variant.size"]]);
   assert.equal((await b.check(shoes, retail.cart({ ...base, product: "Pegasus 41", variant: { size: "10", color: "BLACK" } }))).status, "pass");
@@ -267,7 +268,7 @@ test("an agent rewriting a flagged field on the same offer has to ask the user",
   const rewritten = await b.check(i, retail.cart({ ...real, variant: { size: "10", color: "Black" } }));
   assert.equal(rewritten.status, "ask");
   assert.equal(rewritten.asks[0]!.key, "edited:item.variant.color");
-  assert.match(rewritten.question!, /first said this option's color is White, then changed it to Black/);
+  assert.match(rewritten.question!, /your agent changed how it described it: color from White to Black\. Go ahead only if the merchant's page shows the new value/);
   // A different offer is not an edit.
   assert.equal((await b.check(i, retail.cart({ ...real, variant: { size: "10", color: "Black" }, ref: ref + "-black" }))).status, "pass");
 });

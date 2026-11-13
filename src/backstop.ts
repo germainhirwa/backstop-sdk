@@ -317,20 +317,25 @@ export class Backstop {
         const f = evaluate(rule, cart);
         findings.push(f);
         if (!f.ok && f.strength === "prefer") asks.push({ key: f.field, question: `${f.label}: this option has ${f.actual}, and you asked for ${f.expected}. Go ahead anyway?` });
-        if (f.code === "partial_match") asks.push({ key: f.field, question: `${f.label}: this option is ${f.actual}, and you asked for ${f.expected}. Is that what you want?` });
         if (!seen) continue;
         const first = seen[f.field];
         if (first !== undefined && first !== f.actual) {
           edited.push({ field: f.field, label: f.label, strength: "prefer", ok: false, code: "cart_edited", expected: first, actual: f.actual,
             message: `The agent first described this option's ${f.label.toLowerCase()} as ${first}, then changed it to ${f.actual} after the check flagged it.`,
             fix: "Ask the user. Do not change how the cart describes the merchant's option." });
-          asks.push({ key: `edited:${f.field}`, question: `Your agent first said this option's ${f.label.toLowerCase()} is ${first}, then changed it to ${f.actual} after it was flagged. Go ahead only if the merchant's page shows ${f.actual}. Is it right?` });
         } else if (first === undefined && !f.ok && rule.test.op !== "name") {
           seen[f.field] = f.actual;
         }
       }
       findings.push(...edited);
       if (seen) await this.store.set(intent.id, state);
+      const partial = findings.filter((f) => f.code === "partial_match");
+      if (partial.length === 1) asks.push({ key: partial[0]!.field, question: `${partial[0]!.label}: this option is ${partial[0]!.actual}, and you asked for ${partial[0]!.expected}. Is that what you want?` });
+      if (partial.length > 1) asks.push({ key: `words:${partial.map((f) => f.field).join(",")}`, question: `This option's wording differs from what you asked: ${partial.map((f) => `${f.label.toLowerCase()} is ${f.actual} (you asked for ${f.expected})`).join("; ")}. Is that what you want?` });
+      if (edited.length) {
+        const what = edited.map((e) => `${e.label.toLowerCase()} from ${e.expected} to ${e.actual}`).join("; ");
+        asks.push({ key: `edited:${edited.map((e) => e.field).join(",")}`, question: `After the check flagged this option, your agent changed how it described it: ${what}. Go ahead only if the merchant's page shows the new ${edited.length > 1 ? "values" : "value"}. Is it right?` });
+      }
       if (now.toISOString() > body.expiresAt) asks.push({ key: "intent_expired", question: `You asked for this on ${formatDate(body.createdAt.slice(0, 10))}. Do you still want it?` });
       if (this.policy.askOnWarnings && !intent.acknowledged) {
         for (const w of body.warnings) if (w.question) asks.push({ key: `warning:${w.code}`, question: w.question });
