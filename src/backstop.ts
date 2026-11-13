@@ -153,6 +153,8 @@ export interface IntentState {
   orders: number;
   /** Per offer ref: how each flagged field was first described. Used to notice an agent rewriting a cart to pass. */
   seen?: Record<string, Record<string, string>>;
+  /** Per cart hash: questions the user already answered yes to, so the same cart isn't asked about twice. */
+  approved?: Record<string, string[]>;
 }
 /** Counters per intent. Swap in Redis or your database when you run more than one process. */
 export interface Store {
@@ -346,12 +348,13 @@ export class Backstop {
       if (above && above.currency === cart.amount.currency && cart.amount.minor > above.minor) asks.push({ key: "policy:askAbove", question: `This costs ${formatMoney(cart.amount)}. Go ahead?` });
     }
 
+    const cartHash = await sha256(canonical(cart));
+    for (const key of state.approved?.[cartHash] ?? []) if (!waive.includes(key)) waive = [...waive, key];
     const reasons = findings.filter(isViolation);
     const open = asks.filter((a) => !waive.includes(a.key));
     const status: VerdictStatus = reasons.length ? "block" : open.length ? "ask" : "pass";
 
     const intentHash = intent.chain[0]!.hash;
-    const cartHash = await sha256(canonical(cart));
     const guarantee = status === "pass" && this.provider ? await this.provider.issue({ intentId: intent.id, intentHash, cartHash, cart, pack: body.pack }) : null;
 
     const sealed: VerdictBody = {
@@ -373,7 +376,14 @@ export class Backstop {
     if (verdict.status !== "ask") throw new BackstopError("resolve(): only an \"ask\" verdict needs resolving");
     const res = await seal("resolution", { verdictId: verdict.id, question: verdict.question, approved: answer.approved, by: answer.by ?? "user" }, { prev: verdict.chain.at(-1), signer: await this.signer, at: this.clock() });
     const intent: Intent = { ...verdict.intent, chain: [...verdict.chain, res] };
-    if (answer.approved) return this.runCheck(intent, verdict.cart, verdict.asks.map((a) => a.key), false);
+    if (answer.approved) {
+      // Remember the yes for this exact cart, so an agent that checks the same cart again isn't asked again.
+      const state = (await this.store.get(verdict.intent.id)) ?? { attempts: 0, orders: 0 };
+      const hash = await sha256(canonical(verdict.cart));
+      (state.approved ??= {})[hash] = [...new Set([...(state.approved[hash] ?? []), ...verdict.asks.map((a) => a.key)])];
+      await this.store.set(verdict.intent.id, state);
+      return this.runCheck(intent, verdict.cart, verdict.asks.map((a) => a.key), false);
+    }
     return {
       ...verdict, status: "block", asks: [], question: null, guarantee: null, chain: intent.chain,
       reasons: [gate("mismatch", "user approval", "declined", "The user declined this option.", "Offer the user a different option.")],

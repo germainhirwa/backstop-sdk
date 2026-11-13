@@ -279,13 +279,17 @@ class Backstop:
             if above and above["currency"] == cart["amount"]["currency"] and cart["amount"]["minor"] > above["minor"]:
                 asks.append({"key": "policy:askAbove", "question": f"This costs {format_money(cart['amount'])}. Go ahead?"})
 
+        cart_hash = sha256(canonical(cart))
+        for key in (state.get("approved") or {}).get(cart_hash, []):
+            if key not in waive:
+                waive = [*waive, key]
         reasons = [f for f in findings if _is_violation(f)]
         open_ = [a for a in asks if a["key"] not in waive]
         status = "block" if reasons else "ask" if open_ else "pass"
 
         guarantee = None
         if status == "pass" and self._provider:
-            guarantee = self._provider({"intentId": intent.id, "intentHash": intent.chain[0]["hash"], "cartHash": sha256(canonical(cart)), "cart": cart, "pack": body["pack"]})
+            guarantee = self._provider({"intentId": intent.id, "intentHash": intent.chain[0]["hash"], "cartHash": cart_hash, "cart": cart, "pack": body["pack"]})
 
         sealed = {
             "intentId": intent.id, "cart": cart, "status": status, "waived": waive, "guarantee": guarantee,
@@ -309,6 +313,13 @@ class Backstop:
         res = seal("resolution", {"verdictId": verdict.id, "question": verdict.question, "approved": bool(approved), "by": by}, prev=verdict.chain[-1], signer=self._signer, at=self._clock())
         intent = replace(verdict.intent, chain=[*verdict.chain, res])
         if approved:
+            # Remember the yes for this exact cart, so an agent that checks the same cart again isn't asked again.
+            state = dict(self._store.get(verdict.intent.id) or {"attempts": 0, "orders": 0})
+            approvals = dict(state.get("approved") or {})
+            h = sha256(canonical(verdict.cart))
+            approvals[h] = list(dict.fromkeys([*approvals.get(h, []), *(a["key"] for a in verdict.asks)]))
+            state["approved"] = approvals
+            self._store.set(verdict.intent.id, state)
             return self._run_check(intent, verdict.cart, [a["key"] for a in verdict.asks], False)
         return replace(
             verdict, status="block", asks=[], question=None, guarantee=None, chain=intent.chain,
