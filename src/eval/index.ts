@@ -154,7 +154,7 @@ export function formatReport(report: EvalReport, name = "Your agent"): string {
     ...(c.error ? [`  Errors              ${String(c.error).padStart(3)}`] : []),
     "",
     "  Wrong purchases by trap",
-    ...report.byTrap.filter((t) => t.trap !== "none").map((t) => `    ${t.trap.padEnd(22)} ${t.wrong}/${t.tasks}  ${"█".repeat(Math.round((t.wrong / t.tasks) * 10)).padEnd(10, "·")}`),
+    ...report.byTrap.filter((t) => t.trap !== "none").map((t) => `    ${t.trap.padEnd(22)} ${`${t.wrong}/${t.tasks}`.padEnd(6)}${"█".repeat(Math.round((t.wrong / t.tasks) * 10)).padEnd(10, "·")}`),
   ];
   if (report.backstop) {
     lines.push("", `  With Backstop, checking each cart against the intent your agent captured:`, `    ${report.backstop.caught} of ${report.backstop.wrongWithIntent} wrong purchases stopped before payment`);

@@ -161,7 +161,7 @@ def format_report(report: EvalReport, name: str = "Your agent") -> str:
     lines += ["", "  Wrong purchases by trap"]
     for t in report.by_trap:
         if t["trap"] != "none":
-            lines.append(f"    {t['trap']:<22} {t['wrong']}/{t['tasks']}  {('█' * js_round(t['wrong'] / t['tasks'] * 10)).ljust(10, '·')}")
+            lines.append(f"    {t['trap']:<22} {(str(t['wrong']) + '/' + str(t['tasks'])):<6}{('█' * js_round(t['wrong'] / t['tasks'] * 10)).ljust(10, '·')}")
     if report.backstop:
         lines += ["", "  With Backstop, checking each cart against the intent your agent captured:", f"    {report.backstop['caught']} of {report.backstop['wrongWithIntent']} wrong purchases stopped before payment"]
     elif c["wrong_purchase"]:
