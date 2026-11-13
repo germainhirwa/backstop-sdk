@@ -5,7 +5,7 @@
  * signed into a record, re-run against the delivered order when a claim comes
  * in, and evaluated by an SDK in any language.
  */
-import { compareNames, daysBetween, formatDate, formatMoney, formatTime, getPath, isISODate, isMoney, type ISODate, type Money } from "./primitives.js";
+import { compareNames, daysBetween, formatDate, formatMoney, formatTime, getPath, isISODate, isMoney, tokens, type ISODate, type Money } from "./primitives.js";
 
 export type Scalar = string | number | boolean;
 
@@ -14,6 +14,8 @@ export type Strength = "must" | "prefer";
 
 export type Test =
   | { op: "eq"; value: Scalar }
+  /** Free text from a website: every word the user said must appear. Extra words make it a question for the user, not a block. */
+  | { op: "has"; value: Scalar }
   | { op: "in"; values: Scalar[] }
   | { op: "lte"; value: number }
   | { op: "gte"; value: number }
@@ -45,11 +47,17 @@ export interface Cart {
   item: Record<string, unknown>;
   /** One line a person would recognise: "Delta DL 1102, Main Cabin". */
   summary?: string;
+  /** The offer's URL or id. Lets the check notice when an agent rewrites a flagged field on the same offer. */
+  ref?: string;
 }
 
 export type FindingCode =
   | "ok"
   | "mismatch"
+  /** The cart says what the user asked for and more ("Black/White" for "black"). The user decides. */
+  | "partial_match"
+  /** The agent changed a flagged field on the same offer. The user decides. */
+  | "cart_edited"
   | "not_allowed"
   | "over_limit"
   | "under_limit"
@@ -100,6 +108,7 @@ export function describe(rule: Rule): string {
   const t = rule.test;
   switch (t.op) {
     case "eq": return show(t.value);
+    case "has": return show(t.value);
     case "in": return t.values.map(show).join(" or ");
     case "lte": return `at most ${t.value}`;
     case "gte": return `at least ${t.value}`;
@@ -122,26 +131,34 @@ export function evaluate(rule: Rule, cart: Cart): Finding {
   const L = rule.label;
 
   if (actual === undefined || actual === null || actual === "") {
-    return fail("missing_field", `${L} is missing from the cart, so it can't be verified.`, `Include ${rule.field} in the cart. The user asked for ${L.toLowerCase()}: ${expected}.`);
+    return fail("missing_field", `${L} is missing from the cart, so it can't be verified.`, `Add ${rule.field} to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user.`);
   }
   const t = rule.test;
   switch (t.op) {
     case "eq":
       return fold(actual) === fold(t.value)
         ? pass(`${L} is ${show(actual)}, as asked.`)
-        : fail("mismatch", `${L} is ${show(actual)}; the user asked for ${expected}.`, `Change ${L.toLowerCase()} to ${expected}.`);
+        : fail("mismatch", `${L} is ${show(actual)}; the user asked for ${expected}.`, `Pick an option where ${L.toLowerCase()} is ${expected}, or ask the user.`);
+    case "has": {
+      const want = tokens(t.value), got = tokens(actual);
+      if (got.join(" ") === want.join(" ")) return pass(`${L} is ${show(actual)}, as asked.`);
+      if (want.length && want.every((w) => got.includes(w))) {
+        return fail("partial_match", `${L} is ${show(actual)}; the user asked for ${expected}. It includes what they asked for but says more, so they should confirm.`, `Ask the user whether ${show(actual)} is what they want. Do not change the cart.`);
+      }
+      return fail("mismatch", `${L} is ${show(actual)}; the user asked for ${expected}.`, `Pick an option where ${L.toLowerCase()} is ${expected}, or ask the user.`);
+    }
     case "in":
       return t.values.map(fold).includes(fold(actual) as Scalar)
         ? pass(`${L} is ${show(actual)}, which is allowed.`)
-        : fail("not_allowed", `${L} is ${show(actual)}; the user allowed only ${expected}.`, `Use ${expected} for ${L.toLowerCase()}.`);
+        : fail("not_allowed", `${L} is ${show(actual)}; the user allowed only ${expected}.`, `Pick an option where ${L.toLowerCase()} is ${expected}, or ask the user.`);
     case "lte":
       return typeof actual === "number" && actual <= t.value
         ? pass(`${L} is ${actual}, within the limit of ${t.value}.`)
-        : fail("over_limit", `${L} is ${show(actual)}; the limit is ${t.value}.`, `Keep ${L.toLowerCase()} at or below ${t.value}.`);
+        : fail("over_limit", `${L} is ${show(actual)}; the limit is ${t.value}.`, `Pick an option with ${L.toLowerCase()} at or below ${t.value}.`);
     case "gte":
       return typeof actual === "number" && actual >= t.value
         ? pass(`${L} is ${actual}, at least ${t.value}.`)
-        : fail("under_limit", `${L} is ${show(actual)}; the minimum is ${t.value}.`, `Keep ${L.toLowerCase()} at or above ${t.value}.`);
+        : fail("under_limit", `${L} is ${show(actual)}; the minimum is ${t.value}.`, `Pick an option with ${L.toLowerCase()} at or above ${t.value}.`);
     case "between": {
       const inRange = typeof actual === typeof t.min && (actual as number | string) >= t.min && (actual as number | string) <= t.max;
       return inRange
@@ -151,7 +168,7 @@ export function evaluate(rule: Rule, cart: Cart): Finding {
     case "money_lte": {
       if (!isMoney(actual)) return fail("mismatch", `${L} isn't a money amount.`, `Send ${rule.field} as { currency, minor }.`);
       if (actual.currency !== t.value.currency) {
-        return fail("currency_mismatch", `${L} is in ${actual.currency}; the user's limit is in ${t.value.currency}.`, `Quote the total in ${t.value.currency}.`);
+        return fail("currency_mismatch", `${L} is in ${actual.currency}; the user's limit is in ${t.value.currency}.`, `Pick an option priced in ${t.value.currency}, or ask the user.`);
       }
       if (actual.minor <= t.value.minor) return pass(`${formatMoney(actual)} is within the ${formatMoney(t.value)} limit.`);
       const over = formatMoney({ currency: actual.currency, minor: actual.minor - t.value.minor });
@@ -162,12 +179,12 @@ export function evaluate(rule: Rule, cart: Cart): Finding {
       if (!isISODate(actual)) return fail("date_mismatch", `${L} isn't a valid date.`, `Send ${rule.field} as YYYY-MM-DD.`);
       const diff = daysBetween(t.value, actual);
       const hint = Math.abs(diff) % 7 === 0 ? ` That is exactly ${Math.abs(diff) / 7} week${Math.abs(diff) === 7 ? "" : "s"} off, which usually means a relative date was resolved in the wrong time zone or week.` : "";
-      return fail("date_mismatch", `${L} is ${formatDate(actual)}; the user asked for ${formatDate(t.value)} (${diff > 0 ? "+" : ""}${diff} days).${hint}`, `Use ${t.value} (${formatDate(t.value)}).`);
+      return fail("date_mismatch", `${L} is ${formatDate(actual)}; the user asked for ${formatDate(t.value)} (${diff > 0 ? "+" : ""}${diff} days).${hint}`, `Pick an option on ${formatDate(t.value)} (${t.value}).`);
     }
     case "date_lte":
       return isISODate(actual) && actual <= t.value
         ? pass(`${L} is ${formatDate(actual)}, in time for ${formatDate(t.value)}.`)
-        : fail("too_late", `${L} is ${show(actual)}; the user needs it by ${formatDate(t.value)}.`, `Pick an option that arrives by ${t.value}.`);
+        : fail("too_late", `${L} is ${show(actual)}; the user needs it by ${formatDate(t.value)}.`, `Pick an option that arrives by ${formatDate(t.value)}.`);
     case "name": {
       const match = compareNames(t.value, String(actual));
       if (match === "exact") return pass(`${L} is ${t.value}.`);
@@ -186,6 +203,8 @@ export function evaluate(rule: Rule, cart: Cart): Finding {
 
 const make = (strength: Strength) => ({
   eq: (field: string, value: Scalar, label = field): Rule => ({ field, label, strength, test: { op: "eq", value } }),
+  /** Free text from a site: every word must appear; extra words ask the user instead of blocking. */
+  has: (field: string, value: Scalar, label = field): Rule => ({ field, label, strength, test: { op: "has", value } }),
   oneOf: (field: string, values: Scalar[], label = field): Rule => ({ field, label, strength, test: { op: "in", values } }),
   atMost: (field: string, value: number, label = field): Rule => ({ field, label, strength, test: { op: "lte", value } }),
   atLeast: (field: string, value: number, label = field): Rule => ({ field, label, strength, test: { op: "gte", value } }),

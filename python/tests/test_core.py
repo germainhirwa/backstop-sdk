@@ -111,7 +111,7 @@ def test_custom_rules_and_retail():
     cart = retail.cart(product="Nike Pegasus 41", merchant="Nike", variant={"size": "10.5", "color": "black"}, quantity=1, total=usd(139.99))
     cart["item"]["rating"] = 4.6
     v = b.check(i, cart)
-    assert [r.field for r in v.reasons] == ["item.variant.size"] and v.reasons[0].fix == "Change size to 10."
+    assert [r.field for r in v.reasons] == ["item.variant.size"] and v.reasons[0].fix == "Pick an option where size is 10, or ask the user."
 
 
 def test_signed_record_claims_and_tampering():
@@ -158,7 +158,7 @@ def test_protect_sync_and_async():
     current = ask(b)
     with pytest.raises(BackstopBlocked) as e:
         book({**OFFER, "date": "2026-11-27"})
-    assert "Use 2026-11-20" in str(e.value) and booked == []
+    assert "Pick an option on Fri, Nov 20" in str(e.value) and booked == []
     assert book(OFFER) == {"confirmation": "DL-1"} and len(booked) == 1
 
     drifted = []
@@ -214,3 +214,27 @@ def test_mcp():
 def test_cli_runs():
     out = subprocess.run([sys.executable, "-m", "backstop_sdk", "demo"], capture_output=True, text=True, cwd=Path(__file__).parents[1])
     assert out.returncode == 0 and out.stdout.count("BLOCKED") == 3 and "PASS" in out.stdout
+
+
+def test_partial_match_asks_and_edits_need_the_user():
+    b = make()
+    i = b.intent(user="u", request="Buy the Nike Pegasus 41 in black, men's size 10, under $150.", time_zone=NY,
+                 wants=retail.wants(product="Pegasus 41", variant={"size": "10", "color": "black"}, max_total=usd(150)))
+    v = b.check(i, retail.cart(product="Nike Air Zoom Pegasus 41", merchant="Foot Locker", variant={"size": "Men's 10 (D - Medium)", "color": "Black/Medium Ash"}, quantity=1, total=usd(109.99)))
+    assert v.status == "ask" and b.commit(b.resolve(v, True), id="FL-1").status == "confirmed"
+    i = b.intent(user="u", request="Buy the Nike Pegasus 41 in black, men's size 10, under $150.", time_zone=NY,
+                 wants=retail.wants(product="Pegasus 41", variant={"size": "10", "color": "black"}, max_total=usd(150)))
+    ref = "https://shop.example/p/1"
+    assert b.check(i, retail.cart(product="Pegasus 41", merchant="Shop", variant={"size": "10", "color": "White"}, quantity=1, total=usd(101), url=ref)).status == "block"
+    edited = b.check(i, retail.cart(product="Pegasus 41", merchant="Shop", variant={"size": "10", "color": "Black"}, quantity=1, total=usd(101), url=ref))
+    assert edited.status == "ask" and edited.asks[0]["key"] == "edited:item.variant.color"
+    assert "Change " not in edited.for_agent
+
+
+def test_mcp_user_reply_clears_the_question():
+    s = McpState(Backstop(now=lambda: NOW))
+    i = call_tool(s, "backstop_capture_intent", {"user": "u", "request": "Book JFK to Austin next Friday, morning, under $400", "timeZone": NY, "pack": "flight",
+                                                 "wants": {"from": "JFK", "to": "AUS", "date": "2026-11-20", "departs": ["05:00", "12:00"], "maxPrice": 400, "passenger": "Maya Okafor"}})
+    assert i["questionsForUser"]
+    cart = {"from": "JFK", "to": "AUS", "date": "2026-11-20", "departs": "06:30", "price": 331, "refundable": False, "passenger": "Maya Okafor"}
+    assert call_tool(s, "backstop_check_cart", {"intentId": i["intentId"], "pack": "flight", "cart": cart, "userReply": "Nov 20"})["status"] == "pass"

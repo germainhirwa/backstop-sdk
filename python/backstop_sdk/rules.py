@@ -12,7 +12,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from .primitives import compare_names, days_between, format_date, format_money, format_time, get_path, is_iso_date, is_money, is_number, js_num, js_str
+from .primitives import compare_names, days_between, format_date, format_money, format_time, get_path, is_iso_date, is_money, is_number, js_num, js_str, tokens
 
 Rule = dict
 Cart = dict  # {"action", "amount", "merchant"?, "summary"?, "item": {...}}
@@ -75,7 +75,7 @@ def describe(rule: Rule) -> str:
     """Describe what a rule requires, for summaries shown to the user."""
     t = rule["test"]
     op = t["op"]
-    if op == "eq":
+    if op in ("eq", "has"):
         return _show(t["value"])
     if op == "in":
         return " or ".join(_show(v) for v in t["values"])
@@ -113,27 +113,34 @@ def evaluate(rule: Rule, cart: Cart) -> Finding:
         return Finding(ok=False, code=code, message=message, fix=fix, **base)
 
     if actual is None or (isinstance(actual, str) and actual == ""):
-        return fail("missing_field", f"{L} is missing from the cart, so it can't be verified.", f"Include {rule['field']} in the cart. The user asked for {low}: {expected}.")
+        return fail("missing_field", f"{L} is missing from the cart, so it can't be verified.", f"Add {rule['field']} to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user.")
     t = rule["test"]
     op = t["op"]
     if op == "eq":
         if _same(_fold(actual), _fold(t["value"])):
             return ok(f"{L} is {_show(actual)}, as asked.")
-        return fail("mismatch", f"{L} is {_show(actual)}; the user asked for {expected}.", f"Change {low} to {expected}.")
+        return fail("mismatch", f"{L} is {_show(actual)}; the user asked for {expected}.", f"Pick an option where {low} is {expected}, or ask the user.")
+    if op == "has":
+        want, got = tokens(t["value"]), tokens(actual)
+        if got == want:
+            return ok(f"{L} is {_show(actual)}, as asked.")
+        if want and all(w in got for w in want):
+            return fail("partial_match", f"{L} is {_show(actual)}; the user asked for {expected}. It includes what they asked for but says more, so they should confirm.", f"Ask the user whether {_show(actual)} is what they want. Do not change the cart.")
+        return fail("mismatch", f"{L} is {_show(actual)}; the user asked for {expected}.", f"Pick an option where {low} is {expected}, or ask the user.")
     if op == "in":
         if any(_same(_fold(v), _fold(actual)) for v in t["values"]):
             return ok(f"{L} is {_show(actual)}, which is allowed.")
-        return fail("not_allowed", f"{L} is {_show(actual)}; the user allowed only {expected}.", f"Use {expected} for {low}.")
+        return fail("not_allowed", f"{L} is {_show(actual)}; the user allowed only {expected}.", f"Pick an option where {low} is {expected}, or ask the user.")
     if op == "lte":
         lim = js_num(t["value"])
         if is_number(actual) and actual <= t["value"]:
             return ok(f"{L} is {js_num(actual)}, within the limit of {lim}.")
-        return fail("over_limit", f"{L} is {_show(actual)}; the limit is {lim}.", f"Keep {low} at or below {lim}.")
+        return fail("over_limit", f"{L} is {_show(actual)}; the limit is {lim}.", f"Pick an option with {low} at or below {lim}.")
     if op == "gte":
         lim = js_num(t["value"])
         if is_number(actual) and actual >= t["value"]:
             return ok(f"{L} is {js_num(actual)}, at least {lim}.")
-        return fail("under_limit", f"{L} is {_show(actual)}; the minimum is {lim}.", f"Keep {low} at or above {lim}.")
+        return fail("under_limit", f"{L} is {_show(actual)}; the minimum is {lim}.", f"Pick an option with {low} at or above {lim}.")
     if op == "between":
         lo, hi = t["min"], t["max"]
         same_kind = (is_number(actual) and is_number(lo)) or (isinstance(actual, str) and isinstance(lo, str))
@@ -145,7 +152,7 @@ def evaluate(rule: Rule, cart: Cart) -> Finding:
         if not is_money(actual):
             return fail("mismatch", f"{L} isn't a money amount.", f"Send {rule['field']} as {{ currency, minor }}.")
         if actual["currency"] != cap["currency"]:
-            return fail("currency_mismatch", f"{L} is in {actual['currency']}; the user's limit is in {cap['currency']}.", f"Quote the total in {cap['currency']}.")
+            return fail("currency_mismatch", f"{L} is in {actual['currency']}; the user's limit is in {cap['currency']}.", f"Pick an option priced in {cap['currency']}, or ask the user.")
         if actual["minor"] <= cap["minor"]:
             return ok(f"{format_money(actual)} is within the {format_money(cap)} limit.")
         over = format_money({"currency": actual["currency"], "minor": actual["minor"] - cap["minor"]})
@@ -160,11 +167,11 @@ def evaluate(rule: Rule, cart: Cart) -> Finding:
         hint = ""
         if abs(diff) % 7 == 0:
             hint = f" That is exactly {abs(diff) // 7} week{'' if abs(diff) == 7 else 's'} off, which usually means a relative date was resolved in the wrong time zone or week."
-        return fail("date_mismatch", f"{L} is {format_date(actual)}; the user asked for {format_date(want)} ({'+' if diff > 0 else ''}{diff} days).{hint}", f"Use {want} ({format_date(want)}).")
+        return fail("date_mismatch", f"{L} is {format_date(actual)}; the user asked for {format_date(want)} ({'+' if diff > 0 else ''}{diff} days).{hint}", f"Pick an option on {format_date(want)} ({want}).")
     if op == "date_lte":
         if is_iso_date(actual) and actual <= t["value"]:
             return ok(f"{L} is {format_date(actual)}, in time for {format_date(t['value'])}.")
-        return fail("too_late", f"{L} is {_show(actual)}; the user needs it by {format_date(t['value'])}.", f"Pick an option that arrives by {t['value']}.")
+        return fail("too_late", f"{L} is {_show(actual)}; the user needs it by {format_date(t['value'])}.", f"Pick an option that arrives by {format_date(t['value'])}.")
     if op == "name":
         want = t["value"]
         match = compare_names(want, js_str(actual))
@@ -194,6 +201,10 @@ class _Builder:
 
     def eq(self, field: str, value: Any, label: Optional[str] = None) -> Rule:
         return self._r(field, label, {"op": "eq", "value": value})
+
+    def has(self, field: str, value: Any, label: Optional[str] = None) -> Rule:
+        """Free text from a site: every word must appear; extra words ask the user instead of blocking."""
+        return self._r(field, label, {"op": "has", "value": value})
 
     def one_of(self, field: str, values: list, label: Optional[str] = None) -> Rule:
         return self._r(field, label, {"op": "in", "values": list(values)})

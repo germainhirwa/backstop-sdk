@@ -72,9 +72,11 @@ What a block looks like to the model:
 ```
 Backstop blocked this purchase. Do not check out.
 - Date is Fri, Nov 27; the user asked for Fri, Nov 20 (+7 days). That is exactly 1 week off,
-  which usually means a relative date was resolved in the wrong time zone or week. Use 2026-11-20 (Fri, Nov 20).
-Fix the cart and check it again.
+  which usually means a relative date was resolved in the wrong time zone or week. Pick an option on Fri, Nov 20 (2026-11-20).
+Choose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.
 ```
+
+Block messages say what to look for, never a value to type into the cart. An agent told "change color to Black" will do exactly that and get through, so Backstop doesn't say it.
 
 ## Or wrap the tool: one change, nothing else to remember
 
@@ -162,6 +164,22 @@ intent.questions;
 
 By default `check()` returns `ask` while such a question is open, so a wrong capture can't silently pass. Show the user `intent.summary` and call `backstop.acknowledge(intent)` once they confirm; that clears the questions and makes the record much stronger.
 
+**When your agent asks the user itself.** Good agents ask "which Friday?" on their own. Pass the reply through, or the check will ask the same question again:
+
+```ts
+const answered = await backstop.acknowledge(intent, { method: "chat", answers: [{ question, answer: "Nov 20" }] });
+```
+
+Over MCP, the agent passes the reply as `userReply` on `backstop_check_cart`.
+
+### Text as websites write it
+
+Sites don't write "black, size 10". They write "Black/Medium Ash/Pure Platinum" and "Men's 10 (D - Medium)". Product names, variants and restaurant names match by words (`has`): every word the user said must be there. Exact words pass. The same words plus more ("Black/White" for "black") ask the user one question instead of blocking. A different word ("10.5" for "10", "Pegasus 40" for "Pegasus 41") blocks. Use `must.has(...)` for your own free-text fields and `must.eq(...)` where only an exact value will do.
+
+### An agent can't edit its way past a block
+
+Give each cart the offer's URL or id as `ref`. If a field is flagged and the agent then sends the same offer with that field changed ("White" became "Black"), the check doesn't trust the edit: it asks the user, naming both values, before any money moves. A different offer is not an edit.
+
 ### Dates in the user's time zone
 
 ```ts
@@ -230,7 +248,7 @@ For agents that take tools over MCP, with no code changes:
 { "mcpServers": { "backstop": { "command": "npx", "args": ["backstop", "mcp"] } } }
 ```
 
-Tools: `backstop_capture_intent`, `backstop_check_cart`, `backstop_confirm_order`, `backstop_resolve_date`. Set `BACKSTOP_SANDBOX=1` to attach sandbox guarantees.
+Tools: `backstop_capture_intent`, `backstop_check_cart`, `backstop_confirm_order`, `backstop_resolve_date`. Pass each offer's `url` in the cart so edits are noticed, and the user's answer as `userReply` when the agent already asked. Set `BACKSTOP_SANDBOX=1` to attach sandbox guarantees.
 
 ## API
 
@@ -238,7 +256,7 @@ Tools: `backstop_capture_intent`, `backstop_check_cart`, `backstop_confirm_order
 | --- | --- |
 | `new Backstop({ keys?, guarantee?, policy?, store?, now? })` | |
 | `backstop.intent(input)` | `Intent`: `id`, `summary`, `warnings`, `questions`, `chain` |
-| `backstop.acknowledge(intent)` | `Intent` with the user's confirmation sealed in |
+| `backstop.acknowledge(intent, { method?, answers? })` | `Intent` with the user's confirmation or answers sealed in |
 | `backstop.check(intent, cart)` | `Verdict`: `status`, `findings`, `reasons`, `question`, `forAgent`, `guarantee`, `chain` |
 | `backstop.resolve(verdict, { approved })` | `Verdict` after the user's answer |
 | `backstop.commit(verdict, order?)` | `Commit`: `status` (`confirmed` \| `drift`), `violations`, `changed`, `chain` |
@@ -256,7 +274,7 @@ Tools: `backstop_capture_intent`, `backstop_check_cart`, `backstop_confirm_order
 
 - It doesn't read web pages or receipts. You describe the cart; a cart described wrongly is checked wrongly. Build carts from the same data you send to checkout, and use `commit()` with the merchant's confirmation.
 - It doesn't extract intent from text. Your agent (or model) fills in `wants`; `lint` then cross-checks dates, budgets, refundability, quantity and question-versus-order against the words. Lint is English-only today.
-- Product names match exactly (case-insensitive). Prefer `sku` where you have one.
+- Text matching is by words, not meaning: "charcoal" is not "black". Those become questions or blocks, never silent passes. Prefer `sku` where you have one.
 - It isn't insurance. See Status.
 
 See [DESIGN.md](./DESIGN.md) for the reasoning behind these choices.

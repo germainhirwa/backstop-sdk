@@ -49,6 +49,8 @@ def _normalize(obj: dict) -> dict:
             continue
         if k in _MONEY_KEYS:
             out[k] = to_money(v)
+        elif k == "url":
+            out["ref"] = v
         elif isinstance(v, dict) and "prefer" in v:
             out[k] = prefer(v["prefer"])
         elif k == "variant" and isinstance(v, dict):
@@ -81,7 +83,7 @@ def _cart_for(pack: str, fields: dict) -> dict:
         return restaurant.cart(f)
     if pack == "custom":
         cart = {"action": str(f.get("action")), "amount": to_money(f.get("amount")), "item": f.get("item") or {}}
-        for k in ("merchant", "summary"):
+        for k in ("merchant", "summary", "ref"):
             if f.get(k) is not None:
                 cart[k] = f[k]
         return cart
@@ -115,9 +117,10 @@ TOOLS = [
             "pack": {"type": "string", "enum": ["flight", "retail", "restaurant", "custom"]},
             "cart": {
                 "type": "object",
-                "description": "What you are about to buy. flight: {from,to,date,departs(HH:MM),price,refundable,passenger,seat,cabin,stops,airline,flight}. retail: {product,sku,merchant,variant,quantity,total(incl. shipping and tax),arrives}. restaurant: {venue,date,time,partySize,deposit}. custom: {action,amount,merchant,summary,item}.",
+                "description": "What you are about to buy, exactly as the merchant shows it. flight: {from,to,date,departs(HH:MM),price,refundable,passenger,seat,cabin,stops,airline,flight,url}. retail: {product,sku,merchant,variant,quantity,total(incl. shipping and tax),arrives,url}. restaurant: {venue,date,time,partySize,deposit,url}. custom: {action,amount,merchant,summary,item,url}. url is the offer's page.",
             },
             "approved": {"type": "boolean", "description": 'Only after an "ask" verdict: the user\'s answer to the question.'},
+            "userReply": {"type": "string", "description": "If you already asked the user one of the questionsForUser from backstop_capture_intent, their reply, verbatim."},
         }, ["intentId", "pack", "cart"]),
     },
     {
@@ -161,6 +164,10 @@ def call_tool(state: McpState, name: str, args: dict) -> dict:
         return {"intentId": intent.id, "summary": intent.summary, "questionsForUser": intent.questions, "warnings": [w["message"] for w in intent.warnings], "authorizes": intent.body["allow"]}
     if name == "backstop_check_cart":
         intent = intent_of(args.get("intentId"))
+        reply = args.get("userReply")
+        if isinstance(reply, str) and reply.strip() and not intent.acknowledged:
+            intent = b.acknowledge(intent, method="user reply relayed by agent", answers=[{"question": " ".join(intent.questions), "answer": reply}])
+            state.intents[intent.id] = intent
         pending = state.verdicts.get(intent.id)
         if isinstance(args.get("approved"), bool) and pending is not None and pending.status == "ask":
             v = b.resolve(pending, args["approved"])

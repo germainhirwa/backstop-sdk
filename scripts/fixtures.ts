@@ -10,7 +10,7 @@ import { suite } from "../src/eval/index.js";
 import { truthFor } from "../src/eval/suite.js";
 import { buildIntentBody, summarize } from "../src/intent.js";
 import { flight, nothing, restaurant, retail } from "../src/packs/index.js";
-import { canonical, compareNames, formatDate, formatMoney, formatTime, money, normalizeName, resolveDate, sha256, usd } from "../src/primitives.js";
+import { canonical, compareNames, formatDate, formatMoney, formatTime, money, normalizeName, resolveDate, sha256, tokens, usd } from "../src/primitives.js";
 import { generateKeys } from "../src/record.js";
 import { evaluate, must, prefer, prefers, type Cart, type Rule } from "../src/rules.js";
 
@@ -60,12 +60,16 @@ const lint = lintInputs.map((i) => {
   return { input: { request: i.request, wants: i.wants, clarifications: i.clarifications ?? [] }, warnings: body.warnings, summary: summarize(body), body };
 });
 
+// Free-text tokens
+const tokenCases = ["Men's 10 (D - Medium)", "Black/Medium Ash/Pure Platinum", "10.5", "Size: 10.", "Café Crème", "Nike Air Zoom Pegasus 41 'Black White'", "AA...24-pack", "", "Zoë Okafor-Reyes", "  OtterBox® Symmetry™ iPhone 16 Pro  "].map((text) => ({ text, tokens: tokens(text) }));
+
 // Rule findings: every offer of every suite task against its ground truth, plus hand-picked edge cases.
 const extraRules: Rule[] = [
   must.eq("item.cabin", "Economy", "Cabin"), must.oneOf("merchant", ["Nike", "Foot Locker"], "Seller"), must.atMost("item.stops", 1, "Stops"), must.atLeast("item.rating", 4.5, "Rating"),
   must.between("item.nights", 2, 4, "Nights"), must.between("item.departs", "06:00", "12:00", "Departure time"), must.costsAtMost(money(400, "EUR")), must.on("item.date", "2026-11-20"),
   must.by("item.arrives", "2026-11-18"), must.named("item.passenger", "Maya Okafor", "Passenger"), must.is("item.refundable", true, "Refundable"), prefers.eq("item.seat", "aisle", "Seat"),
   must.eq("item.quantity", 2, "Quantity"), must.eq("item.flag", true, "Flag"),
+  must.has("item.cabin", "economy", "Cabin words"), must.has("merchant", "Foot Locker", "Seller words"), must.has("item.passenger", "Maya", "Name words"), must.has("item.quantity", 2, "Quantity words"),
 ];
 const extraCarts: Cart[] = [
   { action: "x.buy", amount: money(380, "EUR"), merchant: "nike", item: { cabin: " economy ", stops: 1, rating: 4.5, nights: 3, departs: "07:05", date: "2026-11-20", arrives: "2026-11-18", passenger: "OKAFOR/MAYA", refundable: true, seat: "Aisle", quantity: 2, flag: true } },
@@ -118,8 +122,30 @@ for (const c of claimCases) {
   const d = await b.claim({ chain: c.chain as never, reason: c.reason, delivered: "delivered" in c ? c.delivered : undefined });
   claims.push({ ...c, decision: d });
 }
+// Sequences: the same intent checked several times (edit detection, partial matches, recorded answers).
+const seqNow = new Date(NOW);
+const seqB = new Backstop({ now: () => seqNow });
+const shoes = await seqB.intent({ user: "u_1", request: "Buy the Nike Pegasus 41 in black, men's size 10, under $150.", timeZone: NY, wants: retail.wants({ product: "Pegasus 41", variant: { size: "10", color: "black" }, maxTotal: usd(150) }) });
+const ref = "https://shop.example/p/fd2722";
+const shoeCarts: Cart[] = [
+  retail.cart({ product: "Nike Air Zoom Pegasus 41", merchant: "Foot Locker", variant: { size: "Men's 10 (D - Medium)", color: "Black/Medium Ash/Pure Platinum" }, quantity: 1, total: usd(109.99), ref }),
+  retail.cart({ product: "Pegasus 41", merchant: "Shop", variant: { size: "10", color: "White" }, quantity: 1, total: usd(101), ref: ref + "-w" }),
+  retail.cart({ product: "Pegasus 41", merchant: "Shop", variant: { size: "10", color: "Black" }, quantity: 1, total: usd(101), ref: ref + "-w" }),
+  retail.cart({ product: "Pegasus 41", merchant: "Shop", variant: { size: "10", color: "Black" }, quantity: 1, total: usd(101), ref: ref + "-b" }),
+  { action: "retail.purchase", amount: usd(101), item: { retail: { product: "Pegasus 41" } } },
+];
+const sequences: unknown[] = [];
+for (const cart of shoeCarts) {
+  const v = await seqB.check(shoes, cart);
+  sequences.push({ cart, status: v.status, forAgent: v.forAgent, question: v.question, asks: v.asks, findings: v.findings });
+}
+const dated = await seqB.intent({ user: "u_1", request: "Book JFK to Austin next Friday, morning, under $400", timeZone: NY, wants: flight.wants({ from: "JFK", to: "AUS", date: "2026-11-20", departs: ["06:00", "12:00"], maxPrice: usd(400), passenger: "Maya Okafor" }) });
+const answered = await seqB.acknowledge(dated, { method: "chat", answers: [{ question: dated.questions[0]!, answer: "Nov 20" }] });
+const fcart = flight.cart({ from: "JFK", to: "AUS", date: "2026-11-20", departs: "06:30", price: usd(331), refundable: false, passenger: "Maya Okafor", airline: "JetBlue" });
+const answers = { request: dated.body.request, before: (await seqB.check(dated, fcart)).status, after: (await seqB.check(answered, fcart)).status, ackBody: answered.chain.at(-1)!.body };
+
 const chain = { publicKey: keys.publicKey, keyId: keys.keyId, chain: done.chain, types: done.chain.map((e) => e.type), commit: { status: done.status, changed: done.changed }, verify: await b.verify(done.chain), tamperedVerify: await b.verify(tampered) };
 
-writeFileSync("conformance/fixtures.json", JSON.stringify({ about: "Reference outputs from the TypeScript SDK. Every Backstop SDK must reproduce these exactly.", dates, names, format, lint, findings, verdicts, chain, claims }, null, 1) + "\n");
+writeFileSync("conformance/fixtures.json", JSON.stringify({ about: "Reference outputs from the TypeScript SDK. Every Backstop SDK must reproduce these exactly.", dates, names, format, tokens: tokenCases, lint, findings, verdicts, sequences, answers, chain, claims }, null, 1) + "\n");
 writeFileSync("python/backstop_sdk/suite.json", JSON.stringify({ tasks: suite, truth: Object.fromEntries(suite.map((s) => [s.id, truthFor(s.id).wants])) }, null, 1) + "\n");
-console.log(`dates ${dates.length}, names ${names.length}, lint ${lint.length}, findings ${findings.length}, verdicts ${verdicts.length}, claims ${claims.length}`);
+console.log(`dates ${dates.length}, names ${names.length}, tokens ${tokenCases.length}, lint ${lint.length}, findings ${findings.length}, verdicts ${verdicts.length}, sequences ${sequences.length}, claims ${claims.length}`);

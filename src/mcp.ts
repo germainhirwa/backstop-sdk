@@ -29,6 +29,7 @@ function normalize(obj: Json): Json {
   for (const [k, v] of Object.entries(obj)) {
     if (v === null || v === undefined) continue;
     if (MONEY_KEYS.has(k)) out[k] = toMoney(v);
+    else if (k === "url") out.ref = v;
     else if (typeof v === "object" && !Array.isArray(v) && "prefer" in (v as Json)) out[k] = prefer((v as Json).prefer);
     else if (k === "variant" && typeof v === "object") out[k] = normalize(v as Json);
     else out[k] = v;
@@ -52,7 +53,7 @@ function cartFor(pack: string, fields: Json): Cart {
   if (pack === "restaurant") return restaurant.cart(f);
   if (pack === "custom") {
     const c = f as Json;
-    return { action: String(c.action), amount: toMoney(c.amount), merchant: c.merchant as string | undefined, summary: c.summary as string | undefined, item: (c.item as Json) ?? {} };
+    return { action: String(c.action), amount: toMoney(c.amount), merchant: c.merchant as string | undefined, summary: c.summary as string | undefined, item: (c.item as Json) ?? {}, ...(c.ref ? { ref: String(c.ref) } : {}) };
   }
   throw new Error(`Unknown pack "${pack}". Use flight, retail, restaurant or custom.`);
 }
@@ -81,9 +82,10 @@ const TOOLS = [
       pack: { type: "string", enum: ["flight", "retail", "restaurant", "custom"] },
       cart: {
         type: "object",
-        description: "What you are about to buy. flight: {from,to,date,departs(HH:MM),price,refundable,passenger,seat,cabin,stops,airline,flight}. retail: {product,sku,merchant,variant,quantity,total(incl. shipping and tax),arrives}. restaurant: {venue,date,time,partySize,deposit}. custom: {action,amount,merchant,summary,item}.",
+        description: "What you are about to buy, exactly as the merchant shows it. flight: {from,to,date,departs(HH:MM),price,refundable,passenger,seat,cabin,stops,airline,flight,url}. retail: {product,sku,merchant,variant,quantity,total(incl. shipping and tax),arrives,url}. restaurant: {venue,date,time,partySize,deposit,url}. custom: {action,amount,merchant,summary,item,url}. url is the offer's page.",
       },
       approved: { type: "boolean", description: "Only after an \"ask\" verdict: the user's answer to the question." },
+      userReply: { type: "string", description: "If you already asked the user one of the questionsForUser from backstop_capture_intent, their reply, verbatim." },
     }, ["intentId", "pack", "cart"]),
   },
   {
@@ -119,7 +121,11 @@ export async function callTool(state: McpState, name: string, args: Json): Promi
     return { intentId: intent.id, summary: intent.summary, questionsForUser: intent.questions, warnings: intent.warnings.map((w) => w.message), authorizes: intent.body.allow };
   }
   if (name === "backstop_check_cart") {
-    const intent = intentOf(args.intentId);
+    let intent = intentOf(args.intentId);
+    if (typeof args.userReply === "string" && args.userReply.trim() && !intent.acknowledged) {
+      intent = await b.acknowledge(intent, { method: "user reply relayed by agent", answers: [{ question: intent.questions.join(" "), answer: args.userReply }] });
+      intents.set(intent.id, intent);
+    }
     const pending = verdicts.get(intent.id);
     let v: Verdict;
     if (typeof args.approved === "boolean" && pending?.status === "ask") v = await b.resolve(pending, { approved: args.approved });

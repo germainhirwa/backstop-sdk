@@ -71,7 +71,7 @@ test("wrong week, over budget, non-refundable and wrong name are blocked with fi
   assert.equal(week.status, "block");
   assert.equal(week.reasons[0]!.code, "date_mismatch");
   assert.match(week.reasons[0]!.message, /exactly 1 week off/);
-  assert.match(week.forAgent, /Use 2026-11-20/);
+  assert.match(week.forAgent, /Pick an option on Fri, Nov 20/);
 
   const multi = await b.check(intent, flight.cart({ ...offer, price: usd(486), refundable: false, passenger: "Maya Okafur" }));
   assert.deepEqual(multi.reasons.map((r) => r.code).sort(), ["mismatch", "name_typo", "over_limit"]);
@@ -197,7 +197,7 @@ test("protect() wraps a purchase tool end to end", async () => {
     async (o: FlightOffer) => { charged++; return { confirmation: "CONF9", total: o.price, fare: o.refundable }; },
     { intent: () => intent, cart: (o) => flight.cart(o), order: (r) => ({ id: r.confirmation, amount: r.total }) },
   );
-  await assert.rejects(book({ ...offer, date: "2026-11-27" }), (e: unknown) => e instanceof BackstopBlocked && /Use 2026-11-20/.test(e.message));
+  await assert.rejects(book({ ...offer, date: "2026-11-27" }), (e: unknown) => e instanceof BackstopBlocked && /Pick an option on Fri, Nov 20/.test(e.message));
   await assert.rejects(book({ ...offer, seat: "middle" }), BackstopNeedsUser);
   assert.equal(charged, 0);
   assert.equal((await book(offer)).confirmation, "CONF9");
@@ -228,4 +228,56 @@ test("retail and restaurant packs, custom rules and policy", async () => {
   const pricey = await b.intent({ ...ask, wants: flight.wants({ from: "JFK", to: "LHR", date: "2026-11-20", maxPrice: usd(900), passenger: "Maya Okafor" }), request: "Book JFK to London on Nov 20, under $900" });
   const v = await b.check(pricey, flight.cart({ ...offer, to: "LHR", price: usd(840) }));
   assert.deepEqual([v.status, v.asks[0]!.key], ["ask", "policy:askAbove"]);
+});
+
+test("free text from a site: extra words ask the user, wrong words block", async () => {
+  const b = mk();
+  const shoes = await b.intent({ user: "u_3", request: "Buy the Nike Pegasus 41 in black, men's size 10, under $150.", timeZone: TZ,
+    wants: retail.wants({ product: "Pegasus 41", variant: { size: "10", color: "black" }, maxTotal: usd(150) }) });
+  const base = { product: "Nike Air Zoom Pegasus 41", merchant: "Foot Locker", variant: { size: "Men's 10 (D - Medium)", color: "Black/Medium Ash/Pure Platinum" }, quantity: 1, total: usd(109.99) };
+  const v = await b.check(shoes, retail.cart(base));
+  assert.equal(v.status, "ask");
+  assert.deepEqual(v.findings.filter((f) => f.code === "partial_match").map((f) => f.field), ["item.product", "item.variant.size", "item.variant.color"]);
+  assert.match(v.question!, /Color: this option is Black\/Medium Ash\/Pure Platinum, and you asked for black\. Is that what you want\?/);
+  const wrong = await b.check(shoes, retail.cart({ ...base, variant: { size: "10.5", color: "Black" } }));
+  assert.deepEqual([wrong.status, wrong.reasons.map((r) => r.field)], ["block", ["item.variant.size"]]);
+  assert.equal((await b.check(shoes, retail.cart({ ...base, product: "Pegasus 41", variant: { size: "10", color: "BLACK" } }))).status, "pass");
+  const yes = await b.resolve(v, { approved: true });
+  assert.equal(yes.status, "pass");
+  assert.equal((await b.commit(yes, { id: "FL-1" })).status, "confirmed");
+});
+
+test("block messages never hand the agent a value to type into the cart", async () => {
+  const b = mk();
+  const i = await b.intent(ask);
+  const v = await b.check(i, flight.cart({ ...offer, from: "LGA", passenger: "Dana Whitfield", refundable: false }));
+  assert.doesNotMatch(v.forAgent, /Change |Use JFK|Include /);
+  assert.match(v.forAgent, /Don't change how the cart describes the merchant's option/);
+  const empty = await b.check(i, { action: "flight.book", amount: usd(300), item: { flight: { from: "JFK" } } });
+  assert.match(empty.forAgent, /The cart is missing \d+ fields this request depends on \(item\.from, item\.to, item\.date/);
+});
+
+test("an agent rewriting a flagged field on the same offer has to ask the user", async () => {
+  const b = mk();
+  const i = await b.intent({ user: "u_3", request: "Buy the Pegasus 41 in black, size 10. Max $150.", timeZone: TZ,
+    wants: retail.wants({ product: "Pegasus 41", variant: { size: "10", color: "black" }, maxTotal: usd(150) }) });
+  const ref = "https://shop.example/p/pegasus-41-fd2722";
+  const real = { product: "Pegasus 41", merchant: "Shop", variant: { size: "10", color: "White" }, quantity: 1, total: usd(101), ref };
+  assert.equal((await b.check(i, retail.cart(real))).status, "block");
+  const rewritten = await b.check(i, retail.cart({ ...real, variant: { size: "10", color: "Black" } }));
+  assert.equal(rewritten.status, "ask");
+  assert.equal(rewritten.asks[0]!.key, "edited:item.variant.color");
+  assert.match(rewritten.question!, /first said this option's color is White, then changed it to Black/);
+  // A different offer is not an edit.
+  assert.equal((await b.check(i, retail.cart({ ...real, variant: { size: "10", color: "Black" }, ref: ref + "-black" }))).status, "pass");
+});
+
+test("the user's reply in your own chat clears the intent's questions", async () => {
+  const b = mk();
+  const i = await b.intent({ ...ask, request: "Book JFK to Austin next Friday, morning, under $400", wants: flight.wants({ from: "JFK", to: "AUS", date: "2026-11-20", departs: ["06:00", "12:00"], maxPrice: usd(400), passenger: "Maya Okafor" }) });
+  assert.equal(i.questions.length, 1);
+  assert.equal((await b.check(i, flight.cart(offer))).status, "ask");
+  const answered = await b.acknowledge(i, { method: "chat", answers: [{ question: i.questions[0]!, answer: "Nov 20" }] });
+  assert.equal((await b.check(answered, flight.cart(offer))).status, "pass");
+  assert.deepEqual((answered.chain.at(-1)!.body as { answers: unknown[] }).answers, [{ question: i.questions[0], answer: "Nov 20" }]);
 });

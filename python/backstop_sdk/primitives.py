@@ -286,6 +286,15 @@ def resolve_date(text: str, time_zone: str = "UTC", now: Optional[datetime] = No
 # ───────────────────────────── Names ─────────────────────────────
 
 
+def tokens(value: Any) -> list:
+    """Words of a free-text value, for matching what a site writes ("Men's 10 (D - Medium)") against
+    what the user said ("10"). Lowercase, accents dropped, punctuation is a separator, decimals kept
+    whole so "10.5" never matches "10"."""
+    s = value if isinstance(value, str) else "" if value is None else js_str(value)
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", s) if not unicodedata.category(ch).startswith("M")).lower()
+    return [t for t in (w.strip(".") for w in re.sub(r"[^a-z0-9.]+", " ", s).split(" ")) if t]
+
+
 def normalize_name(name: str) -> str:
     n = "".join(ch for ch in unicodedata.normalize("NFD", name) if not ("̀" <= ch <= "ͯ")).lower().strip()
     swap = re.match(r"^([^/,]+)[/,]\s*(.+)$", n)  # "OKAFOR/MAYA" and "Okafor, Maya" mean "Maya Okafor"

@@ -82,7 +82,8 @@ class Policy:
 
 
 class Store(Protocol):
-    """Counters per intent: {"attempts": int, "orders": int}. Swap in Redis or your database across processes."""
+    """State per intent: {"attempts": int, "orders": int, "seen": {offer ref: {field: first description}}}.
+    Swap in Redis or your database across processes."""
 
     def get(self, key: str) -> Optional[dict]: ...
     def set(self, key: str, value: dict) -> None: ...
@@ -180,9 +181,16 @@ class Backstop:
         body = build_intent_body(now=now, **kw)
         return self._to_intent([seal("intent", body, signer=self._signer, at=now)])
 
-    def acknowledge(self, intent: Intent, method: str = "confirmed") -> Intent:
-        """Record that the user saw and confirmed the summary. Clears lint questions and strengthens the record."""
-        env = seal("ack", {"intentId": intent.id, "summary": intent.summary, "method": method}, prev=intent.chain[-1], signer=self._signer, at=self._clock())
+    def acknowledge(self, intent: Intent, method: str = "confirmed", answers: Optional[list] = None) -> Intent:
+        """Record that the user confirmed the summary, or answered the intent's questions in your app's chat.
+
+        Call it whenever the user replies to a question your agent asked, so check() doesn't ask again.
+        answers: [{"question": ..., "answer": ...}]. Clears lint questions and strengthens the record.
+        """
+        body = {"intentId": intent.id, "summary": intent.summary, "method": method}
+        if answers:
+            body["answers"] = list(answers)
+        env = seal("ack", body, prev=intent.chain[-1], signer=self._signer, at=self._clock())
         return self._to_intent([*intent.chain, env])
 
     def restore(self, chain: list) -> Intent:
@@ -228,11 +236,31 @@ class Backstop:
         elif state["attempts"] > body["maxAttempts"]:
             findings.append(_gate("too_many_attempts", f"{body['maxAttempts']} attempts", f"{state['attempts']}", f"The agent has tried {state['attempts']} carts for this request.", "Stop retrying and ask the user how to proceed."))
         else:
+            seen = None
+            if cart.get("ref"):
+                seen = state.setdefault("seen", {}).setdefault(cart["ref"], {})
+            edited: list = []
             for rule in body["rules"]:
                 f = evaluate(rule, cart)
                 findings.append(f)
                 if not f.ok and f.strength == "prefer":
                     asks.append({"key": f.field, "question": f"{f.label}: this option has {f.actual}, and you asked for {f.expected}. Go ahead anyway?"})
+                if f.code == "partial_match":
+                    asks.append({"key": f.field, "question": f"{f.label}: this option is {f.actual}, and you asked for {f.expected}. Is that what you want?"})
+                if seen is None:
+                    continue
+                first = seen.get(f.field)
+                if first is not None and first != f.actual:
+                    low = f.label.lower()
+                    edited.append(Finding(field=f.field, label=f.label, strength="prefer", ok=False, code="cart_edited", expected=first, actual=f.actual,
+                                          message=f"The agent first described this option's {low} as {first}, then changed it to {f.actual} after the check flagged it.",
+                                          fix="Ask the user. Do not change how the cart describes the merchant's option."))
+                    asks.append({"key": f"edited:{f.field}", "question": f"Your agent first said this option's {low} is {first}, then changed it to {f.actual} after it was flagged. Go ahead only if the merchant's page shows {f.actual}. Is it right?"})
+                elif first is None and not f.ok and rule["test"]["op"] != "name":
+                    seen[f.field] = f.actual
+            findings.extend(edited)
+            if seen is not None:
+                self._store.set(intent.id, state)
             if to_iso(now) > body["expiresAt"]:
                 asks.append({"key": "intent_expired", "question": f"You asked for this on {format_date(body['createdAt'][:10])}. Do you still want it?"})
             if self._policy.ask_on_warnings and not intent.acknowledged:
@@ -244,7 +272,7 @@ class Backstop:
             if above and above["currency"] == cart["amount"]["currency"] and cart["amount"]["minor"] > above["minor"]:
                 asks.append({"key": "policy:askAbove", "question": f"This costs {format_money(cart['amount'])}. Go ahead?"})
 
-        reasons = [f for f in findings if not f.ok and f.strength == "must"]
+        reasons = [f for f in findings if _is_violation(f)]
         open_ = [a for a in asks if a["key"] not in waive]
         status = "block" if reasons else "ask" if open_ else "pass"
 
@@ -261,8 +289,7 @@ class Backstop:
         if status == "pass":
             for_agent = "Backstop: cleared. Proceed to checkout with exactly this cart."
         elif status == "block":
-            lines = "\n".join(f"- {r.message} {r.fix or ''}".strip() for r in reasons)
-            for_agent = f"Backstop blocked this purchase. Do not check out.\n{lines}\nFix the cart and check it again."
+            for_agent = _block_message(reasons)
         else:
             for_agent = f'Backstop: do not pay yet. Ask the user: "{question}"'
         return Verdict(id=env["id"], status=status, intent=intent, cart=cart, findings=findings, reasons=reasons if status == "block" else [], asks=open_ if status == "ask" else [],
@@ -293,7 +320,7 @@ class Backstop:
             raise BackstopError(f'commit(): the verdict is "{verdict.status}". Only a passed check can be committed.')
         order = _order(order, id=id, amount=amount, merchant=merchant, item=item)
         delivered = _merge_order(verdict.cart, order)
-        violations = [f for f in (evaluate(r, delivered) for r in verdict.intent.body["rules"]) if not f.ok and f.strength == "must"]
+        violations = [f for f in (evaluate(r, delivered) for r in verdict.intent.body["rules"]) if _is_violation(f)]
         changed = _diff_cart(verdict.cart, delivered)
         if delivered["amount"]["minor"] > verdict.cart["amount"]["minor"] and not any(v.field == "amount" for v in violations) and "amount" not in changed:
             changed.append("amount")
@@ -334,7 +361,7 @@ class Backstop:
 
         orders = [e for e in chain if e["type"] == "order"]
         subject = _merge_order(orders[-1]["body"]["delivered"] if orders else verdict_env["body"]["cart"], _order(delivered))
-        violations = [f for f in (evaluate(r, subject) for r in intent_env["body"]["rules"]) if not f.ok and f.strength == "must"]
+        violations = [f for f in (evaluate(r, subject) for r in intent_env["body"]["rules"]) if _is_violation(f)]
         cover = (verdict_env["body"].get("guarantee") or {}).get("coverage")
         if violations:
             return decide("approved", "delivered_differs_from_request", "What was delivered differs from the signed request.", violations, cover)
@@ -424,6 +451,20 @@ class Backstop:
             return wrapper
 
         return decorate
+
+
+def _is_violation(f: Finding) -> bool:
+    """A failed requirement that blocks. A partial match is a question for the user instead."""
+    return not f.ok and f.strength == "must" and f.code != "partial_match"
+
+
+def _block_message(reasons: list) -> str:
+    lines = ["Backstop blocked this purchase. Do not check out.", *(f"- {r.message} {r.fix or ''}".strip() for r in reasons)]
+    missing = [r for r in reasons if r.code == "missing_field"]
+    if len(missing) >= 3:
+        lines.append(f"The cart is missing {len(missing)} fields this request depends on ({', '.join(m.field for m in missing)}). Check that each one is in the cart where checkout expects it.")
+    lines.append("Choose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.")
+    return "\n".join(lines)
 
 
 def _order(order: Optional[dict], **kw: Any) -> dict:

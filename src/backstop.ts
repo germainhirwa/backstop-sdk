@@ -148,7 +148,12 @@ export interface Policy {
   askOnWarnings?: boolean;
 }
 
-export interface IntentState { attempts: number; orders: number }
+export interface IntentState {
+  attempts: number;
+  orders: number;
+  /** Per offer ref: how each flagged field was first described. Used to notice an agent rewriting a cart to pass. */
+  seen?: Record<string, Record<string, string>>;
+}
 /** Counters per intent. Swap in Redis or your database when you run more than one process. */
 export interface Store {
   get(key: string): Promise<IntentState | undefined>;
@@ -248,9 +253,14 @@ export class Backstop {
     return this.toIntent([env]);
   }
 
-  /** Record that the user saw and confirmed the summary. Clears lint questions and strengthens the record. */
-  async acknowledge(intent: Intent, how: { method?: string } = {}): Promise<Intent> {
-    const env = await seal("ack", { intentId: intent.id, summary: intent.summary, method: how.method ?? "confirmed" }, { prev: intent.chain.at(-1), signer: await this.signer, at: this.clock() });
+  /**
+   * Record that the user confirmed the summary, or answered the intent's questions in your app's chat.
+   * Call it whenever the user replies to a question your agent asked, so check() doesn't ask again.
+   * Clears lint questions and strengthens the record.
+   */
+  async acknowledge(intent: Intent, how: { method?: string; answers?: { question: string; answer: string }[] } = {}): Promise<Intent> {
+    const body = { intentId: intent.id, summary: intent.summary, method: how.method ?? "confirmed", ...(how.answers?.length ? { answers: how.answers } : {}) };
+    const env = await seal("ack", body, { prev: intent.chain.at(-1), signer: await this.signer, at: this.clock() });
     return this.toIntent([...intent.chain, env]);
   }
 
@@ -301,11 +311,26 @@ export class Backstop {
     } else if (state.attempts > body.maxAttempts) {
       findings.push(gate("too_many_attempts", `${body.maxAttempts} attempts`, `${state.attempts}`, `The agent has tried ${state.attempts} carts for this request.`, "Stop retrying and ask the user how to proceed."));
     } else {
+      const seen = cart.ref ? ((state.seen ??= {})[cart.ref] ??= {}) : null;
+      const edited: Finding[] = [];
       for (const rule of body.rules) {
         const f = evaluate(rule, cart);
         findings.push(f);
         if (!f.ok && f.strength === "prefer") asks.push({ key: f.field, question: `${f.label}: this option has ${f.actual}, and you asked for ${f.expected}. Go ahead anyway?` });
+        if (f.code === "partial_match") asks.push({ key: f.field, question: `${f.label}: this option is ${f.actual}, and you asked for ${f.expected}. Is that what you want?` });
+        if (!seen) continue;
+        const first = seen[f.field];
+        if (first !== undefined && first !== f.actual) {
+          edited.push({ field: f.field, label: f.label, strength: "prefer", ok: false, code: "cart_edited", expected: first, actual: f.actual,
+            message: `The agent first described this option's ${f.label.toLowerCase()} as ${first}, then changed it to ${f.actual} after the check flagged it.`,
+            fix: "Ask the user. Do not change how the cart describes the merchant's option." });
+          asks.push({ key: `edited:${f.field}`, question: `Your agent first said this option's ${f.label.toLowerCase()} is ${first}, then changed it to ${f.actual} after it was flagged. Go ahead only if the merchant's page shows ${f.actual}. Is it right?` });
+        } else if (first === undefined && !f.ok && rule.test.op !== "name") {
+          seen[f.field] = f.actual;
+        }
       }
+      findings.push(...edited);
+      if (seen) await this.store.set(intent.id, state);
       if (now.toISOString() > body.expiresAt) asks.push({ key: "intent_expired", question: `You asked for this on ${formatDate(body.createdAt.slice(0, 10))}. Do you still want it?` });
       if (this.policy.askOnWarnings && !intent.acknowledged) {
         for (const w of body.warnings) if (w.question) asks.push({ key: `warning:${w.code}`, question: w.question });
@@ -316,7 +341,7 @@ export class Backstop {
       if (above && above.currency === cart.amount.currency && cart.amount.minor > above.minor) asks.push({ key: "policy:askAbove", question: `This costs ${formatMoney(cart.amount)}. Go ahead?` });
     }
 
-    const reasons = findings.filter((f) => !f.ok && f.strength === "must");
+    const reasons = findings.filter(isViolation);
     const open = asks.filter((a) => !waive.includes(a.key));
     const status: VerdictStatus = reasons.length ? "block" : open.length ? "ask" : "pass";
 
@@ -332,7 +357,7 @@ export class Backstop {
     const question = status === "ask" ? open.map((a) => a.question).join(" ") : null;
     const forAgent =
       status === "pass" ? "Backstop: cleared. Proceed to checkout with exactly this cart."
-      : status === "block" ? `Backstop blocked this purchase. Do not check out.\n${reasons.map((r) => `- ${r.message} ${r.fix ?? ""}`.trim()).join("\n")}\nFix the cart and check it again.`
+      : status === "block" ? blockMessage(reasons)
       : `Backstop: do not pay yet. Ask the user: "${question}"`;
 
     return { id: env.id, status, intent, cart, findings, reasons: status === "block" ? reasons : [], asks: status === "ask" ? open : [], question, forAgent, guarantee, chain: [...intent.chain, env] };
@@ -355,7 +380,7 @@ export class Backstop {
   async commit(verdict: Verdict, order: OrderInput = {}): Promise<Commit> {
     if (verdict.status !== "pass") throw new BackstopError(`commit(): the verdict is "${verdict.status}". Only a passed check can be committed.`);
     const delivered = mergeOrder(verdict.cart, order);
-    const violations = verdict.intent.body.rules.map((r) => evaluate(r, delivered)).filter((f) => !f.ok && f.strength === "must");
+    const violations = verdict.intent.body.rules.map((r) => evaluate(r, delivered)).filter(isViolation);
     const changed = diffCart(verdict.cart, delivered);
     if (delivered.amount.minor > verdict.cart.amount.minor && !violations.some((v) => v.field === "amount")) {
       // Charged more than was checked, though still inside the user's limit. Worth knowing, not a violation.
@@ -384,7 +409,7 @@ export class Backstop {
 
     const orderEnv = input.chain.filter((e) => e.type === "order").at(-1) as Envelope<{ delivered: Cart }> | undefined;
     const subject = mergeOrder(orderEnv?.body.delivered ?? verdictEnv.body.cart, input.delivered ?? {});
-    const violations = intentEnv.body.rules.map((r) => evaluate(r, subject)).filter((f) => !f.ok && f.strength === "must");
+    const violations = intentEnv.body.rules.map((r) => evaluate(r, subject)).filter(isViolation);
     const cover = verdictEnv.body.guarantee?.coverage ?? null;
     if (violations.length) return decide("approved", "delivered_differs_from_request", "What was delivered differs from the signed request.", violations, cover);
     if (input.reason === "changed_mind") return decide("denied", "matches_request", "The order matches every requirement in the signed request. A change of plans is not an agent mistake.");
@@ -424,6 +449,17 @@ export class Backstop {
       return result;
     };
   }
+}
+
+/** A failed requirement that blocks. A partial match is a question for the user instead. */
+const isViolation = (f: Finding): boolean => !f.ok && f.strength === "must" && f.code !== "partial_match";
+
+function blockMessage(reasons: Finding[]): string {
+  const lines = ["Backstop blocked this purchase. Do not check out.", ...reasons.map((r) => `- ${r.message} ${r.fix ?? ""}`.trim())];
+  const missing = reasons.filter((r) => r.code === "missing_field");
+  if (missing.length >= 3) lines.push(`The cart is missing ${missing.length} fields this request depends on (${missing.map((m) => m.field).join(", ")}). Check that each one is in the cart where checkout expects it.`);
+  lines.push("Choose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.");
+  return lines.join("\n");
 }
 
 function mergeOrder(cart: Cart, order: OrderInput): Cart {

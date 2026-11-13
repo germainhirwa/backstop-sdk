@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
-from backstop_sdk import Backstop, build_intent_body, canonical, compare_names, evaluate, format_date, format_money, format_time, money, normalize_name, resolve_date, sha256, summarize, verify_chain
+from backstop_sdk import Backstop, build_intent_body, flight, retail, usd, canonical, compare_names, evaluate, format_date, format_money, format_time, money, normalize_name, resolve_date, sha256, summarize, verify_chain
 from backstop_sdk.eval import _data
-from backstop_sdk.primitives import from_iso
+from backstop_sdk.primitives import from_iso, tokens
 
 FX = json.loads((Path(__file__).parents[2] / "conformance" / "fixtures.json").read_text("utf-8"))
 NOW = from_iso("2026-11-11T15:00:00.000Z")
@@ -86,3 +86,30 @@ def test_claim_decisions():
     for c in FX["claims"]:
         d = b.claim(c["chain"], c["reason"], delivered=c.get("delivered"), public_key=FX["chain"]["publicKey"])
         assert d.to_dict() == c["decision"], c["name"]
+
+
+def test_tokens():
+    for c in FX["tokens"]:
+        assert tokens(c["text"]) == c["tokens"], c
+
+
+def test_sequences_edit_detection_and_partial_matches():
+    b = Backstop(now=lambda: NOW)
+    shoes = b.intent(user="u_1", request="Buy the Nike Pegasus 41 in black, men's size 10, under $150.", time_zone="America/New_York",
+                     wants=retail.wants(product="Pegasus 41", variant={"size": "10", "color": "black"}, max_total=usd(150)))
+    for want in FX["sequences"]:
+        v = b.check(shoes, want["cart"])
+        got = {"cart": want["cart"], "status": v.status, "forAgent": v.for_agent, "question": v.question, "asks": v.asks, "findings": [f.to_dict() for f in v.findings]}
+        assert got == want
+
+
+def test_recorded_answers():
+    a = FX["answers"]
+    b = Backstop(now=lambda: NOW)
+    i = b.intent(user="u_1", request=a["request"], time_zone="America/New_York",
+                 wants=flight.wants(from_="JFK", to="AUS", date="2026-11-20", departs=("06:00", "12:00"), max_price=usd(400), passenger="Maya Okafor"))
+    done = b.acknowledge(i, method="chat", answers=[{"question": i.questions[0], "answer": "Nov 20"}])
+    cart = flight.cart(from_="JFK", to="AUS", date="2026-11-20", departs="06:30", price=usd(331), refundable=False, passenger="Maya Okafor", airline="JetBlue")
+    assert [b.check(i, cart).status, b.check(done, cart).status] == [a["before"], a["after"]] == ["ask", "pass"]
+    body = {k: v for k, v in done.chain[-1]["body"].items() if k != "intentId"}
+    assert body == {k: v for k, v in a["ackBody"].items() if k != "intentId"}

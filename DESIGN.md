@@ -69,6 +69,16 @@ What the record proves: this request text and these rules existed before this ca
 
 It is a 50-task synthetic suite. It is a diagnostic, not a benchmark to quote as a field error rate.
 
+## What blind live tests changed
+
+We ran a shopping agent that had never heard of Backstop on live sites, twice per request: once with a plain checkout tool, once with Backstop behind it. Three things broke and were fixed:
+
+1. **Fix messages taught the agent to cheat.** "Change color to Black" was followed literally: a smaller model rewrote the cart and passed. Fix messages now say what to look for, never what to type, and a cart that changes a flagged field on the same offer (`ref`) goes to the user.
+2. **Exact text matching blocked correct orders.** Sites write "Men's 10 (D - Medium)". Free-text fields now match by words; extra words are a question, not a block.
+3. **Questions were asked twice.** A careful agent asked the user itself; the check didn't know and asked again. `acknowledge()` takes the user's answers, and MCP takes `userReply`.
+
+The useful finding for the product: on clear requests, frontier agents rarely bought the wrong thing. What they did was spend money on a guess when the request was ambiguous ("next Friday" on a Thursday), which is exactly where a recorded, user-confirmed intent matters.
+
 ## Two languages, one behavior
 
 The TypeScript SDK is the reference. `scripts/fixtures.ts` writes `conformance/fixtures.json` from it: 720 date phrases across time zones, name comparisons, formatting, lint warnings, 106 rule evaluations, 102 verdicts, a signed record and 7 claim decisions. The Python SDK must reproduce every one exactly, including the sentences shown to users and agents, and its test suite also seals a record in Python and verifies it with the TypeScript code. This works because rules, carts and envelopes are data, and hashes are taken over canonical JSON (sorted keys, JavaScript number formatting). The 50 eval tasks live in one file both SDKs read. Building the Python port this way found a bug in the reference (`2026-02-30` was accepted as a date), which is the point of having it.

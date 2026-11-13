@@ -89,3 +89,13 @@ test("MCP server speaks JSON-RPC over stdio", async () => {
   assert.equal(replies[1]!.result.tools.length, 4);
   assert.deepEqual(replies[2]!.result.structuredContent.authorizes, []);
 });
+
+test("MCP: an answer the agent already got from the user is passed through, not asked again", async () => {
+  const state: McpState = { backstop: new Backstop({ now: () => new Date("2026-11-11T15:00:00Z") }), intents: new Map(), verdicts: new Map() };
+  const cap = await callTool(state, "backstop_capture_intent", { user: "u", request: "Book JFK to Austin next Friday, morning, under $400", timeZone: "America/New_York", pack: "flight",
+    wants: { from: "JFK", to: "AUS", date: "2026-11-20", departs: ["05:00", "12:00"], maxPrice: 400, passenger: "Maya Okafor" } });
+  assert.equal((cap.questionsForUser as string[]).length, 1);
+  const cart = { from: "JFK", to: "AUS", date: "2026-11-20", departs: "06:30", price: 331, refundable: false, passenger: "Maya Okafor", url: "https://example.com/f/1" };
+  const v = await callTool(state, "backstop_check_cart", { intentId: cap.intentId, pack: "flight", cart, userReply: "Nov 20" });
+  assert.equal(v.status, "pass");
+});

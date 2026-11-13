@@ -3638,7 +3638,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -3647,7 +3647,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -3656,7 +3656,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -3694,7 +3694,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -3703,7 +3703,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -3712,7 +3712,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -3750,7 +3750,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -3759,7 +3759,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -3768,7 +3768,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -3806,7 +3806,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -3815,7 +3815,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -3824,7 +3824,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -3862,7 +3862,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -3900,7 +3900,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -3909,7 +3909,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -3918,7 +3918,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -3956,7 +3956,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -3994,7 +3994,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -4032,7 +4032,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -4041,7 +4041,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -4050,7 +4050,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -4099,7 +4099,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -4108,7 +4108,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -4158,7 +4158,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -4167,7 +4167,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -4176,7 +4176,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -4214,7 +4214,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -4223,7 +4223,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -4232,7 +4232,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -4270,7 +4270,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -4279,7 +4279,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -4326,7 +4326,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -4373,7 +4373,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -4382,7 +4382,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -4420,7 +4420,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -4429,7 +4429,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -4438,7 +4438,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -4506,7 +4506,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -4563,7 +4563,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -4620,7 +4620,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -4677,7 +4677,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -4734,7 +4734,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -4791,7 +4791,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Joe's Pizza Carmine St"
      }
     },

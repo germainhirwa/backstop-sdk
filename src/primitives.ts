@@ -224,6 +224,17 @@ function editDistance(a: string, b: string): number {
 export type NameMatch = "exact" | "middle_omitted" | "typo" | "different";
 
 /** Compare a traveler or recipient name the way a gate agent would. */
+/**
+ * Words of a free-text value, for matching what a site writes ("Men's 10 (D - Medium)")
+ * against what the user said ("10"). Lowercase, accents dropped, punctuation is a separator,
+ * decimals kept whole so "10.5" never matches "10".
+ */
+export function tokens(value: unknown): string[] {
+  const s = typeof value === "string" ? value : value === null || value === undefined ? "" : String(value);
+  return s.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^a-z0-9.]+/g, " ").split(" ")
+    .map((t) => t.replace(/^\.+|\.+$/g, "")).filter((t) => t !== "");
+}
+
 export function compareNames(expected: string, actual: string): NameMatch {
   const e = normalizeName(expected), a = normalizeName(actual);
   if (e === a) return "exact";

@@ -48,6 +48,8 @@ export interface FlightOffer {
   stops?: number;
   airline?: string;
   flight?: string;
+  /** The offer's URL or id, so edits to a flagged offer are noticed. */
+  ref?: string;
 }
 
 export const flight = {
@@ -80,6 +82,7 @@ export const flight = {
         from: o.from.toUpperCase(), to: o.to.toUpperCase(), date: o.date, departs: o.departs, refundable: o.refundable,
         passenger: o.passenger, seat: o.seat?.toLowerCase(), cabin: o.cabin?.toLowerCase(), stops: o.stops ?? 0, airline: o.airline, flight: o.flight,
       },
+      ...(o.ref ? { ref: o.ref } : {}),
     };
   },
 
@@ -114,6 +117,8 @@ export interface RetailOffer {
   /** Full total: items + shipping + tax. */
   total: Money;
   arrives?: ISODate;
+  /** The offer's URL or id, so edits to a flagged offer are noticed. */
+  ref?: string;
 }
 
 export const retail = {
@@ -122,10 +127,10 @@ export const retail = {
   wants(ask: RetailAsk): PackIntent {
     const rules: Rule[] = [];
     if (ask.sku) rules.push(rule("item.sku", "Product", "must", { op: "eq", value: ask.sku }));
-    else if (ask.product) rules.push(rule("item.product", "Product", "must", { op: "eq", value: ask.product }));
+    else if (ask.product) rules.push(rule("item.product", "Product", "must", { op: "has", value: ask.product }));
     for (const [key, v] of Object.entries(ask.variant ?? {})) {
       const { value, strength } = unwrap(v);
-      rules.push(rule(`item.variant.${key}`, key[0]!.toUpperCase() + key.slice(1), strength, { op: "eq", value }));
+      rules.push(rule(`item.variant.${key}`, key[0]!.toUpperCase() + key.slice(1), strength, { op: "has", value }));
     }
     rules.push(rule("item.quantity", "Quantity", "must", { op: "eq", value: ask.quantity ?? 1 }));
     if (ask.maxTotal) rules.push(rule("amount", "Total", "must", { op: "money_lte", value: ask.maxTotal }));
@@ -143,6 +148,7 @@ export const retail = {
       merchant: o.merchant,
       summary: `${o.quantity} × ${o.product}${v ? ` (${v})` : ""} from ${o.merchant}`,
       item: { product: o.product, sku: o.sku, variant, quantity: o.quantity, arrives: o.arrives },
+      ...(o.ref ? { ref: o.ref } : {}),
     };
   },
 };
@@ -166,6 +172,8 @@ export interface RestaurantOffer {
   partySize: number;
   /** Deposit or no-show fee the card is exposed to. */
   deposit?: Money;
+  /** The offer's URL or id, so edits to a flagged offer are noticed. */
+  ref?: string;
 }
 
 export const restaurant = {
@@ -177,7 +185,7 @@ export const restaurant = {
       rule("item.partySize", "Party size", "must", { op: "eq", value: ask.partySize }),
       rule("amount", "Deposit at risk", "must", { op: "money_lte", value: ask.maxDeposit ?? usd(0) }),
     ];
-    if (ask.venue) rules.push(rule("item.venue", "Restaurant", "must", { op: "eq", value: ask.venue }));
+    if (ask.venue) rules.push(rule("item.venue", "Restaurant", "must", { op: "has", value: ask.venue }));
     if (ask.time) { const { value, strength } = unwrap(ask.time); rules.push(rule("item.time", "Time", strength, { op: "between", min: value[0], max: value[1] })); }
     return { pack: "restaurant", allow: [restaurant.actions.reserve], rules };
   },
@@ -189,6 +197,7 @@ export const restaurant = {
       merchant: o.venue,
       summary: `Table for ${o.partySize} at ${o.venue}, ${formatDate(o.date)} ${o.time}`,
       item: { venue: o.venue, date: o.date, time: o.time, partySize: o.partySize },
+      ...(o.ref ? { ref: o.ref } : {}),
     };
   },
 };

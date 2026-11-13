@@ -133,6 +133,14 @@ backstop.claim(commit.chain, "not_what_i_asked")     # decided by replaying the 
 
 Every step is an envelope in a hash-linked chain (`intent → ack → verdict → resolution → order`). Envelopes, carts, rules and money are plain dicts with the same JSON as the TypeScript SDK; store the chain as JSON.
 
+## What live testing changed
+
+Blind tests with real agents on real sites (Google Flights, Amazon, OpenTable, Foot Locker) shaped three behaviors:
+
+- **Text as sites write it.** "Men's 10 (D - Medium)" and "Black/Medium Ash/Pure Platinum" are matched by words. Extra words ask the user one question; wrong words block.
+- **No editing past a block.** Pass the offer's page as `url` (or `ref`) in the cart. If the agent sends the same offer again with a flagged field changed, the user is asked, with both values shown. Block messages never tell the agent what to type.
+- **Questions asked once.** If your agent asked the user something and they answered in your chat, record it: `backstop.acknowledge(intent, method="chat", answers=[{"question": q, "answer": "Nov 20"}])`. Over MCP, pass `userReply`.
+
 ## Also here
 
 - `backstop mcp` (or `python -m backstop_sdk mcp`): an MCP server with four tools, for agents that should call the check themselves.

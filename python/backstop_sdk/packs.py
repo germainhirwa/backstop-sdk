@@ -16,7 +16,7 @@ from .rules import Cart, Rule, unwrap
 
 PackIntent = dict  # {"pack": str, "allow": [str], "rules": [Rule]}
 
-_CAMEL = {"from_": "from", "max_price": "maxPrice", "max_total": "maxTotal", "max_deposit": "maxDeposit", "party_size": "partySize", "deliver_by": "deliverBy"}
+_CAMEL = {"url": "ref", "from_": "from", "max_price": "maxPrice", "max_total": "maxTotal", "max_deposit": "maxDeposit", "party_size": "partySize", "deliver_by": "deliverBy"}
 
 
 def _args(d: Optional[dict], kw: dict) -> dict:
@@ -88,6 +88,7 @@ class _Flight:
                 "seat": o["seat"].lower() if o.get("seat") else None, "cabin": o["cabin"].lower() if o.get("cabin") else None,
                 "stops": o.get("stops", 0), "airline": o.get("airline"), "flight": o.get("flight"),
             }),
+            "ref": o.get("ref"),
         })
 
     def cancel(self, flight: str, forfeits: dict) -> Cart:
@@ -107,10 +108,10 @@ class _Retail:
         if a.get("sku"):
             rules.append(_rule("item.sku", "Product", "must", {"op": "eq", "value": a["sku"]}))
         elif a.get("product"):
-            rules.append(_rule("item.product", "Product", "must", {"op": "eq", "value": a["product"]}))
+            rules.append(_rule("item.product", "Product", "must", {"op": "has", "value": a["product"]}))
         for key, val in (a.get("variant") or {}).items():
             v, s = unwrap(val)
-            rules.append(_rule(f"item.variant.{key}", key[0].upper() + key[1:], s, {"op": "eq", "value": v}))
+            rules.append(_rule(f"item.variant.{key}", key[0].upper() + key[1:], s, {"op": "has", "value": v}))
         rules.append(_rule("item.quantity", "Quantity", "must", {"op": "eq", "value": a.get("quantity", 1)}))
         if a.get("maxTotal"):
             rules.append(_rule("amount", "Total", "must", {"op": "money_lte", "value": a["maxTotal"]}))
@@ -127,11 +128,12 @@ class _Retail:
         o = _args(offer, kw)
         variant = dict(o.get("variant") or {})
         v = ", ".join(str(x) for x in variant.values())
-        return {
+        return _clean({
             "action": self.PURCHASE, "amount": o["total"], "merchant": o["merchant"],
             "summary": f"{o['quantity']} × {o['product']}{f' ({v})' if v else ''} from {o['merchant']}",
             "item": _clean({"product": o["product"], "sku": o.get("sku"), "variant": variant, "quantity": o["quantity"], "arrives": o.get("arrives")}),
-        }
+            "ref": o.get("ref"),
+        })
 
 
 class _Restaurant:
@@ -148,7 +150,7 @@ class _Restaurant:
             _rule("amount", "Deposit at risk", "must", {"op": "money_lte", "value": a.get("maxDeposit") or usd(0)}),
         ]
         if a.get("venue"):
-            rules.append(_rule("item.venue", "Restaurant", "must", {"op": "eq", "value": a["venue"]}))
+            rules.append(_rule("item.venue", "Restaurant", "must", {"op": "has", "value": a["venue"]}))
         if a.get("time"):
             v, s = unwrap(a["time"])
             rules.append(_rule("item.time", "Time", s, {"op": "between", "min": v[0], "max": v[1]}))
@@ -157,11 +159,12 @@ class _Restaurant:
     def cart(self, offer: Optional[dict] = None, **kw: Any) -> Cart:
         """venue, date, time, party_size; optional deposit (deposit or no-show fee the card is exposed to)."""
         o = _args(offer, kw)
-        return {
+        return _clean({
             "action": self.RESERVE, "amount": o.get("deposit") or usd(0), "merchant": o["venue"],
             "summary": f"Table for {o['partySize']} at {o['venue']}, {format_date(o['date'])} {o['time']}",
             "item": {"venue": o["venue"], "date": o["date"], "time": o["time"], "partySize": o["partySize"]},
-        }
+            "ref": o.get("ref"),
+        })
 
 
 flight = _Flight()

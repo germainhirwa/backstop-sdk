@@ -8212,6 +8212,89 @@
    }
   ]
  },
+ "tokens": [
+  {
+   "text": "Men's 10 (D - Medium)",
+   "tokens": [
+    "men",
+    "s",
+    "10",
+    "d",
+    "medium"
+   ]
+  },
+  {
+   "text": "Black/Medium Ash/Pure Platinum",
+   "tokens": [
+    "black",
+    "medium",
+    "ash",
+    "pure",
+    "platinum"
+   ]
+  },
+  {
+   "text": "10.5",
+   "tokens": [
+    "10.5"
+   ]
+  },
+  {
+   "text": "Size: 10.",
+   "tokens": [
+    "size",
+    "10"
+   ]
+  },
+  {
+   "text": "Café Crème",
+   "tokens": [
+    "cafe",
+    "creme"
+   ]
+  },
+  {
+   "text": "Nike Air Zoom Pegasus 41 'Black White'",
+   "tokens": [
+    "nike",
+    "air",
+    "zoom",
+    "pegasus",
+    "41",
+    "black",
+    "white"
+   ]
+  },
+  {
+   "text": "AA...24-pack",
+   "tokens": [
+    "aa...24",
+    "pack"
+   ]
+  },
+  {
+   "text": "",
+   "tokens": []
+  },
+  {
+   "text": "Zoë Okafor-Reyes",
+   "tokens": [
+    "zoe",
+    "okafor",
+    "reyes"
+   ]
+  },
+  {
+   "text": "  OtterBox® Symmetry™ iPhone 16 Pro  ",
+   "tokens": [
+    "otterbox",
+    "symmetrytm",
+    "iphone",
+    "16",
+    "pro"
+   ]
+  }
+ ],
  "lint": [
   {
    "input": {
@@ -8956,7 +9039,7 @@
        "label": "Product",
        "strength": "must",
        "test": {
-        "op": "eq",
+        "op": "has",
         "value": "AA batteries 8-pack"
        }
       },
@@ -9009,7 +9092,7 @@
       "label": "Product",
       "strength": "must",
       "test": {
-       "op": "eq",
+       "op": "has",
        "value": "AA batteries 8-pack"
       }
      },
@@ -9061,7 +9144,7 @@
        "label": "Product",
        "strength": "must",
        "test": {
-        "op": "eq",
+        "op": "has",
         "value": "Nike Pegasus 41"
        }
       },
@@ -9070,7 +9153,7 @@
        "label": "Size",
        "strength": "must",
        "test": {
-        "op": "eq",
+        "op": "has",
         "value": "10"
        }
       },
@@ -9079,7 +9162,7 @@
        "label": "Color",
        "strength": "must",
        "test": {
-        "op": "eq",
+        "op": "has",
         "value": "black"
        }
       },
@@ -9119,7 +9202,7 @@
       "label": "Product",
       "strength": "must",
       "test": {
-       "op": "eq",
+       "op": "has",
        "value": "Nike Pegasus 41"
       }
      },
@@ -9128,7 +9211,7 @@
       "label": "Size",
       "strength": "must",
       "test": {
-       "op": "eq",
+       "op": "has",
        "value": "10"
       }
      },
@@ -9137,7 +9220,7 @@
       "label": "Color",
       "strength": "must",
       "test": {
-       "op": "eq",
+       "op": "has",
        "value": "black"
       }
      },
@@ -9430,7 +9513,7 @@
        "label": "Restaurant",
        "strength": "must",
        "test": {
-        "op": "eq",
+        "op": "has",
         "value": "Lilia"
        }
       },
@@ -9496,7 +9579,7 @@
       "label": "Restaurant",
       "strength": "must",
       "test": {
-       "op": "eq",
+       "op": "has",
        "value": "Lilia"
       }
      },
@@ -9531,7 +9614,7 @@
        "label": "Product",
        "strength": "must",
        "test": {
-        "op": "eq",
+        "op": "has",
         "value": "Wool socks"
        }
       },
@@ -9593,7 +9676,7 @@
       "label": "Product",
       "strength": "must",
       "test": {
-       "op": "eq",
+       "op": "has",
        "value": "Wool socks"
       }
      },
@@ -9777,6 +9860,42 @@
       "op": "eq",
       "value": true
      }
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "economy"
+     }
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Foot Locker"
+     }
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Maya"
+     }
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": 2
+     }
     }
    ],
    "cart": {
@@ -9942,6 +10061,48 @@
      "ok": true,
      "code": "ok",
      "message": "Flag is yes, as asked."
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "expected": "economy",
+     "actual": " economy ",
+     "ok": true,
+     "code": "ok",
+     "message": "Cabin words is  economy , as asked."
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "expected": "Foot Locker",
+     "actual": "nike",
+     "ok": false,
+     "code": "mismatch",
+     "message": "Seller words is nike; the user asked for Foot Locker.",
+     "fix": "Pick an option where seller words is Foot Locker, or ask the user."
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "expected": "Maya",
+     "actual": "OKAFOR/MAYA",
+     "ok": false,
+     "code": "partial_match",
+     "message": "Name words is OKAFOR/MAYA; the user asked for Maya. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether OKAFOR/MAYA is what they want. Do not change the cart."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "expected": "2",
+     "actual": "2",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity words is 2, as asked."
     }
    ]
   },
@@ -10079,6 +10240,42 @@
      "test": {
       "op": "eq",
       "value": true
+     }
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "economy"
+     }
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Foot Locker"
+     }
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Maya"
+     }
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": 2
      }
     }
    ],
@@ -10115,7 +10312,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Cabin is First; the user asked for Economy.",
-     "fix": "Change cabin to Economy."
+     "fix": "Pick an option where cabin is Economy, or ask the user."
     },
     {
      "field": "merchant",
@@ -10126,7 +10323,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Seller is Amazon; the user allowed only Nike or Foot Locker.",
-     "fix": "Use Nike or Foot Locker for seller."
+     "fix": "Pick an option where seller is Nike or Foot Locker, or ask the user."
     },
     {
      "field": "item.stops",
@@ -10137,7 +10334,7 @@
      "ok": false,
      "code": "over_limit",
      "message": "Stops is 2; the limit is 1.",
-     "fix": "Keep stops at or below 1."
+     "fix": "Pick an option with stops at or below 1."
     },
     {
      "field": "item.rating",
@@ -10148,7 +10345,7 @@
      "ok": false,
      "code": "under_limit",
      "message": "Rating is 4.2; the minimum is 4.5.",
-     "fix": "Keep rating at or above 4.5."
+     "fix": "Pick an option with rating at or above 4.5."
     },
     {
      "field": "item.nights",
@@ -10181,7 +10378,7 @@
      "ok": false,
      "code": "currency_mismatch",
      "message": "Price is in USD; the user's limit is in EUR.",
-     "fix": "Quote the total in EUR."
+     "fix": "Pick an option priced in EUR, or ask the user."
     },
     {
      "field": "item.date",
@@ -10192,7 +10389,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Dec 4; the user asked for Fri, Nov 20 (+14 days). That is exactly 2 weeks off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-20 (Fri, Nov 20)."
+     "fix": "Pick an option on Fri, Nov 20 (2026-11-20)."
     },
     {
      "field": "item.arrives",
@@ -10203,7 +10400,7 @@
      "ok": false,
      "code": "too_late",
      "message": "Arrives is Thu, Nov 19; the user needs it by Wed, Nov 18.",
-     "fix": "Pick an option that arrives by 2026-11-18."
+     "fix": "Pick an option that arrives by Wed, Nov 18."
     },
     {
      "field": "item.passenger",
@@ -10236,7 +10433,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Seat is window; the user asked for aisle.",
-     "fix": "Change seat to aisle."
+     "fix": "Pick an option where seat is aisle, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -10247,7 +10444,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Quantity is 2; the user asked for 2.",
-     "fix": "Change quantity to 2."
+     "fix": "Pick an option where quantity is 2, or ask the user."
     },
     {
      "field": "item.flag",
@@ -10258,7 +10455,50 @@
      "ok": false,
      "code": "mismatch",
      "message": "Flag is 1; the user asked for yes.",
-     "fix": "Change flag to yes."
+     "fix": "Pick an option where flag is yes, or ask the user."
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "expected": "economy",
+     "actual": "First",
+     "ok": false,
+     "code": "mismatch",
+     "message": "Cabin words is First; the user asked for economy.",
+     "fix": "Pick an option where cabin words is economy, or ask the user."
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "expected": "Foot Locker",
+     "actual": "Amazon",
+     "ok": false,
+     "code": "mismatch",
+     "message": "Seller words is Amazon; the user asked for Foot Locker.",
+     "fix": "Pick an option where seller words is Foot Locker, or ask the user."
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "expected": "Maya",
+     "actual": "Maya Okafur",
+     "ok": false,
+     "code": "partial_match",
+     "message": "Name words is Maya Okafur; the user asked for Maya. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether Maya Okafur is what they want. Do not change the cart."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "expected": "2",
+     "actual": "2",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity words is 2, as asked."
     }
    ]
   },
@@ -10397,6 +10637,42 @@
       "op": "eq",
       "value": true
      }
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "economy"
+     }
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Foot Locker"
+     }
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Maya"
+     }
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": 2
+     }
     }
    ],
    "cart": {
@@ -10429,7 +10705,7 @@
      "ok": false,
      "code": "missing_field",
      "message": "Cabin is missing from the cart, so it can't be verified.",
-     "fix": "Include item.cabin in the cart. The user asked for cabin: Economy."
+     "fix": "Add item.cabin to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
     },
     {
      "field": "merchant",
@@ -10440,7 +10716,7 @@
      "ok": false,
      "code": "missing_field",
      "message": "Seller is missing from the cart, so it can't be verified.",
-     "fix": "Include merchant in the cart. The user asked for seller: Nike or Foot Locker."
+     "fix": "Add merchant to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
     },
     {
      "field": "item.stops",
@@ -10451,7 +10727,7 @@
      "ok": false,
      "code": "over_limit",
      "message": "Stops is 1; the limit is 1.",
-     "fix": "Keep stops at or below 1."
+     "fix": "Pick an option with stops at or below 1."
     },
     {
      "field": "item.rating",
@@ -10462,7 +10738,7 @@
      "ok": false,
      "code": "under_limit",
      "message": "Rating is 4.9; the minimum is 4.5.",
-     "fix": "Keep rating at or above 4.5."
+     "fix": "Pick an option with rating at or above 4.5."
     },
     {
      "field": "item.nights",
@@ -10517,7 +10793,7 @@
      "ok": false,
      "code": "missing_field",
      "message": "Arrives is missing from the cart, so it can't be verified.",
-     "fix": "Include item.arrives in the cart. The user asked for arrives: by Wed, Nov 18."
+     "fix": "Add item.arrives to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
     },
     {
      "field": "item.passenger",
@@ -10539,7 +10815,7 @@
      "ok": false,
      "code": "missing_field",
      "message": "Refundable is missing from the cart, so it can't be verified.",
-     "fix": "Include item.refundable in the cart. The user asked for refundable: yes."
+     "fix": "Add item.refundable to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
     },
     {
      "field": "item.seat",
@@ -10550,7 +10826,7 @@
      "ok": false,
      "code": "missing_field",
      "message": "Seat is missing from the cart, so it can't be verified.",
-     "fix": "Include item.seat in the cart. The user asked for seat: aisle."
+     "fix": "Add item.seat to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
     },
     {
      "field": "item.quantity",
@@ -10571,7 +10847,50 @@
      "ok": false,
      "code": "mismatch",
      "message": "Flag is true; the user asked for yes.",
-     "fix": "Change flag to yes."
+     "fix": "Pick an option where flag is yes, or ask the user."
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "expected": "economy",
+     "actual": "nothing",
+     "ok": false,
+     "code": "missing_field",
+     "message": "Cabin words is missing from the cart, so it can't be verified.",
+     "fix": "Add item.cabin to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "expected": "Foot Locker",
+     "actual": "nothing",
+     "ok": false,
+     "code": "missing_field",
+     "message": "Seller words is missing from the cart, so it can't be verified.",
+     "fix": "Add merchant to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "expected": "Maya",
+     "actual": "Dana Whitfield",
+     "ok": false,
+     "code": "mismatch",
+     "message": "Name words is Dana Whitfield; the user asked for Maya.",
+     "fix": "Pick an option where name words is Maya, or ask the user."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "expected": "2",
+     "actual": "2",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity words is 2, as asked."
     }
    ]
   },
@@ -10709,6 +11028,42 @@
      "test": {
       "op": "eq",
       "value": true
+     }
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "economy"
+     }
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Foot Locker"
+     }
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": "Maya"
+     }
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "test": {
+      "op": "has",
+      "value": 2
      }
     }
    ],
@@ -10815,7 +11170,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 13; the user asked for Fri, Nov 20 (-7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-20 (Fri, Nov 20)."
+     "fix": "Pick an option on Fri, Nov 20 (2026-11-20)."
     },
     {
      "field": "item.arrives",
@@ -10866,7 +11221,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Quantity is 3; the user asked for 2.",
-     "fix": "Change quantity to 2."
+     "fix": "Pick an option where quantity is 2, or ask the user."
     },
     {
      "field": "item.flag",
@@ -10877,7 +11232,49 @@
      "ok": false,
      "code": "mismatch",
      "message": "Flag is no; the user asked for yes.",
-     "fix": "Change flag to yes."
+     "fix": "Pick an option where flag is yes, or ask the user."
+    },
+    {
+     "field": "item.cabin",
+     "label": "Cabin words",
+     "strength": "must",
+     "expected": "economy",
+     "actual": "ECONOMY",
+     "ok": true,
+     "code": "ok",
+     "message": "Cabin words is ECONOMY, as asked."
+    },
+    {
+     "field": "merchant",
+     "label": "Seller words",
+     "strength": "must",
+     "expected": "Foot Locker",
+     "actual": "Foot Locker",
+     "ok": true,
+     "code": "ok",
+     "message": "Seller words is Foot Locker, as asked."
+    },
+    {
+     "field": "item.passenger",
+     "label": "Name words",
+     "strength": "must",
+     "expected": "Maya",
+     "actual": "Maya A. Okafor",
+     "ok": false,
+     "code": "partial_match",
+     "message": "Name words is Maya A. Okafor; the user asked for Maya. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether Maya A. Okafor is what they want. Do not change the cart."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity words",
+     "strength": "must",
+     "expected": "2",
+     "actual": "3",
+     "ok": false,
+     "code": "mismatch",
+     "message": "Quantity words is 3; the user asked for 2.",
+     "fix": "Pick an option where quantity words is 2, or ask the user."
     }
    ]
   },
@@ -11526,7 +11923,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 20; the user asked for Fri, Nov 13 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-13 (Fri, Nov 13)."
+     "fix": "Pick an option on Fri, Nov 13 (2026-11-13)."
     },
     {
      "field": "item.passenger",
@@ -11779,7 +12176,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Wed, Nov 18; the user asked for Wed, Nov 25 (-7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-25 (Wed, Nov 25)."
+     "fix": "Pick an option on Wed, Nov 25 (2026-11-25)."
     },
     {
      "field": "item.passenger",
@@ -12032,7 +12429,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Wed, Dec 2; the user asked for Wed, Nov 25 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-25 (Wed, Nov 25)."
+     "fix": "Pick an option on Wed, Nov 25 (2026-11-25)."
     },
     {
      "field": "item.passenger",
@@ -12159,7 +12556,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days).",
-     "fix": "Use 2026-11-12 (Thu, Nov 12)."
+     "fix": "Pick an option on Thu, Nov 12 (2026-11-12)."
     },
     {
      "field": "item.passenger",
@@ -12422,7 +12819,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days).",
-     "fix": "Use 2026-11-12 (Thu, Nov 12)."
+     "fix": "Pick an option on Thu, Nov 12 (2026-11-12)."
     },
     {
      "field": "item.passenger",
@@ -13784,7 +14181,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Destination is MDW; the user asked for ORD.",
-     "fix": "Change destination to ORD."
+     "fix": "Pick an option where destination is ORD, or ask the user."
     },
     {
      "field": "item.date",
@@ -14027,7 +14424,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Origin is JFK; the user asked for EWR.",
-     "fix": "Change origin to EWR."
+     "fix": "Pick an option where origin is EWR, or ask the user."
     },
     {
      "field": "item.to",
@@ -14154,7 +14551,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Origin is LGA; the user asked for EWR.",
-     "fix": "Change origin to EWR."
+     "fix": "Pick an option where origin is EWR, or ask the user."
     },
     {
      "field": "item.to",
@@ -15558,7 +15955,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Seat is middle; the user asked for aisle.",
-     "fix": "Change seat to aisle."
+     "fix": "Pick an option where seat is aisle, or ask the user."
     }
    ]
   },
@@ -15704,7 +16101,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Seat is window; the user asked for aisle.",
-     "fix": "Change seat to aisle."
+     "fix": "Pick an option where seat is aisle, or ask the user."
     }
    ]
   },
@@ -15852,7 +16249,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Airline is United; the user allowed only Alaska.",
-     "fix": "Use Alaska for airline."
+     "fix": "Pick an option where airline is Alaska, or ask the user."
     }
    ]
   },
@@ -16000,7 +16397,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Airline is Delta; the user allowed only Alaska.",
-     "fix": "Use Alaska for airline."
+     "fix": "Pick an option where airline is Alaska, or ask the user."
     }
    ]
   },
@@ -16011,7 +16408,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -16020,7 +16417,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -16029,7 +16426,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -16094,7 +16491,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Size is 10.5; the user asked for 10.",
-     "fix": "Change size to 10."
+     "fix": "Pick an option where size is 10, or ask the user."
     },
     {
      "field": "item.variant.color",
@@ -16135,7 +16532,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -16144,7 +16541,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -16153,7 +16550,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -16258,7 +16655,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -16267,7 +16664,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -16276,7 +16673,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -16341,7 +16738,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Size is S; the user asked for M.",
-     "fix": "Change size to M."
+     "fix": "Pick an option where size is M, or ask the user."
     },
     {
      "field": "item.variant.color",
@@ -16382,7 +16779,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -16391,7 +16788,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -16400,7 +16797,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -16505,7 +16902,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -16514,7 +16911,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -16523,7 +16920,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -16598,7 +16995,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Color is bone; the user asked for cream.",
-     "fix": "Change color to cream."
+     "fix": "Pick an option where color is cream, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -16629,7 +17026,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -16638,7 +17035,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -16647,7 +17044,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -16722,7 +17119,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Color is white; the user asked for cream.",
-     "fix": "Change color to cream."
+     "fix": "Pick an option where color is cream, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -16753,7 +17150,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -16762,7 +17159,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -16771,7 +17168,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -16876,7 +17273,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -16885,7 +17282,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -16894,7 +17291,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -16969,7 +17366,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Color is anthracite; the user asked for black.",
-     "fix": "Change color to black."
+     "fix": "Pick an option where color is black, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -17000,7 +17397,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -17009,7 +17406,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -17018,7 +17415,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -17123,7 +17520,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17185,7 +17582,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Quantity is 1; the user asked for 2.",
-     "fix": "Change quantity to 2."
+     "fix": "Pick an option where quantity is 2, or ask the user."
     },
     {
      "field": "amount",
@@ -17206,7 +17603,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17288,7 +17685,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -17297,7 +17694,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -17306,7 +17703,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -17391,7 +17788,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Quantity is 3; the user asked for 1.",
-     "fix": "Change quantity to 1."
+     "fix": "Pick an option where quantity is 1, or ask the user."
     },
     {
      "field": "amount",
@@ -17412,7 +17809,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -17421,7 +17818,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -17430,7 +17827,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -17535,7 +17932,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17587,7 +17984,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Energizer AA 4-pack; the user asked for Energizer AA 8-pack.",
-     "fix": "Change product to Energizer AA 8-pack."
+     "fix": "Pick an option where product is Energizer AA 8-pack, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -17618,7 +18015,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17700,7 +18097,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17752,7 +18149,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Energizer AAA 8-pack; the user asked for Energizer AA 8-pack.",
-     "fix": "Change product to Energizer AA 8-pack."
+     "fix": "Pick an option where product is Energizer AA 8-pack, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -17783,7 +18180,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17835,7 +18232,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Energizer AA 24-pack; the user asked for Energizer AA 8-pack.",
-     "fix": "Change product to Energizer AA 8-pack."
+     "fix": "Pick an option where product is Energizer AA 8-pack, or ask the user."
     },
     {
      "field": "item.quantity",
@@ -17866,7 +18263,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -17948,7 +18345,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -17957,7 +18354,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -17966,7 +18363,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -18082,7 +18479,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Seller is SneakerDealz; the user allowed only Nike.",
-     "fix": "Use Nike for seller."
+     "fix": "Pick an option where seller is Nike, or ask the user."
     }
    ]
   },
@@ -18093,7 +18490,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -18102,7 +18499,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -18111,7 +18508,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -18237,7 +18634,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -18246,7 +18643,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -18352,7 +18749,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Seller is CaseOutlet-USA; the user allowed only Best Buy or Apple.",
-     "fix": "Use Best Buy or Apple for seller."
+     "fix": "Pick an option where seller is Best Buy or Apple, or ask the user."
     }
    ]
   },
@@ -18363,7 +18760,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -18372,7 +18769,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -18488,7 +18885,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -18497,7 +18894,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -18506,7 +18903,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -18612,7 +19009,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -18621,7 +19018,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -18630,7 +19027,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -18736,7 +19133,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -18745,7 +19142,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -18754,7 +19151,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -18860,7 +19257,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Everlane Organic Cotton Crew"
      }
     },
@@ -18869,7 +19266,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "M"
      }
     },
@@ -18878,7 +19275,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "cream"
      }
     },
@@ -18983,7 +19380,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -18992,7 +19389,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -19095,7 +19492,7 @@
      "ok": false,
      "code": "too_late",
      "message": "Delivery is Mon, Nov 23; the user needs it by Mon, Nov 16.",
-     "fix": "Pick an option that arrives by 2026-11-16."
+     "fix": "Pick an option that arrives by Mon, Nov 16."
     }
    ]
   },
@@ -19106,7 +19503,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -19115,7 +19512,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -19228,7 +19625,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -19319,7 +19716,7 @@
      "ok": false,
      "code": "too_late",
      "message": "Delivery is Sat, Nov 14; the user needs it by Fri, Nov 13.",
-     "fix": "Pick an option that arrives by 2026-11-13."
+     "fix": "Pick an option that arrives by Fri, Nov 13."
     }
    ]
   },
@@ -19330,7 +19727,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Energizer AA 8-pack"
      }
     },
@@ -19431,7 +19828,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -19440,7 +19837,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -19494,7 +19891,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is OtterBox Symmetry for iPhone 16; the user asked for OtterBox Symmetry for iPhone 16 Pro.",
-     "fix": "Change product to OtterBox Symmetry for iPhone 16 Pro."
+     "fix": "Pick an option where product is OtterBox Symmetry for iPhone 16 Pro, or ask the user."
     },
     {
      "field": "item.variant.color",
@@ -19535,7 +19932,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -19544,7 +19941,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -19596,9 +19993,9 @@
      "expected": "OtterBox Symmetry for iPhone 16 Pro",
      "actual": "OtterBox Symmetry for iPhone 16 Pro Max",
      "ok": false,
-     "code": "mismatch",
-     "message": "Product is OtterBox Symmetry for iPhone 16 Pro Max; the user asked for OtterBox Symmetry for iPhone 16 Pro.",
-     "fix": "Change product to OtterBox Symmetry for iPhone 16 Pro."
+     "code": "partial_match",
+     "message": "Product is OtterBox Symmetry for iPhone 16 Pro Max; the user asked for OtterBox Symmetry for iPhone 16 Pro. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether OtterBox Symmetry for iPhone 16 Pro Max is what they want. Do not change the cart."
     },
     {
      "field": "item.variant.color",
@@ -19639,7 +20036,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "OtterBox Symmetry for iPhone 16 Pro"
      }
     },
@@ -19648,7 +20045,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "clear"
      }
     },
@@ -19742,7 +20139,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -19751,7 +20148,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -19760,7 +20157,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -19815,7 +20212,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Nike Pegasus 40; the user asked for Nike Pegasus 41.",
-     "fix": "Change product to Nike Pegasus 41."
+     "fix": "Pick an option where product is Nike Pegasus 41, or ask the user."
     },
     {
      "field": "item.variant.size",
@@ -19866,7 +20263,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -19875,7 +20272,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -19884,7 +20281,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -19937,9 +20334,9 @@
      "expected": "Nike Pegasus 41",
      "actual": "Nike Pegasus 41 Trail",
      "ok": false,
-     "code": "mismatch",
-     "message": "Product is Nike Pegasus 41 Trail; the user asked for Nike Pegasus 41.",
-     "fix": "Change product to Nike Pegasus 41."
+     "code": "partial_match",
+     "message": "Product is Nike Pegasus 41 Trail; the user asked for Nike Pegasus 41. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether Nike Pegasus 41 Trail is what they want. Do not change the cart."
     },
     {
      "field": "item.variant.size",
@@ -19990,7 +20387,7 @@
      "label": "Product",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Nike Pegasus 41"
      }
     },
@@ -19999,7 +20396,7 @@
      "label": "Size",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "10"
      }
     },
@@ -20008,7 +20405,7 @@
      "label": "Color",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "black"
      }
     },
@@ -20143,7 +20540,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20264,7 +20661,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20386,7 +20783,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20427,7 +20824,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Sat, Nov 21; the user asked for Sat, Nov 14 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-14 (Sat, Nov 14)."
+     "fix": "Pick an option on Sat, Nov 14 (2026-11-14)."
     },
     {
      "field": "item.partySize",
@@ -20508,7 +20905,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20629,7 +21026,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20680,7 +21077,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Party size is 2; the user asked for 6.",
-     "fix": "Change party size to 6."
+     "fix": "Pick an option where party size is 6, or ask the user."
     },
     {
      "field": "amount",
@@ -20751,7 +21148,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20802,7 +21199,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Party size is 4; the user asked for 6.",
-     "fix": "Change party size to 6."
+     "fix": "Pick an option where party size is 6, or ask the user."
     },
     {
      "field": "amount",
@@ -20873,7 +21270,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -20994,7 +21391,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -21116,7 +21513,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -21238,7 +21635,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -21359,7 +21756,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -21481,7 +21878,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Lilia"
      }
     },
@@ -21603,7 +22000,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Joe's Pizza Carmine St"
      }
     },
@@ -21674,7 +22071,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Restaurant is Joe's Pizza Broadway; the user asked for Joe's Pizza Carmine St.",
-     "fix": "Change restaurant to Joe's Pizza Carmine St."
+     "fix": "Pick an option where restaurant is Joe's Pizza Carmine St, or ask the user."
     },
     {
      "field": "item.time",
@@ -21725,7 +22122,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Joe's Pizza Carmine St"
      }
     },
@@ -21796,7 +22193,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Restaurant is Joe's Pizza Williamsburg; the user asked for Joe's Pizza Carmine St.",
-     "fix": "Change restaurant to Joe's Pizza Carmine St."
+     "fix": "Pick an option where restaurant is Joe's Pizza Carmine St, or ask the user."
     },
     {
      "field": "item.time",
@@ -21847,7 +22244,7 @@
      "label": "Restaurant",
      "strength": "must",
      "test": {
-      "op": "eq",
+      "op": "has",
       "value": "Joe's Pizza Carmine St"
      }
     },
@@ -22393,7 +22790,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Fri, Nov 20; the user asked for Fri, Nov 13 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Use 2026-11-13 (Fri, Nov 13).\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Fri, Nov 20; the user asked for Fri, Nov 13 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Pick an option on Fri, Nov 13 (2026-11-13).\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22405,7 +22802,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 20; the user asked for Fri, Nov 13 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-13 (Fri, Nov 13)."
+     "fix": "Pick an option on Fri, Nov 13 (2026-11-13)."
     }
    ],
    "asks": [],
@@ -22477,7 +22874,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Wed, Nov 18; the user asked for Wed, Nov 25 (-7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Use 2026-11-25 (Wed, Nov 25).\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Wed, Nov 18; the user asked for Wed, Nov 25 (-7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Pick an option on Wed, Nov 25 (2026-11-25).\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22489,7 +22886,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Wed, Nov 18; the user asked for Wed, Nov 25 (-7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-25 (Wed, Nov 25)."
+     "fix": "Pick an option on Wed, Nov 25 (2026-11-25)."
     }
    ],
    "asks": [],
@@ -22561,7 +22958,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Wed, Dec 2; the user asked for Wed, Nov 25 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Use 2026-11-25 (Wed, Nov 25).\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Wed, Dec 2; the user asked for Wed, Nov 25 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Pick an option on Wed, Nov 25 (2026-11-25).\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22573,7 +22970,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Wed, Dec 2; the user asked for Wed, Nov 25 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-25 (Wed, Nov 25)."
+     "fix": "Pick an option on Wed, Nov 25 (2026-11-25)."
     }
    ],
    "asks": [],
@@ -22603,7 +23000,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days). Use 2026-11-12 (Thu, Nov 12).\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days). Pick an option on Thu, Nov 12 (2026-11-12).\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22615,7 +23012,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days).",
-     "fix": "Use 2026-11-12 (Thu, Nov 12)."
+     "fix": "Pick an option on Thu, Nov 12 (2026-11-12)."
     }
    ],
    "asks": [],
@@ -22687,7 +23084,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days). Use 2026-11-12 (Thu, Nov 12).\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days). Pick an option on Thu, Nov 12 (2026-11-12).\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22699,7 +23096,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Fri, Nov 13; the user asked for Thu, Nov 12 (+1 days).",
-     "fix": "Use 2026-11-12 (Thu, Nov 12)."
+     "fix": "Pick an option on Thu, Nov 12 (2026-11-12)."
     }
    ],
    "asks": [],
@@ -22771,7 +23168,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $486 is $86 over the $400 limit the user set. Find an option at or under $400, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $486 is $86 over the $400 limit the user set. Find an option at or under $400, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22855,7 +23252,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $189 is $39 over the $150 limit the user set. Find an option at or under $150, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $189 is $39 over the $150 limit the user set. Find an option at or under $150, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22897,7 +23294,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $214 is $64 over the $150 limit the user set. Find an option at or under $150, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $214 is $64 over the $150 limit the user set. Find an option at or under $150, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -22939,7 +23336,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Refundable is no; the user asked for yes. Choose an option where refundable is yes.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Refundable is no; the user asked for yes. Choose an option where refundable is yes.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23023,7 +23420,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Refundable is no; the user asked for yes. Choose an option where refundable is yes.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Refundable is no; the user asked for yes. Choose an option where refundable is yes.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23107,7 +23504,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Destination is MDW; the user asked for ORD. Change destination to ORD.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Destination is MDW; the user asked for ORD. Pick an option where destination is ORD, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23119,7 +23516,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Destination is MDW; the user asked for ORD.",
-     "fix": "Change destination to ORD."
+     "fix": "Pick an option where destination is ORD, or ask the user."
     }
    ],
    "asks": [],
@@ -23191,7 +23588,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Origin is JFK; the user asked for EWR. Change origin to EWR.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Origin is JFK; the user asked for EWR. Pick an option where origin is EWR, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23203,7 +23600,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Origin is JFK; the user asked for EWR.",
-     "fix": "Change origin to EWR."
+     "fix": "Pick an option where origin is EWR, or ask the user."
     }
    ],
    "asks": [],
@@ -23233,7 +23630,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Origin is LGA; the user asked for EWR. Change origin to EWR.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Origin is LGA; the user asked for EWR. Pick an option where origin is EWR, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23245,7 +23642,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Origin is LGA; the user asked for EWR.",
-     "fix": "Change origin to EWR."
+     "fix": "Pick an option where origin is EWR, or ask the user."
     }
    ],
    "asks": [],
@@ -23317,7 +23714,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Departure time is 9:15 pm, outside 5:00 am–12:00 pm. Pick an option with departure time inside 5:00 am–12:00 pm.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Departure time is 9:15 pm, outside 5:00 am–12:00 pm. Pick an option with departure time inside 5:00 am–12:00 pm.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23401,7 +23798,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Departure time is 6:00 am, outside 5:00 pm–11:59 pm. Pick an option with departure time inside 5:00 pm–11:59 pm.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Departure time is 6:00 am, outside 5:00 pm–11:59 pm. Pick an option with departure time inside 5:00 pm–11:59 pm.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23485,7 +23882,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Passenger is \"Maya Okafor\"; the user asked for \"Dana Whitfield\". Use the name Dana Whitfield.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Passenger is \"Maya Okafor\"; the user asked for \"Dana Whitfield\". Use the name Dana Whitfield.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23569,7 +23966,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Passenger is \"Maya Okafor\"; the user asked for \"Ngozi Okafor\". Use the name Ngozi Okafor.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Passenger is \"Maya Okafor\"; the user asked for \"Ngozi Okafor\". Use the name Ngozi Okafor.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23790,7 +24187,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Size is 10.5; the user asked for 10. Change size to 10.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Size is 10.5; the user asked for 10. Pick an option where size is 10, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23802,7 +24199,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Size is 10.5; the user asked for 10.",
-     "fix": "Change size to 10."
+     "fix": "Pick an option where size is 10, or ask the user."
     }
    ],
    "asks": [],
@@ -23868,7 +24265,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Size is S; the user asked for M. Change size to M.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Size is S; the user asked for M. Pick an option where size is M, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23880,7 +24277,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Size is S; the user asked for M.",
-     "fix": "Change size to M."
+     "fix": "Pick an option where size is M, or ask the user."
     }
    ],
    "asks": [],
@@ -23946,7 +24343,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is bone; the user asked for cream. Change color to cream.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is bone; the user asked for cream. Pick an option where color is cream, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23958,7 +24355,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Color is bone; the user asked for cream.",
-     "fix": "Change color to cream."
+     "fix": "Pick an option where color is cream, or ask the user."
     }
    ],
    "asks": [],
@@ -23985,7 +24382,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is white; the user asked for cream. Change color to cream.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is white; the user asked for cream. Pick an option where color is cream, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -23997,7 +24394,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Color is white; the user asked for cream.",
-     "fix": "Change color to cream."
+     "fix": "Pick an option where color is cream, or ask the user."
     }
    ],
    "asks": [],
@@ -24063,7 +24460,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is anthracite; the user asked for black. Change color to black.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is anthracite; the user asked for black. Pick an option where color is black, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24075,7 +24472,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Color is anthracite; the user asked for black.",
-     "fix": "Change color to black."
+     "fix": "Pick an option where color is black, or ask the user."
     }
    ],
    "asks": [],
@@ -24138,7 +24535,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Quantity is 1; the user asked for 2. Change quantity to 2.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Quantity is 1; the user asked for 2. Pick an option where quantity is 2, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24150,7 +24547,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Quantity is 1; the user asked for 2.",
-     "fix": "Change quantity to 2."
+     "fix": "Pick an option where quantity is 2, or ask the user."
     }
    ],
    "asks": [],
@@ -24213,7 +24610,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Quantity is 3; the user asked for 1. Change quantity to 1.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Quantity is 3; the user asked for 1. Pick an option where quantity is 1, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24225,7 +24622,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Quantity is 3; the user asked for 1.",
-     "fix": "Change quantity to 1."
+     "fix": "Pick an option where quantity is 1, or ask the user."
     }
    ],
    "asks": [],
@@ -24288,7 +24685,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Energizer AA 4-pack; the user asked for Energizer AA 8-pack. Change product to Energizer AA 8-pack.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Energizer AA 4-pack; the user asked for Energizer AA 8-pack. Pick an option where product is Energizer AA 8-pack, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24300,7 +24697,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Energizer AA 4-pack; the user asked for Energizer AA 8-pack.",
-     "fix": "Change product to Energizer AA 8-pack."
+     "fix": "Pick an option where product is Energizer AA 8-pack, or ask the user."
     }
    ],
    "asks": [],
@@ -24360,7 +24757,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Energizer AAA 8-pack; the user asked for Energizer AA 8-pack. Change product to Energizer AA 8-pack.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Energizer AAA 8-pack; the user asked for Energizer AA 8-pack. Pick an option where product is Energizer AA 8-pack, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24372,7 +24769,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Energizer AAA 8-pack; the user asked for Energizer AA 8-pack.",
-     "fix": "Change product to Energizer AA 8-pack."
+     "fix": "Pick an option where product is Energizer AA 8-pack, or ask the user."
     }
    ],
    "asks": [],
@@ -24396,7 +24793,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Energizer AA 24-pack; the user asked for Energizer AA 8-pack. Change product to Energizer AA 8-pack.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Energizer AA 24-pack; the user asked for Energizer AA 8-pack. Pick an option where product is Energizer AA 8-pack, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24408,7 +24805,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Energizer AA 24-pack; the user asked for Energizer AA 8-pack.",
-     "fix": "Change product to Energizer AA 8-pack."
+     "fix": "Pick an option where product is Energizer AA 8-pack, or ask the user."
     }
    ],
    "asks": [],
@@ -24471,7 +24868,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Seller is SneakerDealz; the user allowed only Nike. Use Nike for seller.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Seller is SneakerDealz; the user allowed only Nike. Pick an option where seller is Nike, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24483,7 +24880,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Seller is SneakerDealz; the user allowed only Nike.",
-     "fix": "Use Nike for seller."
+     "fix": "Pick an option where seller is Nike, or ask the user."
     }
    ],
    "asks": [],
@@ -24548,7 +24945,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Seller is CaseOutlet-USA; the user allowed only Best Buy or Apple. Use Best Buy or Apple for seller.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Seller is CaseOutlet-USA; the user allowed only Best Buy or Apple. Pick an option where seller is Best Buy or Apple, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24560,7 +24957,7 @@
      "ok": false,
      "code": "not_allowed",
      "message": "Seller is CaseOutlet-USA; the user allowed only Best Buy or Apple.",
-     "fix": "Use Best Buy or Apple for seller."
+     "fix": "Pick an option where seller is Best Buy or Apple, or ask the user."
     }
    ],
    "asks": [],
@@ -24625,7 +25022,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $147.94 is $7.94 over the $140 limit the user set. Find an option at or under $140, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $147.94 is $7.94 over the $140 limit the user set. Find an option at or under $140, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24664,7 +25061,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $151.20 is $11.20 over the $140 limit the user set. Find an option at or under $140, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $151.20 is $11.20 over the $140 limit the user set. Find an option at or under $140, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24703,7 +25100,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $45.95 is $5.95 over the $40 limit the user set. Find an option at or under $40, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $45.95 is $5.95 over the $40 limit the user set. Find an option at or under $40, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24780,7 +25177,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Delivery is Mon, Nov 23; the user needs it by Mon, Nov 16. Pick an option that arrives by 2026-11-16.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Delivery is Mon, Nov 23; the user needs it by Mon, Nov 16. Pick an option that arrives by Mon, Nov 16.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24792,7 +25189,7 @@
      "ok": false,
      "code": "too_late",
      "message": "Delivery is Mon, Nov 23; the user needs it by Mon, Nov 16.",
-     "fix": "Pick an option that arrives by 2026-11-16."
+     "fix": "Pick an option that arrives by Mon, Nov 16."
     }
    ],
    "asks": [],
@@ -24854,7 +25251,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Delivery is Sat, Nov 14; the user needs it by Fri, Nov 13. Pick an option that arrives by 2026-11-13.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Delivery is Sat, Nov 14; the user needs it by Fri, Nov 13. Pick an option that arrives by Fri, Nov 13.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24866,7 +25263,7 @@
      "ok": false,
      "code": "too_late",
      "message": "Delivery is Sat, Nov 14; the user needs it by Fri, Nov 13.",
-     "fix": "Pick an option that arrives by 2026-11-13."
+     "fix": "Pick an option that arrives by Fri, Nov 13."
     }
    ],
    "asks": [],
@@ -24928,7 +25325,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is OtterBox Symmetry for iPhone 16; the user asked for OtterBox Symmetry for iPhone 16 Pro. Change product to OtterBox Symmetry for iPhone 16 Pro.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is OtterBox Symmetry for iPhone 16; the user asked for OtterBox Symmetry for iPhone 16 Pro. Pick an option where product is OtterBox Symmetry for iPhone 16 Pro, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -24940,7 +25337,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is OtterBox Symmetry for iPhone 16; the user asked for OtterBox Symmetry for iPhone 16 Pro.",
-     "fix": "Change product to OtterBox Symmetry for iPhone 16 Pro."
+     "fix": "Pick an option where product is OtterBox Symmetry for iPhone 16 Pro, or ask the user."
     }
    ],
    "asks": [],
@@ -24965,23 +25362,16 @@
      "arrives": "2026-11-15"
     }
    },
-   "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is OtterBox Symmetry for iPhone 16 Pro Max; the user asked for OtterBox Symmetry for iPhone 16 Pro. Change product to OtterBox Symmetry for iPhone 16 Pro.\nFix the cart and check it again.",
-   "question": null,
-   "reasons": [
+   "status": "ask",
+   "forAgent": "Backstop: do not pay yet. Ask the user: \"Product: this option is OtterBox Symmetry for iPhone 16 Pro Max, and you asked for OtterBox Symmetry for iPhone 16 Pro. Is that what you want?\"",
+   "question": "Product: this option is OtterBox Symmetry for iPhone 16 Pro Max, and you asked for OtterBox Symmetry for iPhone 16 Pro. Is that what you want?",
+   "reasons": [],
+   "asks": [
     {
-     "field": "item.product",
-     "label": "Product",
-     "strength": "must",
-     "expected": "OtterBox Symmetry for iPhone 16 Pro",
-     "actual": "OtterBox Symmetry for iPhone 16 Pro Max",
-     "ok": false,
-     "code": "mismatch",
-     "message": "Product is OtterBox Symmetry for iPhone 16 Pro Max; the user asked for OtterBox Symmetry for iPhone 16 Pro.",
-     "fix": "Change product to OtterBox Symmetry for iPhone 16 Pro."
+     "key": "item.product",
+     "question": "Product: this option is OtterBox Symmetry for iPhone 16 Pro Max, and you asked for OtterBox Symmetry for iPhone 16 Pro. Is that what you want?"
     }
    ],
-   "asks": [],
    "guarantee": null
   },
   {
@@ -25043,7 +25433,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Nike Pegasus 40; the user asked for Nike Pegasus 41. Change product to Nike Pegasus 41.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Nike Pegasus 40; the user asked for Nike Pegasus 41. Pick an option where product is Nike Pegasus 41, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25055,7 +25445,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Product is Nike Pegasus 40; the user asked for Nike Pegasus 41.",
-     "fix": "Change product to Nike Pegasus 41."
+     "fix": "Pick an option where product is Nike Pegasus 41, or ask the user."
     }
    ],
    "asks": [],
@@ -25081,23 +25471,16 @@
      "arrives": "2026-11-16"
     }
    },
-   "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is Nike Pegasus 41 Trail; the user asked for Nike Pegasus 41. Change product to Nike Pegasus 41.\nFix the cart and check it again.",
-   "question": null,
-   "reasons": [
+   "status": "ask",
+   "forAgent": "Backstop: do not pay yet. Ask the user: \"Product: this option is Nike Pegasus 41 Trail, and you asked for Nike Pegasus 41. Is that what you want?\"",
+   "question": "Product: this option is Nike Pegasus 41 Trail, and you asked for Nike Pegasus 41. Is that what you want?",
+   "reasons": [],
+   "asks": [
     {
-     "field": "item.product",
-     "label": "Product",
-     "strength": "must",
-     "expected": "Nike Pegasus 41",
-     "actual": "Nike Pegasus 41 Trail",
-     "ok": false,
-     "code": "mismatch",
-     "message": "Product is Nike Pegasus 41 Trail; the user asked for Nike Pegasus 41.",
-     "fix": "Change product to Nike Pegasus 41."
+     "key": "item.product",
+     "question": "Product: this option is Nike Pegasus 41 Trail, and you asked for Nike Pegasus 41. Is that what you want?"
     }
    ],
-   "asks": [],
    "guarantee": null
   },
   {
@@ -25193,7 +25576,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Time is 9:45 pm, outside 7:00 pm–8:00 pm. Pick an option with time inside 7:00 pm–8:00 pm.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Time is 9:45 pm, outside 7:00 pm–8:00 pm. Pick an option with time inside 7:00 pm–8:00 pm.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25229,7 +25612,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Sat, Nov 21; the user asked for Sat, Nov 14 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Use 2026-11-14 (Sat, Nov 14).\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Date is Sat, Nov 21; the user asked for Sat, Nov 14 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week. Pick an option on Sat, Nov 14 (2026-11-14).\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25241,7 +25624,7 @@
      "ok": false,
      "code": "date_mismatch",
      "message": "Date is Sat, Nov 21; the user asked for Sat, Nov 14 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-     "fix": "Use 2026-11-14 (Sat, Nov 14)."
+     "fix": "Pick an option on Sat, Nov 14 (2026-11-14)."
     }
    ],
    "asks": [],
@@ -25301,7 +25684,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Party size is 2; the user asked for 6. Change party size to 6.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Party size is 2; the user asked for 6. Pick an option where party size is 6, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25313,7 +25696,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Party size is 2; the user asked for 6.",
-     "fix": "Change party size to 6."
+     "fix": "Pick an option where party size is 6, or ask the user."
     }
    ],
    "asks": [],
@@ -25337,7 +25720,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Party size is 4; the user asked for 6. Change party size to 6.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Party size is 4; the user asked for 6. Pick an option where party size is 6, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25349,7 +25732,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Party size is 4; the user asked for 6.",
-     "fix": "Change party size to 6."
+     "fix": "Pick an option where party size is 6, or ask the user."
     }
    ],
    "asks": [],
@@ -25409,7 +25792,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Time is 5:00 pm, outside 7:00 pm–8:00 pm. Pick an option with time inside 7:00 pm–8:00 pm.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Time is 5:00 pm, outside 7:00 pm–8:00 pm. Pick an option with time inside 7:00 pm–8:00 pm.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25445,7 +25828,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Time is 10:15 pm, outside 7:00 pm–8:00 pm. Pick an option with time inside 7:00 pm–8:00 pm.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Time is 10:15 pm, outside 7:00 pm–8:00 pm. Pick an option with time inside 7:00 pm–8:00 pm.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25517,7 +25900,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $100 is $100 over the $0 limit the user set. Find an option at or under $0, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $100 is $100 over the $0 limit the user set. Find an option at or under $0, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25553,7 +25936,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $200 is $200 over the $0 limit the user set. Find an option at or under $0, or ask the user to raise the limit.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- $200 is $200 over the $0 limit the user set. Find an option at or under $0, or ask the user to raise the limit.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25589,7 +25972,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Restaurant is Joe's Pizza Broadway; the user asked for Joe's Pizza Carmine St. Change restaurant to Joe's Pizza Carmine St.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Restaurant is Joe's Pizza Broadway; the user asked for Joe's Pizza Carmine St. Pick an option where restaurant is Joe's Pizza Carmine St, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25601,7 +25984,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Restaurant is Joe's Pizza Broadway; the user asked for Joe's Pizza Carmine St.",
-     "fix": "Change restaurant to Joe's Pizza Carmine St."
+     "fix": "Pick an option where restaurant is Joe's Pizza Carmine St, or ask the user."
     }
    ],
    "asks": [],
@@ -25625,7 +26008,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Restaurant is Joe's Pizza Williamsburg; the user asked for Joe's Pizza Carmine St. Change restaurant to Joe's Pizza Carmine St.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Restaurant is Joe's Pizza Williamsburg; the user asked for Joe's Pizza Carmine St. Pick an option where restaurant is Joe's Pizza Carmine St, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25637,7 +26020,7 @@
      "ok": false,
      "code": "mismatch",
      "message": "Restaurant is Joe's Pizza Williamsburg; the user asked for Joe's Pizza Carmine St.",
-     "fix": "Change restaurant to Joe's Pizza Carmine St."
+     "fix": "Pick an option where restaurant is Joe's Pizza Carmine St, or ask the user."
     }
    ],
    "asks": [],
@@ -25693,7 +26076,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to cancel a flight. Do not cancel a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to cancel a flight. Do not cancel a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25729,7 +26112,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to reserve a table. Do not reserve a table. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to reserve a table. Do not reserve a table. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25771,7 +26154,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to book a flight. Do not book a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to book a flight. Do not book a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25813,7 +26196,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to book a flight. Do not book a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to book a flight. Do not book a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25845,7 +26228,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to change a flight. Do not change a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to change a flight. Do not change a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25884,7 +26267,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25920,7 +26303,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to reserve a table. Do not reserve a table. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to reserve a table. Do not reserve a table. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25956,7 +26339,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -25992,7 +26375,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -26024,7 +26407,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to cancel a flight. Do not cancel a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to cancel a flight. Do not cancel a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -26066,7 +26449,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to book a flight. Do not book a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to book a flight. Do not book a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -26099,7 +26482,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to change a flight. Do not change a flight. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to change a flight. Do not change a flight. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -26137,7 +26520,7 @@
     }
    },
    "status": "block",
-   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nFix the cart and check it again.",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- The user asked a question only. The agent is about to buy. Do not buy. Answer the user's question instead.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
    "question": null,
    "reasons": [
     {
@@ -26156,14 +26539,443 @@
    "guarantee": null
   }
  ],
+ "sequences": [
+  {
+   "cart": {
+    "action": "retail.purchase",
+    "amount": {
+     "currency": "USD",
+     "minor": 10999
+    },
+    "merchant": "Foot Locker",
+    "summary": "1 × Nike Air Zoom Pegasus 41 (Men's 10 (D - Medium), Black/Medium Ash/Pure Platinum) from Foot Locker",
+    "item": {
+     "product": "Nike Air Zoom Pegasus 41",
+     "variant": {
+      "size": "Men's 10 (D - Medium)",
+      "color": "Black/Medium Ash/Pure Platinum"
+     },
+     "quantity": 1
+    },
+    "ref": "https://shop.example/p/fd2722"
+   },
+   "status": "ask",
+   "forAgent": "Backstop: do not pay yet. Ask the user: \"Product: this option is Nike Air Zoom Pegasus 41, and you asked for Pegasus 41. Is that what you want? Size: this option is Men's 10 (D - Medium), and you asked for 10. Is that what you want? Color: this option is Black/Medium Ash/Pure Platinum, and you asked for black. Is that what you want?\"",
+   "question": "Product: this option is Nike Air Zoom Pegasus 41, and you asked for Pegasus 41. Is that what you want? Size: this option is Men's 10 (D - Medium), and you asked for 10. Is that what you want? Color: this option is Black/Medium Ash/Pure Platinum, and you asked for black. Is that what you want?",
+   "asks": [
+    {
+     "key": "item.product",
+     "question": "Product: this option is Nike Air Zoom Pegasus 41, and you asked for Pegasus 41. Is that what you want?"
+    },
+    {
+     "key": "item.variant.size",
+     "question": "Size: this option is Men's 10 (D - Medium), and you asked for 10. Is that what you want?"
+    },
+    {
+     "key": "item.variant.color",
+     "question": "Color: this option is Black/Medium Ash/Pure Platinum, and you asked for black. Is that what you want?"
+    }
+   ],
+   "findings": [
+    {
+     "field": "item.product",
+     "label": "Product",
+     "strength": "must",
+     "expected": "Pegasus 41",
+     "actual": "Nike Air Zoom Pegasus 41",
+     "ok": false,
+     "code": "partial_match",
+     "message": "Product is Nike Air Zoom Pegasus 41; the user asked for Pegasus 41. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether Nike Air Zoom Pegasus 41 is what they want. Do not change the cart."
+    },
+    {
+     "field": "item.variant.size",
+     "label": "Size",
+     "strength": "must",
+     "expected": "10",
+     "actual": "Men's 10 (D - Medium)",
+     "ok": false,
+     "code": "partial_match",
+     "message": "Size is Men's 10 (D - Medium); the user asked for 10. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether Men's 10 (D - Medium) is what they want. Do not change the cart."
+    },
+    {
+     "field": "item.variant.color",
+     "label": "Color",
+     "strength": "must",
+     "expected": "black",
+     "actual": "Black/Medium Ash/Pure Platinum",
+     "ok": false,
+     "code": "partial_match",
+     "message": "Color is Black/Medium Ash/Pure Platinum; the user asked for black. It includes what they asked for but says more, so they should confirm.",
+     "fix": "Ask the user whether Black/Medium Ash/Pure Platinum is what they want. Do not change the cart."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity",
+     "strength": "must",
+     "expected": "1",
+     "actual": "1",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity is 1, as asked."
+    },
+    {
+     "field": "amount",
+     "label": "Total",
+     "strength": "must",
+     "expected": "up to $150",
+     "actual": "$109.99",
+     "ok": true,
+     "code": "ok",
+     "message": "$109.99 is within the $150 limit."
+    }
+   ]
+  },
+  {
+   "cart": {
+    "action": "retail.purchase",
+    "amount": {
+     "currency": "USD",
+     "minor": 10100
+    },
+    "merchant": "Shop",
+    "summary": "1 × Pegasus 41 (10, White) from Shop",
+    "item": {
+     "product": "Pegasus 41",
+     "variant": {
+      "size": "10",
+      "color": "White"
+     },
+     "quantity": 1
+    },
+    "ref": "https://shop.example/p/fd2722-w"
+   },
+   "status": "block",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Color is White; the user asked for black. Pick an option where color is black, or ask the user.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
+   "question": null,
+   "asks": [],
+   "findings": [
+    {
+     "field": "item.product",
+     "label": "Product",
+     "strength": "must",
+     "expected": "Pegasus 41",
+     "actual": "Pegasus 41",
+     "ok": true,
+     "code": "ok",
+     "message": "Product is Pegasus 41, as asked."
+    },
+    {
+     "field": "item.variant.size",
+     "label": "Size",
+     "strength": "must",
+     "expected": "10",
+     "actual": "10",
+     "ok": true,
+     "code": "ok",
+     "message": "Size is 10, as asked."
+    },
+    {
+     "field": "item.variant.color",
+     "label": "Color",
+     "strength": "must",
+     "expected": "black",
+     "actual": "White",
+     "ok": false,
+     "code": "mismatch",
+     "message": "Color is White; the user asked for black.",
+     "fix": "Pick an option where color is black, or ask the user."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity",
+     "strength": "must",
+     "expected": "1",
+     "actual": "1",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity is 1, as asked."
+    },
+    {
+     "field": "amount",
+     "label": "Total",
+     "strength": "must",
+     "expected": "up to $150",
+     "actual": "$101",
+     "ok": true,
+     "code": "ok",
+     "message": "$101 is within the $150 limit."
+    }
+   ]
+  },
+  {
+   "cart": {
+    "action": "retail.purchase",
+    "amount": {
+     "currency": "USD",
+     "minor": 10100
+    },
+    "merchant": "Shop",
+    "summary": "1 × Pegasus 41 (10, Black) from Shop",
+    "item": {
+     "product": "Pegasus 41",
+     "variant": {
+      "size": "10",
+      "color": "Black"
+     },
+     "quantity": 1
+    },
+    "ref": "https://shop.example/p/fd2722-w"
+   },
+   "status": "ask",
+   "forAgent": "Backstop: do not pay yet. Ask the user: \"Your agent first said this option's color is White, then changed it to Black after it was flagged. Go ahead only if the merchant's page shows Black. Is it right?\"",
+   "question": "Your agent first said this option's color is White, then changed it to Black after it was flagged. Go ahead only if the merchant's page shows Black. Is it right?",
+   "asks": [
+    {
+     "key": "edited:item.variant.color",
+     "question": "Your agent first said this option's color is White, then changed it to Black after it was flagged. Go ahead only if the merchant's page shows Black. Is it right?"
+    }
+   ],
+   "findings": [
+    {
+     "field": "item.product",
+     "label": "Product",
+     "strength": "must",
+     "expected": "Pegasus 41",
+     "actual": "Pegasus 41",
+     "ok": true,
+     "code": "ok",
+     "message": "Product is Pegasus 41, as asked."
+    },
+    {
+     "field": "item.variant.size",
+     "label": "Size",
+     "strength": "must",
+     "expected": "10",
+     "actual": "10",
+     "ok": true,
+     "code": "ok",
+     "message": "Size is 10, as asked."
+    },
+    {
+     "field": "item.variant.color",
+     "label": "Color",
+     "strength": "must",
+     "expected": "black",
+     "actual": "Black",
+     "ok": true,
+     "code": "ok",
+     "message": "Color is Black, as asked."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity",
+     "strength": "must",
+     "expected": "1",
+     "actual": "1",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity is 1, as asked."
+    },
+    {
+     "field": "amount",
+     "label": "Total",
+     "strength": "must",
+     "expected": "up to $150",
+     "actual": "$101",
+     "ok": true,
+     "code": "ok",
+     "message": "$101 is within the $150 limit."
+    },
+    {
+     "field": "item.variant.color",
+     "label": "Color",
+     "strength": "prefer",
+     "ok": false,
+     "code": "cart_edited",
+     "expected": "White",
+     "actual": "Black",
+     "message": "The agent first described this option's color as White, then changed it to Black after the check flagged it.",
+     "fix": "Ask the user. Do not change how the cart describes the merchant's option."
+    }
+   ]
+  },
+  {
+   "cart": {
+    "action": "retail.purchase",
+    "amount": {
+     "currency": "USD",
+     "minor": 10100
+    },
+    "merchant": "Shop",
+    "summary": "1 × Pegasus 41 (10, Black) from Shop",
+    "item": {
+     "product": "Pegasus 41",
+     "variant": {
+      "size": "10",
+      "color": "Black"
+     },
+     "quantity": 1
+    },
+    "ref": "https://shop.example/p/fd2722-b"
+   },
+   "status": "pass",
+   "forAgent": "Backstop: cleared. Proceed to checkout with exactly this cart.",
+   "question": null,
+   "asks": [],
+   "findings": [
+    {
+     "field": "item.product",
+     "label": "Product",
+     "strength": "must",
+     "expected": "Pegasus 41",
+     "actual": "Pegasus 41",
+     "ok": true,
+     "code": "ok",
+     "message": "Product is Pegasus 41, as asked."
+    },
+    {
+     "field": "item.variant.size",
+     "label": "Size",
+     "strength": "must",
+     "expected": "10",
+     "actual": "10",
+     "ok": true,
+     "code": "ok",
+     "message": "Size is 10, as asked."
+    },
+    {
+     "field": "item.variant.color",
+     "label": "Color",
+     "strength": "must",
+     "expected": "black",
+     "actual": "Black",
+     "ok": true,
+     "code": "ok",
+     "message": "Color is Black, as asked."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity",
+     "strength": "must",
+     "expected": "1",
+     "actual": "1",
+     "ok": true,
+     "code": "ok",
+     "message": "Quantity is 1, as asked."
+    },
+    {
+     "field": "amount",
+     "label": "Total",
+     "strength": "must",
+     "expected": "up to $150",
+     "actual": "$101",
+     "ok": true,
+     "code": "ok",
+     "message": "$101 is within the $150 limit."
+    }
+   ]
+  },
+  {
+   "cart": {
+    "action": "retail.purchase",
+    "amount": {
+     "currency": "USD",
+     "minor": 10100
+    },
+    "item": {
+     "retail": {
+      "product": "Pegasus 41"
+     }
+    }
+   },
+   "status": "block",
+   "forAgent": "Backstop blocked this purchase. Do not check out.\n- Product is missing from the cart, so it can't be verified. Add item.product to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user.\n- Size is missing from the cart, so it can't be verified. Add item.variant.size to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user.\n- Color is missing from the cart, so it can't be verified. Add item.variant.color to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user.\n- Quantity is missing from the cart, so it can't be verified. Add item.quantity to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user.\nThe cart is missing 4 fields this request depends on (item.product, item.variant.size, item.variant.color, item.quantity). Check that each one is in the cart where checkout expects it.\nChoose another option or ask the user. Don't change how the cart describes the merchant's option to make it pass.",
+   "question": null,
+   "asks": [],
+   "findings": [
+    {
+     "field": "item.product",
+     "label": "Product",
+     "strength": "must",
+     "expected": "Pegasus 41",
+     "actual": "nothing",
+     "ok": false,
+     "code": "missing_field",
+     "message": "Product is missing from the cart, so it can't be verified.",
+     "fix": "Add item.product to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
+    },
+    {
+     "field": "item.variant.size",
+     "label": "Size",
+     "strength": "must",
+     "expected": "10",
+     "actual": "nothing",
+     "ok": false,
+     "code": "missing_field",
+     "message": "Size is missing from the cart, so it can't be verified.",
+     "fix": "Add item.variant.size to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
+    },
+    {
+     "field": "item.variant.color",
+     "label": "Color",
+     "strength": "must",
+     "expected": "black",
+     "actual": "nothing",
+     "ok": false,
+     "code": "missing_field",
+     "message": "Color is missing from the cart, so it can't be verified.",
+     "fix": "Add item.variant.color to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
+    },
+    {
+     "field": "item.quantity",
+     "label": "Quantity",
+     "strength": "must",
+     "expected": "1",
+     "actual": "nothing",
+     "ok": false,
+     "code": "missing_field",
+     "message": "Quantity is missing from the cart, so it can't be verified.",
+     "fix": "Add item.quantity to the cart exactly as the merchant shows it. If the merchant doesn't show it, ask the user."
+    },
+    {
+     "field": "amount",
+     "label": "Total",
+     "strength": "must",
+     "expected": "up to $150",
+     "actual": "$101",
+     "ok": true,
+     "code": "ok",
+     "message": "$101 is within the $150 limit."
+    }
+   ]
+  }
+ ],
+ "answers": {
+  "request": "Book JFK to Austin next Friday, morning, under $400",
+  "before": "ask",
+  "after": "pass",
+  "ackBody": {
+   "answers": [
+    {
+     "answer": "Nov 20",
+     "question": "By \"next Friday\", do you mean Fri, Nov 20 or Fri, Nov 13?"
+    }
+   ],
+   "intentId": "int_124w5t00047224",
+   "method": "chat",
+   "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400."
+  }
+ },
  "chain": {
-  "publicKey": "ImWJqnHLpwMPooKA-JaGcK9eYLIk7zMdbsJZoWCYNGQ",
-  "keyId": "91cb260f571bd54a",
+  "publicKey": "-zUVOP-NLdXafro7yRU-05xoTc9LTzF5W2luRLCg1uw",
+  "keyId": "687aa1805bdf7219",
   "chain": [
    {
     "v": 1,
     "type": "intent",
-    "id": "int_5y2b1y3v656i6u",
+    "id": "int_4b1h0i3j583z0x",
     "at": "2026-11-11T15:00:01.000Z",
     "prev": null,
     "body": {
@@ -26259,31 +27071,31 @@
      "user": "u_1",
      "warnings": []
     },
-    "hash": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
-    "sig": "Usmu2okJDGWEB2hM8HJ6ZmoctmqSUjbYSuc2Q669h01CMzA5K_rno2Z2phOM180rTVCIfmPbZJ7Gs5RjjwD_DQ",
-    "keyId": "91cb260f571bd54a"
+    "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+    "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
+    "keyId": "687aa1805bdf7219"
    },
    {
     "v": 1,
     "type": "ack",
-    "id": "ack_5s3e6l28163r2u",
+    "id": "ack_5d4o5858083u52",
     "at": "2026-11-11T15:00:02.000Z",
-    "prev": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
+    "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
     "body": {
-     "intentId": "int_5y2b1y3v656i6u",
+     "intentId": "int_4b1h0i3j583z0x",
      "method": "tapped confirm",
      "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
     },
-    "hash": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
-    "sig": "I9yz3goNhKn9lBF1FK5UWf7LO7sDRyUuwBhHYGxEEYLJMJFM2emKEpfQ-ee1hZ7CygsNHIj7PeRtXGdTKseyDA",
-    "keyId": "91cb260f571bd54a"
+    "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+    "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
+    "keyId": "687aa1805bdf7219"
    },
    {
     "v": 1,
     "type": "verdict",
-    "id": "chk_112i0p0d0i6246",
+    "id": "chk_6z3o3x4f3l0d2p",
     "at": "2026-11-11T15:00:03.000Z",
-    "prev": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
+    "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
     "body": {
      "cart": {
       "action": "flight.book",
@@ -26373,36 +27185,36 @@
       }
      ],
      "guarantee": null,
-     "intentId": "int_5y2b1y3v656i6u",
+     "intentId": "int_4b1h0i3j583z0x",
      "status": "ask",
      "waived": []
     },
-    "hash": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
-    "sig": "0LTToS8GV1JE3sprJapkASAmcliyo1tHwUGfuYSA2OAg1sXSSNA2dA37nb7XbKYW45jxxH_vIkW0gYpszLH0CQ",
-    "keyId": "91cb260f571bd54a"
+    "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+    "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
+    "keyId": "687aa1805bdf7219"
    },
    {
     "v": 1,
     "type": "resolution",
-    "id": "res_1k282k04335r0n",
+    "id": "res_0f1s4x0j160r0n",
     "at": "2026-11-11T15:00:04.000Z",
-    "prev": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
+    "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
     "body": {
      "approved": true,
      "by": "user",
      "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-     "verdictId": "chk_112i0p0d0i6246"
+     "verdictId": "chk_6z3o3x4f3l0d2p"
     },
-    "hash": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
-    "sig": "ScRcekpqClUn-lRtXoUGVWZVB14iJ0tKwxdAAKf46HTYS4v_8VwqpaCeJUcuEZ5F0BJkbfXyOZv1UudWVyTqBQ",
-    "keyId": "91cb260f571bd54a"
+    "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+    "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
+    "keyId": "687aa1805bdf7219"
    },
    {
     "v": 1,
     "type": "verdict",
-    "id": "chk_681k1o526o6e2x",
+    "id": "chk_5k0f6j28205807",
     "at": "2026-11-11T15:00:05.000Z",
-    "prev": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
+    "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
     "body": {
      "cart": {
       "action": "flight.book",
@@ -26504,22 +27316,22 @@
       "status": "sandbox",
       "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
      },
-     "intentId": "int_5y2b1y3v656i6u",
+     "intentId": "int_4b1h0i3j583z0x",
      "status": "pass",
      "waived": [
       "item.seat"
      ]
     },
-    "hash": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
-    "sig": "rphQ6nRCGTW_l5czW49PO-rP_qh_GezWdye5ha1bEjct3vBWBdnAV-100XLL6MS0Vg3iVd94eg-MgpaGfClsAA",
-    "keyId": "91cb260f571bd54a"
+    "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+    "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
+    "keyId": "687aa1805bdf7219"
    },
    {
     "v": 1,
     "type": "order",
-    "id": "ord_606k045y2v0h5p",
+    "id": "ord_0x424b3d69273j",
     "at": "2026-11-11T15:00:06.000Z",
-    "prev": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
+    "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
     "body": {
      "changed": [
       "amount"
@@ -26547,12 +27359,12 @@
      },
      "orderId": "DL-CONF-8841",
      "status": "confirmed",
-     "verdictId": "chk_681k1o526o6e2x",
+     "verdictId": "chk_5k0f6j28205807",
      "violations": []
     },
-    "hash": "0ddbb1918d2fdc9d6478758645e1805399c3469d45e4e31a20c91f21c86a2bf6",
-    "sig": "37Gsl-LfPPLzr8XK_AbMYSr4NxAqb3UKogFXGAW_V6oaWkDLYqctq5vt0z67dVIfV22WQtbrGae-HOZIU70LDQ",
-    "keyId": "91cb260f571bd54a"
+    "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
+    "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
+    "keyId": "687aa1805bdf7219"
    }
   ],
   "types": [
@@ -26578,7 +27390,7 @@
    "ok": false,
    "signed": true,
    "problems": [
-    "int_5y2b1y3v656i6u: contents were changed after sealing"
+    "int_4b1h0i3j583z0x: contents were changed after sealing"
    ]
   }
  },
@@ -26589,7 +27401,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_5y2b1y3v656i6u",
+     "id": "int_4b1h0i3j583z0x",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -26685,31 +27497,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
-     "sig": "Usmu2okJDGWEB2hM8HJ6ZmoctmqSUjbYSuc2Q669h01CMzA5K_rno2Z2phOM180rTVCIfmPbZJ7Gs5RjjwD_DQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5s3e6l28163r2u",
+     "id": "ack_5d4o5858083u52",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
+     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
      "body": {
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
-     "sig": "I9yz3goNhKn9lBF1FK5UWf7LO7sDRyUuwBhHYGxEEYLJMJFM2emKEpfQ-ee1hZ7CygsNHIj7PeRtXGdTKseyDA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_112i0p0d0i6246",
+     "id": "chk_6z3o3x4f3l0d2p",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
+     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -26799,36 +27611,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "ask",
       "waived": []
      },
-     "hash": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
-     "sig": "0LTToS8GV1JE3sprJapkASAmcliyo1tHwUGfuYSA2OAg1sXSSNA2dA37nb7XbKYW45jxxH_vIkW0gYpszLH0CQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_1k282k04335r0n",
+     "id": "res_0f1s4x0j160r0n",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
+     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_112i0p0d0i6246"
+      "verdictId": "chk_6z3o3x4f3l0d2p"
      },
-     "hash": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
-     "sig": "ScRcekpqClUn-lRtXoUGVWZVB14iJ0tKwxdAAKf46HTYS4v_8VwqpaCeJUcuEZ5F0BJkbfXyOZv1UudWVyTqBQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_681k1o526o6e2x",
+     "id": "chk_5k0f6j28205807",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
+     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -26930,22 +27742,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
-     "sig": "rphQ6nRCGTW_l5czW49PO-rP_qh_GezWdye5ha1bEjct3vBWBdnAV-100XLL6MS0Vg3iVd94eg-MgpaGfClsAA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_606k045y2v0h5p",
+     "id": "ord_0x424b3d69273j",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
+     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
      "body": {
       "changed": [
        "amount"
@@ -26973,12 +27785,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_681k1o526o6e2x",
+      "verdictId": "chk_5k0f6j28205807",
       "violations": []
      },
-     "hash": "0ddbb1918d2fdc9d6478758645e1805399c3469d45e4e31a20c91f21c86a2bf6",
-     "sig": "37Gsl-LfPPLzr8XK_AbMYSr4NxAqb3UKogFXGAW_V6oaWkDLYqctq5vt0z67dVIfV22WQtbrGae-HOZIU70LDQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
+     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "changed_mind",
@@ -27001,7 +27813,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_5y2b1y3v656i6u",
+     "id": "int_4b1h0i3j583z0x",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -27097,31 +27909,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
-     "sig": "Usmu2okJDGWEB2hM8HJ6ZmoctmqSUjbYSuc2Q669h01CMzA5K_rno2Z2phOM180rTVCIfmPbZJ7Gs5RjjwD_DQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5s3e6l28163r2u",
+     "id": "ack_5d4o5858083u52",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
+     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
      "body": {
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
-     "sig": "I9yz3goNhKn9lBF1FK5UWf7LO7sDRyUuwBhHYGxEEYLJMJFM2emKEpfQ-ee1hZ7CygsNHIj7PeRtXGdTKseyDA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_112i0p0d0i6246",
+     "id": "chk_6z3o3x4f3l0d2p",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
+     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -27211,36 +28023,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "ask",
       "waived": []
      },
-     "hash": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
-     "sig": "0LTToS8GV1JE3sprJapkASAmcliyo1tHwUGfuYSA2OAg1sXSSNA2dA37nb7XbKYW45jxxH_vIkW0gYpszLH0CQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_1k282k04335r0n",
+     "id": "res_0f1s4x0j160r0n",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
+     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_112i0p0d0i6246"
+      "verdictId": "chk_6z3o3x4f3l0d2p"
      },
-     "hash": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
-     "sig": "ScRcekpqClUn-lRtXoUGVWZVB14iJ0tKwxdAAKf46HTYS4v_8VwqpaCeJUcuEZ5F0BJkbfXyOZv1UudWVyTqBQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_681k1o526o6e2x",
+     "id": "chk_5k0f6j28205807",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
+     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -27342,22 +28154,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
-     "sig": "rphQ6nRCGTW_l5czW49PO-rP_qh_GezWdye5ha1bEjct3vBWBdnAV-100XLL6MS0Vg3iVd94eg-MgpaGfClsAA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_606k045y2v0h5p",
+     "id": "ord_0x424b3d69273j",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
+     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
      "body": {
       "changed": [
        "amount"
@@ -27385,12 +28197,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_681k1o526o6e2x",
+      "verdictId": "chk_5k0f6j28205807",
       "violations": []
      },
-     "hash": "0ddbb1918d2fdc9d6478758645e1805399c3469d45e4e31a20c91f21c86a2bf6",
-     "sig": "37Gsl-LfPPLzr8XK_AbMYSr4NxAqb3UKogFXGAW_V6oaWkDLYqctq5vt0z67dVIfV22WQtbrGae-HOZIU70LDQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
+     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "merchant_fault",
@@ -27413,7 +28225,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_5y2b1y3v656i6u",
+     "id": "int_4b1h0i3j583z0x",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -27509,31 +28321,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
-     "sig": "Usmu2okJDGWEB2hM8HJ6ZmoctmqSUjbYSuc2Q669h01CMzA5K_rno2Z2phOM180rTVCIfmPbZJ7Gs5RjjwD_DQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5s3e6l28163r2u",
+     "id": "ack_5d4o5858083u52",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
+     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
      "body": {
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
-     "sig": "I9yz3goNhKn9lBF1FK5UWf7LO7sDRyUuwBhHYGxEEYLJMJFM2emKEpfQ-ee1hZ7CygsNHIj7PeRtXGdTKseyDA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_112i0p0d0i6246",
+     "id": "chk_6z3o3x4f3l0d2p",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
+     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -27623,36 +28435,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "ask",
       "waived": []
      },
-     "hash": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
-     "sig": "0LTToS8GV1JE3sprJapkASAmcliyo1tHwUGfuYSA2OAg1sXSSNA2dA37nb7XbKYW45jxxH_vIkW0gYpszLH0CQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_1k282k04335r0n",
+     "id": "res_0f1s4x0j160r0n",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
+     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_112i0p0d0i6246"
+      "verdictId": "chk_6z3o3x4f3l0d2p"
      },
-     "hash": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
-     "sig": "ScRcekpqClUn-lRtXoUGVWZVB14iJ0tKwxdAAKf46HTYS4v_8VwqpaCeJUcuEZ5F0BJkbfXyOZv1UudWVyTqBQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_681k1o526o6e2x",
+     "id": "chk_5k0f6j28205807",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
+     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -27754,22 +28566,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
-     "sig": "rphQ6nRCGTW_l5czW49PO-rP_qh_GezWdye5ha1bEjct3vBWBdnAV-100XLL6MS0Vg3iVd94eg-MgpaGfClsAA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_606k045y2v0h5p",
+     "id": "ord_0x424b3d69273j",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
+     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
      "body": {
       "changed": [
        "amount"
@@ -27797,12 +28609,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_681k1o526o6e2x",
+      "verdictId": "chk_5k0f6j28205807",
       "violations": []
      },
-     "hash": "0ddbb1918d2fdc9d6478758645e1805399c3469d45e4e31a20c91f21c86a2bf6",
-     "sig": "37Gsl-LfPPLzr8XK_AbMYSr4NxAqb3UKogFXGAW_V6oaWkDLYqctq5vt0z67dVIfV22WQtbrGae-HOZIU70LDQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
+     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "not_what_i_asked",
@@ -27825,7 +28637,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_5y2b1y3v656i6u",
+     "id": "int_4b1h0i3j583z0x",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -27921,31 +28733,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
-     "sig": "Usmu2okJDGWEB2hM8HJ6ZmoctmqSUjbYSuc2Q669h01CMzA5K_rno2Z2phOM180rTVCIfmPbZJ7Gs5RjjwD_DQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5s3e6l28163r2u",
+     "id": "ack_5d4o5858083u52",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
+     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
      "body": {
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
-     "sig": "I9yz3goNhKn9lBF1FK5UWf7LO7sDRyUuwBhHYGxEEYLJMJFM2emKEpfQ-ee1hZ7CygsNHIj7PeRtXGdTKseyDA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_112i0p0d0i6246",
+     "id": "chk_6z3o3x4f3l0d2p",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
+     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28035,36 +28847,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "ask",
       "waived": []
      },
-     "hash": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
-     "sig": "0LTToS8GV1JE3sprJapkASAmcliyo1tHwUGfuYSA2OAg1sXSSNA2dA37nb7XbKYW45jxxH_vIkW0gYpszLH0CQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_1k282k04335r0n",
+     "id": "res_0f1s4x0j160r0n",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
+     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_112i0p0d0i6246"
+      "verdictId": "chk_6z3o3x4f3l0d2p"
      },
-     "hash": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
-     "sig": "ScRcekpqClUn-lRtXoUGVWZVB14iJ0tKwxdAAKf46HTYS4v_8VwqpaCeJUcuEZ5F0BJkbfXyOZv1UudWVyTqBQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_681k1o526o6e2x",
+     "id": "chk_5k0f6j28205807",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
+     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28166,22 +28978,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
-     "sig": "rphQ6nRCGTW_l5czW49PO-rP_qh_GezWdye5ha1bEjct3vBWBdnAV-100XLL6MS0Vg3iVd94eg-MgpaGfClsAA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_606k045y2v0h5p",
+     "id": "ord_0x424b3d69273j",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
+     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
      "body": {
       "changed": [
        "amount"
@@ -28209,12 +29021,12 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_681k1o526o6e2x",
+      "verdictId": "chk_5k0f6j28205807",
       "violations": []
      },
-     "hash": "0ddbb1918d2fdc9d6478758645e1805399c3469d45e4e31a20c91f21c86a2bf6",
-     "sig": "37Gsl-LfPPLzr8XK_AbMYSr4NxAqb3UKogFXGAW_V6oaWkDLYqctq5vt0z67dVIfV22WQtbrGae-HOZIU70LDQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
+     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "not_what_i_asked",
@@ -28237,7 +29049,7 @@
       "ok": false,
       "code": "date_mismatch",
       "message": "Date is Fri, Nov 27; the user asked for Fri, Nov 20 (+7 days). That is exactly 1 week off, which usually means a relative date was resolved in the wrong time zone or week.",
-      "fix": "Use 2026-11-20 (Fri, Nov 20)."
+      "fix": "Pick an option on Fri, Nov 20 (2026-11-20)."
      }
     ],
     "payableUpTo": {
@@ -28257,7 +29069,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_3h3w4z096w3f5f",
+     "id": "int_4w2m3v551d543d",
      "at": "2026-11-11T15:00:07.000Z",
      "prev": null,
      "body": {
@@ -28353,16 +29165,16 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "8348bdaea6ceace0e2466dc303f3e7942c1cf96dc34649ee34e32f3ebf3bf53c",
-     "sig": "QTfY_BuB6QgTFkFqvqgGpOp8ieyAmy5SC3ic6GzKw7ARWiV33lqffRFotXZ3O6lSOcr5bvQOtnb2ptaZNo2DDg",
-     "keyId": "91cb260f571bd54a"
+     "hash": "1dc6671b96b2af92059f80ecab6eb0ff03dc885d6aff59c216bd69338f3353d5",
+     "sig": "efqL8kCU6EG7AShzIBUrfAnb1csKRwunoLmmKF9eBvDvIwrkTVdAXNXrmz-FOu8tIxP5qAIRlviq38KfJU1XBw",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_1y5s372x236w12",
+     "id": "chk_6v0u6f4z261857",
      "at": "2026-11-11T15:00:08.000Z",
-     "prev": "8348bdaea6ceace0e2466dc303f3e7942c1cf96dc34649ee34e32f3ebf3bf53c",
+     "prev": "1dc6671b96b2af92059f80ecab6eb0ff03dc885d6aff59c216bd69338f3353d5",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28452,20 +29264,20 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_3h3w4z096w3f5f",
+      "intentId": "int_4w2m3v551d543d",
       "status": "pass",
       "waived": []
      },
-     "hash": "81b9ed969cb2d8a258588d7c3110bef4f0dbfac6d5d326afb227d5ef8fbbd7fb",
-     "sig": "gpgsofIhtKL8mezzhKys0AkWcCRbkln1yFeWiFq-0OFFpJFaIAy-RaKaMZq9WH_N-811-rMgYLSLGYNqdublDw",
-     "keyId": "91cb260f571bd54a"
+     "hash": "23e8f7fffe617c5adae97bc2910a2944bcbe2296df483f255e58f4b8b97b46a3",
+     "sig": "zPiFupQeNXtRxVvSBtDpiFkBspXowgNdaNXBP1KnC2dJxXCSSsWtj-9HuvWbL54dcs6FDxQI8gBQ2QztzuNeCA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_3w0f2u451a3y1l",
+     "id": "ord_0z1p0j2k0o251u",
      "at": "2026-11-11T15:00:09.000Z",
-     "prev": "81b9ed969cb2d8a258588d7c3110bef4f0dbfac6d5d326afb227d5ef8fbbd7fb",
+     "prev": "23e8f7fffe617c5adae97bc2910a2944bcbe2296df483f255e58f4b8b97b46a3",
      "body": {
       "changed": [
        "item.refundable"
@@ -28493,7 +29305,7 @@
       },
       "orderId": "DL-CONF-9",
       "status": "drift",
-      "verdictId": "chk_1y5s372x236w12",
+      "verdictId": "chk_6v0u6f4z261857",
       "violations": [
        {
         "actual": "no",
@@ -28503,9 +29315,9 @@
        }
       ]
      },
-     "hash": "6e6d7c9af7d9ac89d9ed634b47f592a52b7fcb0626cb86a3b5a29b44a7eb5f81",
-     "sig": "mcs7x7NLQqytoZuGNzjm2BMmuPyhTReDgnkkjII2IKLKOg0V4gJdkbyQQPcjuoM8UXG3xyTwv6BrqDowph6HAw",
-     "keyId": "91cb260f571bd54a"
+     "hash": "8ca2d7ba17b9f0f2cf041be4c84ffc2beb79aed6c4eed299f0da7ee230f74fe6",
+     "sig": "8u4FmXQmhVGgg1j-Oujx09qJUATDRHPipBWwEH-yIQzKhJCmK19f13bHfqgtvG3MwbW7XK44Ai8fbcJJjRSPDQ",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "not_what_i_asked",
@@ -28540,7 +29352,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_3o666n2g3b0668",
+     "id": "int_2o626x6m4x2r0t",
      "at": "2026-11-11T15:00:10.000Z",
      "prev": null,
      "body": {
@@ -28636,16 +29448,16 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "f7f2ee384c0d1b87da7cf46a130daca6d9700d121e22621646df5e8d8eeb099f",
-     "sig": "q5nQdpBS1-8TLtabJvmGguQcxB3LI7BIDm5DlVkBv0Vv8307hLPqe9H1zbrwBFD_0H0BqpmPFJv9zeC9UL9FBA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "3017956bb65c2c8a40c6dea6d0d1320a2e4088c2ec771018b7975c9d174e292a",
+     "sig": "FeisPqoOJQwcjbpboBo0FGDEfe9pAbAiARcor-Nn5z7lcCJIccNBnivgb9Us-61nNwKImYpVCyS89krrzr5MCg",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_5t5v1a38071g4t",
+     "id": "chk_5w1w0a5z180q38",
      "at": "2026-11-11T15:00:11.000Z",
-     "prev": "f7f2ee384c0d1b87da7cf46a130daca6d9700d121e22621646df5e8d8eeb099f",
+     "prev": "3017956bb65c2c8a40c6dea6d0d1320a2e4088c2ec771018b7975c9d174e292a",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28735,13 +29547,13 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_3o666n2g3b0668",
+      "intentId": "int_2o626x6m4x2r0t",
       "status": "block",
       "waived": []
      },
-     "hash": "d39fab4a31ffc802a5cd67b60150bc2727beff8e4e66d7eb3119bb6a130c0908",
-     "sig": "SOCvNNLygOzN-7fYk9Z1lmRvy6AuHnwvNCow8AbS3lG4UxzkfZ-mrVx7yNkpaseuouYWoIMyieQEr5GnwlvvBw",
-     "keyId": "91cb260f571bd54a"
+     "hash": "99d85b679b2eac2397c6afe2328d39e54d8ceef6c7478736bc65a5681e39fc14",
+     "sig": "VxdUZ6HBqDV5PVhwFg8mO7ohhabpeMEeAVtTS9Tfyu0DbNJSNVM1etzFs0xaBJ6o5LRvDU2JWx0L1SeJwrJFBw",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "not_what_i_asked",
@@ -28764,7 +29576,7 @@
     {
      "v": 1,
      "type": "intent",
-     "id": "int_5y2b1y3v656i6u",
+     "id": "int_4b1h0i3j583z0x",
      "at": "2026-11-11T15:00:01.000Z",
      "prev": null,
      "body": {
@@ -28860,31 +29672,31 @@
       "user": "u_1",
       "warnings": []
      },
-     "hash": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
-     "sig": "Usmu2okJDGWEB2hM8HJ6ZmoctmqSUjbYSuc2Q669h01CMzA5K_rno2Z2phOM180rTVCIfmPbZJ7Gs5RjjwD_DQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
+     "sig": "6avBVAsMeLTczMsNWnkMC5uh_6R357gnTsL1Uc5khHOLkw4CCmU-QuYthSxwTxeQSR64NSs-uVmLPasl-G_7Dg",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "ack",
-     "id": "ack_5s3e6l28163r2u",
+     "id": "ack_5d4o5858083u52",
      "at": "2026-11-11T15:00:02.000Z",
-     "prev": "fef54c2432239f33894e1ecf5a0859144ea64ef9b44f50209e3cd9dc894fe92d",
+     "prev": "6e84d1dc3e90a762c42a2357c7d4bfcfda403b89bcef50e88b683b218674978c",
      "body": {
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "method": "tapped confirm",
       "summary": "I'll book a flight: origin JFK, destination AUS, date Fri, Nov 20, passenger Maya Okafor, departure time 6:00 am–12:00 pm, price up to $400, refundable yes, seat aisle (preferred)."
      },
-     "hash": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
-     "sig": "I9yz3goNhKn9lBF1FK5UWf7LO7sDRyUuwBhHYGxEEYLJMJFM2emKEpfQ-ee1hZ7CygsNHIj7PeRtXGdTKseyDA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
+     "sig": "Im0XdjCTmBbnUzDS_cOCXsPWa1LYRgp5sBcejbJ53qJdapjcsq6YOUUpokZtAj0egLjCmVtKp-LOCcfeAaUsBA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_112i0p0d0i6246",
+     "id": "chk_6z3o3x4f3l0d2p",
      "at": "2026-11-11T15:00:03.000Z",
-     "prev": "9c385a30217dd021cb568035a892c6d9acc7da52e9c0d241a84753683871d77a",
+     "prev": "78120ac3c5e67a26aa33aa2bb6334caada686c504a52beb3dce74ff9af13575f",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -28974,36 +29786,36 @@
        }
       ],
       "guarantee": null,
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "ask",
       "waived": []
      },
-     "hash": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
-     "sig": "0LTToS8GV1JE3sprJapkASAmcliyo1tHwUGfuYSA2OAg1sXSSNA2dA37nb7XbKYW45jxxH_vIkW0gYpszLH0CQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
+     "sig": "qNJY2I3iwrERMihrzXtkoWpPPL9XGkGBVxnX1J7PRgcDdIEahsxzYQP1HUVU4gyJ7TyjVGYnYl0cQ254LRyFCA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "resolution",
-     "id": "res_1k282k04335r0n",
+     "id": "res_0f1s4x0j160r0n",
      "at": "2026-11-11T15:00:04.000Z",
-     "prev": "f23e00d42f090f257625f6b1c2877c84511faa7c0f6a9bb2e53d656010ab901d",
+     "prev": "619ca12bf8cc9c2cc684e3c095a29a4b212f74b75039dd5be9eb055b68d2cd02",
      "body": {
       "approved": true,
       "by": "user",
       "question": "Seat: this option has window, and you asked for aisle. Go ahead anyway?",
-      "verdictId": "chk_112i0p0d0i6246"
+      "verdictId": "chk_6z3o3x4f3l0d2p"
      },
-     "hash": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
-     "sig": "ScRcekpqClUn-lRtXoUGVWZVB14iJ0tKwxdAAKf46HTYS4v_8VwqpaCeJUcuEZ5F0BJkbfXyOZv1UudWVyTqBQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
+     "sig": "11XZWkcJasOR_d2NS8iGiqoCzabB7fL4E5A8Z5fxWjPwxul90ft-8mBy1Iv4n1hMoymbjZFVK3Ksg2Gxg8ILAA",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "verdict",
-     "id": "chk_681k1o526o6e2x",
+     "id": "chk_5k0f6j28205807",
      "at": "2026-11-11T15:00:05.000Z",
-     "prev": "036d3ebfa3e89c92d41e24d5e6db1e9937fc140c0695918b0d11755b82ac68ee",
+     "prev": "770a8f75d90c15b735102575ee13d782f12a9b9277cc6fb6d07aad2394d2993a",
      "body": {
       "cart": {
        "action": "flight.book",
@@ -29105,22 +29917,22 @@
        "status": "sandbox",
        "terms": "Sandbox simulation. Covers the cost to correct an order that differs from the signed request. Not backed by funds."
       },
-      "intentId": "int_5y2b1y3v656i6u",
+      "intentId": "int_4b1h0i3j583z0x",
       "status": "pass",
       "waived": [
        "item.seat"
       ]
      },
-     "hash": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
-     "sig": "rphQ6nRCGTW_l5czW49PO-rP_qh_GezWdye5ha1bEjct3vBWBdnAV-100XLL6MS0Vg3iVd94eg-MgpaGfClsAA",
-     "keyId": "91cb260f571bd54a"
+     "hash": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
+     "sig": "C1yeLcteHkidnRdr1iATP_T0AL5sxBiDMHpaSG6DyFg57OEY9Ujv0jj6nTH4oI3zE-7iXZQ6oo1hJgJ1zJD4Dw",
+     "keyId": "687aa1805bdf7219"
     },
     {
      "v": 1,
      "type": "order",
-     "id": "ord_606k045y2v0h5p",
+     "id": "ord_0x424b3d69273j",
      "at": "2026-11-11T15:00:06.000Z",
-     "prev": "31dee43e6984c6774d6b2a59a23d3adbd32ecf346a130c35403aeccedf673e07",
+     "prev": "595f8e908a1509fcc6bd84d277e58cd92f216085cfcf80033410b881f4846ba4",
      "body": {
       "changed": [
        "amount"
@@ -29148,26 +29960,26 @@
       },
       "orderId": "DL-CONF-8841",
       "status": "confirmed",
-      "verdictId": "chk_681k1o526o6e2x",
+      "verdictId": "chk_5k0f6j28205807",
       "violations": []
      },
-     "hash": "0ddbb1918d2fdc9d6478758645e1805399c3469d45e4e31a20c91f21c86a2bf6",
-     "sig": "37Gsl-LfPPLzr8XK_AbMYSr4NxAqb3UKogFXGAW_V6oaWkDLYqctq5vt0z67dVIfV22WQtbrGae-HOZIU70LDQ",
-     "keyId": "91cb260f571bd54a"
+     "hash": "4f5590090dab3a3e9f0cb6d286a4899ca64e4508cde2e671b17c60f438a2ff98",
+     "sig": "eP3Rr8M77jiPfRl4u-_PvjJ5p8vY7HDHMEaMcUxw0tgqLxTBEfKdJv3EN46ztgtzbH7XjyQBw0Bl7CmMg66rBw",
+     "keyId": "687aa1805bdf7219"
     }
    ],
    "reason": "not_what_i_asked",
    "decision": {
     "status": "review",
     "basis": "record_invalid",
-    "explanation": "The record could not be verified: int_5y2b1y3v656i6u: contents were changed after sealing.",
+    "explanation": "The record could not be verified: int_4b1h0i3j583z0x: contents were changed after sealing.",
     "violations": [],
     "payableUpTo": null,
     "record": {
      "ok": false,
      "signed": true,
      "problems": [
-      "int_5y2b1y3v656i6u: contents were changed after sealing"
+      "int_4b1h0i3j583z0x: contents were changed after sealing"
      ]
     }
    }
