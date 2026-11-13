@@ -69,9 +69,12 @@ What the record proves: this request text and these rules existed before this ca
 
 It is a 50-task synthetic suite. It is a diagnostic, not a benchmark to quote as a field error rate.
 
+## Two languages, one behavior
+
+The TypeScript SDK is the reference. `scripts/fixtures.ts` writes `conformance/fixtures.json` from it: 720 date phrases across time zones, name comparisons, formatting, lint warnings, 106 rule evaluations, 102 verdicts, a signed record and 7 claim decisions. The Python SDK must reproduce every one exactly, including the sentences shown to users and agents, and its test suite also seals a record in Python and verifies it with the TypeScript code. This works because rules, carts and envelopes are data, and hashes are taken over canonical JSON (sorted keys, JavaScript number formatting). The 50 eval tasks live in one file both SDKs read. Building the Python port this way found a bug in the reference (`2026-02-30` was accepted as a date), which is the point of having it.
+
 ## Not built yet
 
-- Python SDK (rules are JSON, so verdicts will match byte for byte).
 - Hotel, rideshare, subscription and B2B procurement packs.
 - Adapters that read intent mandates from payment-network and agent-payment protocols into `wants`.
 - Lint beyond English; lint for passenger counts and party sizes.

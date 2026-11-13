@@ -47,7 +47,12 @@ export function formatMoney(m: Money): string {
 export type ISODate = string;
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-export const isISODate = (v: unknown): v is ISODate => typeof v === "string" && ISO_DATE.test(v) && !Number.isNaN(Date.parse(v + "T00:00:00Z"));
+/** Strict: "2026-02-30" is not a date, even though JavaScript's Date would roll it into March. */
+export function isISODate(v: unknown): v is ISODate {
+  if (typeof v !== "string" || !ISO_DATE.test(v)) return false;
+  const t = Date.parse(v + "T00:00:00Z");
+  return !Number.isNaN(t) && new Date(t).toISOString().slice(0, 10) === v;
+}
 
 /** Today's calendar date as the user sees it. This is the line the "wrong week" bugs cross. */
 export function todayIn(timeZone: string, now: Date = new Date()): ISODate {

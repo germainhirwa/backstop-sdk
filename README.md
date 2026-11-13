@@ -14,6 +14,7 @@ Every step is sealed into a signed, hash-linked record that a merchant, auditor 
 
 - **Local and fast.** The check is pure code: no model call, no network, about a millisecond including hashing and signing. Nothing about your users leaves your process.
 - **Zero dependencies.** TypeScript, ESM, Node 20+. Runs anywhere Web Crypto does.
+- **TypeScript and Python.** The [Python SDK](python/README.md) gives the same verdicts word for word and writes the same signed record, so either one can verify the other's.
 - **Fails closed.** A field the cart doesn't show can't be verified, so it doesn't pass.
 - **One question, not a confirmation screen.** Hard requirements block. Soft preferences ask the user a single specific question.
 
@@ -25,6 +26,15 @@ Every step is sealed into a signed, hash-linked record that a merchant, auditor 
 npm install github:germainhirwa/backstop-sdk
 npx backstop demo     # three publicly reported agent mistakes, replayed through the check
 ```
+
+Python:
+
+```sh
+pip install "backstop-sdk[sign] @ git+https://github.com/germainhirwa/backstop-sdk#subdirectory=python"
+backstop demo
+```
+
+The rest of this page uses TypeScript. The same walkthrough in Python is in [python/README.md](python/README.md).
 
 ## Quickstart
 

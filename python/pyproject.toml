@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "backstop-sdk"
+version = "0.1.0"
+description = "Check what an AI agent is about to buy against what the user asked for, before it pays."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Germain Hirwa" }]
+keywords = ["ai agents", "agentic commerce", "guardrails", "checkout", "mcp"]
+classifiers = ["Programming Language :: Python :: 3", "Typing :: Typed", "Operating System :: OS Independent"]
+dependencies = ["tzdata; platform_system == 'Windows'"]
+
+[project.optional-dependencies]
+sign = ["cryptography>=42"]
+dev = ["pytest>=8", "cryptography>=42"]
+
+[project.urls]
+Homepage = "https://github.com/germainhirwa/backstop-sdk"
+
+[project.scripts]
+backstop = "backstop_sdk.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backstop_sdk"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
