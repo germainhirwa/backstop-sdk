@@ -272,6 +272,10 @@ test("an agent rewriting a flagged field on the same offer has to ask the user",
   assert.equal(rewritten.status, "ask");
   assert.equal(rewritten.asks[0]!.key, "edited:item.variant.color");
   assert.match(rewritten.question!, /your agent changed how it described it: color from White to Black\. Go ahead only if the merchant's page shows the new value/);
+  // Filling in fields that were missing is not an edit.
+  const late = { ...real, ref: ref + "-late" };
+  assert.equal((await b.check(i, { action: "retail.purchase", amount: usd(101), item: {}, ref: late.ref })).status, "block");
+  assert.equal((await b.check(i, retail.cart({ ...late, variant: { size: "10", color: "Black" } }))).status, "pass");
   // A different offer is not an edit.
   assert.equal((await b.check(i, retail.cart({ ...real, variant: { size: "10", color: "Black" }, ref: ref + "-black" }))).status, "pass");
 });

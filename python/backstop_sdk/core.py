@@ -253,7 +253,7 @@ class Backstop:
                     edited.append(Finding(field=f.field, label=f.label, strength="prefer", ok=False, code="cart_edited", expected=first, actual=f.actual,
                                           message=f"The agent first described this option's {low} as {first}, then changed it to {f.actual} after the check flagged it.",
                                           fix="Ask the user. Do not change how the cart describes the merchant's option."))
-                elif first is None and not f.ok and rule["test"]["op"] != "name":
+                elif first is None and not f.ok and f.code != "missing_field" and rule["test"]["op"] != "name":
                     seen[f.field] = f.actual
             findings.extend(edited)
             if seen is not None:

@@ -233,6 +233,9 @@ def test_partial_match_asks_and_edits_need_the_user():
     edited = b.check(i, retail.cart(product="Pegasus 41", merchant="Shop", variant={"size": "10", "color": "Black"}, quantity=1, total=usd(101), url=ref))
     assert edited.status == "ask" and edited.asks[0]["key"] == "edited:item.variant.color"
     assert "Change " not in edited.for_agent
+    late = "https://shop.example/p/2"
+    assert b.check(i, {"action": "retail.purchase", "amount": usd(101), "item": {}, "ref": late}).status == "block"
+    assert b.check(i, retail.cart(product="Pegasus 41", merchant="Shop", variant={"size": "10", "color": "Black"}, quantity=1, total=usd(101), url=late)).status == "pass"
 
 
 def test_mcp_user_reply_clears_the_question():

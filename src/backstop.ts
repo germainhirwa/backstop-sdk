@@ -325,7 +325,7 @@ export class Backstop {
           edited.push({ field: f.field, label: f.label, strength: "prefer", ok: false, code: "cart_edited", expected: first, actual: f.actual,
             message: `The agent first described this option's ${f.label.toLowerCase()} as ${first}, then changed it to ${f.actual} after the check flagged it.`,
             fix: "Ask the user. Do not change how the cart describes the merchant's option." });
-        } else if (first === undefined && !f.ok && rule.test.op !== "name") {
+        } else if (first === undefined && !f.ok && f.code !== "missing_field" && rule.test.op !== "name") {
           seen[f.field] = f.actual;
         }
       }
